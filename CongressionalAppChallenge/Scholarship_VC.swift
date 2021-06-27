@@ -8,6 +8,7 @@
 import UIKit
 
 class Scholarship_VC: UIViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.systemYellow
