@@ -18,7 +18,7 @@ class Home_VC : UIViewController {
         bt.layer.borderColor = UIColor(red: 255/255, green: 216/255, blue: 0/255, alpha: 1.0).cgColor
         bt.setTitleColor(UIColor(red: 255/255, green: 216/255, blue: 0/255, alpha: 1.0), for: .normal)
         
-        let imageName = "yellowScholarship.png"
+        let imageName = "yellowScholarship"
         let image = UIImage(named: imageName)
         let imageView = UIImageView(image: image!)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +33,7 @@ class Home_VC : UIViewController {
         imageView.heightAnchor.constraint(equalTo: bt.heightAnchor, multiplier: 0.35).isActive = true
         imageView.widthAnchor.constraint(equalTo: bt.widthAnchor, multiplier: 0.2).isActive = true
         
-        
+        bt.addTarget(self, action: #selector(handle_scholarship_VC(sender:)), for: .touchUpInside)
         
         return bt
     
@@ -53,7 +53,7 @@ class Home_VC : UIViewController {
         bt.setTitleColor(UIColor.systemBlue, for: .normal)
         
         
-        let imageName = "blueSchool.png"
+        let imageName = "blueSchool"
         let image = UIImage(named: imageName)
         let imageView = UIImageView(image: image!)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +67,7 @@ class Home_VC : UIViewController {
         imageView.heightAnchor.constraint(equalTo: bt.heightAnchor, multiplier: 0.35).isActive = true
         imageView.widthAnchor.constraint(equalTo: bt.widthAnchor, multiplier: 0.2).isActive = true
         
-        
+        bt.addTarget(self, action: #selector(handle_college_VC(sender:)), for: .touchUpInside)
        
         return bt
     }()
@@ -143,3 +143,27 @@ class Home_VC : UIViewController {
             }
 }
 
+extension Home_VC {
+    @objc func handle_scholarship_VC (sender: UIButton) {
+        // create instance of scholarship_vc
+        let scholar = Scholarship_VC()
+        // create a present method to transport current view to scholarship vc view
+        self.present(scholar, animated: true, completion: nil)
+        // the first argument defines the destination view
+        // completion is lambda expression in java, similar to block in C++
+        
+    }
+    
+    @objc func handle_college_VC (sender: UIButton) {
+        let college = College_VC()
+        
+        //let nav = UINavigationController(rootViewController: college)
+        
+        self.present(college, animated: false) { [self] in
+            // code to be executed after view transferred
+            College_BT.setTitle("checked", for: .normal)
+            //reset some values in previous page
+        }
+    }
+    
+}

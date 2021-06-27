@@ -16,6 +16,8 @@
 		CCB55DA526883194002C08E2 /* CongressionalAppChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55DA426883194002C08E2 /* CongressionalAppChallengeTests.swift */; };
 		CCB55DB026883194002C08E2 /* CongressionalAppChallengeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55DAF26883194002C08E2 /* CongressionalAppChallengeUITests.swift */; };
 		CCB55DC1268831E6002C08E2 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55DC0268831E6002C08E2 /* HomePage.swift */; };
+		CCB55DC6268836C5002C08E2 /* Scholarship_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55DC5268836C5002C08E2 /* Scholarship_VC.swift */; };
+		CCB55DCB268836D5002C08E2 /* College_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55DCA268836D5002C08E2 /* College_VC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		CCB55DAF26883194002C08E2 /* CongressionalAppChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongressionalAppChallengeUITests.swift; sourceTree = "<group>"; };
 		CCB55DB126883194002C08E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CCB55DC0268831E6002C08E2 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
+		CCB55DC5268836C5002C08E2 /* Scholarship_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scholarship_VC.swift; sourceTree = "<group>"; };
+		CCB55DCA268836D5002C08E2 /* College_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = College_VC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 				CCB55D9126883193002C08E2 /* ViewController.swift */,
 				CCB55D9326883193002C08E2 /* Main.storyboard */,
 				CCB55D9626883194002C08E2 /* Assets.xcassets */,
+				CCB55DC5268836C5002C08E2 /* Scholarship_VC.swift */,
+				CCB55DCA268836D5002C08E2 /* College_VC.swift */,
 				CCB55D9826883194002C08E2 /* LaunchScreen.storyboard */,
 				CCB55D9B26883194002C08E2 /* Info.plist */,
 			);
@@ -261,7 +267,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCB55DC6268836C5002C08E2 /* Scholarship_VC.swift in Sources */,
 				CCB55D9226883193002C08E2 /* ViewController.swift in Sources */,
+				CCB55DCB268836D5002C08E2 /* College_VC.swift in Sources */,
 				CCB55D8E26883193002C08E2 /* AppDelegate.swift in Sources */,
 				CCB55D9026883193002C08E2 /* SceneDelegate.swift in Sources */,
 				CCB55DC1268831E6002C08E2 /* HomePage.swift in Sources */,
