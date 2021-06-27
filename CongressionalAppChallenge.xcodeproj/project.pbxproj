@@ -15,6 +15,7 @@
 		CCB55D9A26883194002C08E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCB55D9826883194002C08E2 /* LaunchScreen.storyboard */; };
 		CCB55DA526883194002C08E2 /* CongressionalAppChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55DA426883194002C08E2 /* CongressionalAppChallengeTests.swift */; };
 		CCB55DB026883194002C08E2 /* CongressionalAppChallengeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55DAF26883194002C08E2 /* CongressionalAppChallengeUITests.swift */; };
+		CCB55DC1268831E6002C08E2 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55DC0268831E6002C08E2 /* HomePage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		CCB55DAB26883194002C08E2 /* CongressionalAppChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CongressionalAppChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCB55DAF26883194002C08E2 /* CongressionalAppChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongressionalAppChallengeUITests.swift; sourceTree = "<group>"; };
 		CCB55DB126883194002C08E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CCB55DC0268831E6002C08E2 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			children = (
 				CCB55D8D26883193002C08E2 /* AppDelegate.swift */,
 				CCB55D8F26883193002C08E2 /* SceneDelegate.swift */,
+				CCB55DC0268831E6002C08E2 /* HomePage.swift */,
 				CCB55D9126883193002C08E2 /* ViewController.swift */,
 				CCB55D9326883193002C08E2 /* Main.storyboard */,
 				CCB55D9626883194002C08E2 /* Assets.xcassets */,
@@ -261,6 +264,7 @@
 				CCB55D9226883193002C08E2 /* ViewController.swift in Sources */,
 				CCB55D8E26883193002C08E2 /* AppDelegate.swift in Sources */,
 				CCB55D9026883193002C08E2 /* SceneDelegate.swift in Sources */,
+				CCB55DC1268831E6002C08E2 /* HomePage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
