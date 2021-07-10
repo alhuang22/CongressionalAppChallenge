@@ -157,11 +157,13 @@ extension Home_VC {
     @objc func handle_college_VC (sender: UIButton) {
         let college = College_VC()
         
-        //let nav = UINavigationController(rootViewController: college)
+        let nav = UINavigationController(rootViewController: college)
         
-        self.present(college, animated: true) { [self] in
+        nav.modalPresentationStyle = .fullScreen
+        
+        self.present(nav, animated: true) { [self] in
             // code to be executed after view transferred
-            College_BT.setTitle("checked", for: .normal)
+            //College_BT.setTitle("checked", for: .normal)
             //reset some values in previous page
         }
     }
