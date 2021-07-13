@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		CC4927172697F16800A22482 /* Task_Bar_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4927162697F16800A22482 /* Task_Bar_VC.swift */; };
 		CC49271C26980A1F00A22482 /* Model_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC49271B26980A1F00A22482 /* Model_DB.swift */; };
-		CC89E516269E34F2005F6A93 /* UIImage+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC89E515269E34F2005F6A93 /* UIImage+Alpha.swift */; };
 		CCB55D8E26883193002C08E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55D8D26883193002C08E2 /* AppDelegate.swift */; };
 		CCB55D9026883193002C08E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55D8F26883193002C08E2 /* SceneDelegate.swift */; };
 		CCB55D9226883193002C08E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB55D9126883193002C08E2 /* ViewController.swift */; };
@@ -43,7 +42,6 @@
 /* Begin PBXFileReference section */
 		CC4927162697F16800A22482 /* Task_Bar_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task_Bar_VC.swift; sourceTree = "<group>"; };
 		CC49271B26980A1F00A22482 /* Model_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model_DB.swift; sourceTree = "<group>"; };
-		CC89E515269E34F2005F6A93 /* UIImage+Alpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Alpha.swift"; sourceTree = "<group>"; };
 		CCB55D8A26883193002C08E2 /* CongressionalAppChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CongressionalAppChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCB55D8D26883193002C08E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CCB55D8F26883193002C08E2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,7 +109,6 @@
 		CCB55D8C26883193002C08E2 /* CongressionalAppChallenge */ = {
 			isa = PBXGroup;
 			children = (
-				CC89E515269E34F2005F6A93 /* UIImage+Alpha.swift */,
 				CCB55D8D26883193002C08E2 /* AppDelegate.swift */,
 				CCB55D8F26883193002C08E2 /* SceneDelegate.swift */,
 				CCB55DC0268831E6002C08E2 /* HomePage.swift */,
@@ -277,7 +274,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCB55DC6268836C5002C08E2 /* Scholarship_VC.swift in Sources */,
-				CC89E516269E34F2005F6A93 /* UIImage+Alpha.swift in Sources */,
 				CCB55D9226883193002C08E2 /* ViewController.swift in Sources */,
 				CC4927172697F16800A22482 /* Task_Bar_VC.swift in Sources */,
 				CCB55DCB268836D5002C08E2 /* College_VC.swift in Sources */,

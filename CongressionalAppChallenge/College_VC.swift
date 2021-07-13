@@ -153,7 +153,7 @@ class Customized_Collection_view_cell : UICollectionViewCell {
        let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.layer.cornerRadius = 15
-        iv.contentMode = .scaleToFill
+        //iv.contentMode = .scaleAspectFill
         iv.backgroundColor = UIColor.systemGray
         return iv
     }()
@@ -165,7 +165,7 @@ class Customized_Collection_view_cell : UICollectionViewCell {
         lb.layer.cornerRadius = 10
         lb.textAlignment = .right
         lb.textColor = .white
-        lb.backgroundColor = UIColor.black.withAlphaComponent(0.40)
+        lb.backgroundColor = UIColor.black.withAlphaComponent(0.50)
         return lb
     }()
     
