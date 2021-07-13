@@ -10,6 +10,7 @@ import UIKit
 class College_VC: UIViewController {
     
     let college_name_array : [String] = ["Harvard", "Stanford", "UCLA", "Berkeley", "MIT"]
+    let college_image_array : [String] = ["harvard", "stanford", "ucla", "berkeley", "mit"]
     
     let college_collection_identifier = "college"
     
@@ -96,8 +97,8 @@ class College_VC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.systemBlue
-        grid_model(n: 3, m: 2)
-        //setup_Bottom_Task_Bar()
+        //grid_model(n: 3, m: 2)
+        setup_Bottom_Task_Bar()
         setup_collection_view()
     }
 }
@@ -139,7 +140,7 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         // define content in each cell
         let cell = college_Collection.dequeueReusableCell(withReuseIdentifier: college_collection_identifier, for: indexPath) as! Customized_Collection_view_cell
         cell.backgroundColor = .systemBlue
-        cell.college_image.image = UIImage(named: "blueSchool.png")
+        cell.college_image.image = UIImage(named: college_image_array[indexPath.row])
         // MARK : in order to fetch and read element from array, first we want to use indexpath and then access row
         cell.college_name.text = college_name_array[indexPath.row]
         return cell
@@ -152,6 +153,7 @@ class Customized_Collection_view_cell : UICollectionViewCell {
        let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.layer.cornerRadius = 15
+        iv.contentMode = .scaleToFill
         iv.backgroundColor = UIColor.systemGray
         return iv
     }()
@@ -161,7 +163,9 @@ class Customized_Collection_view_cell : UICollectionViewCell {
         let lb = UILabel()
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.layer.cornerRadius = 10
-        lb.backgroundColor = UIColor.systemRed
+        lb.textAlignment = .right
+        lb.textColor = .white
+        lb.backgroundColor = UIColor.black.withAlphaComponent(0.40)
         return lb
     }()
     
@@ -180,10 +184,10 @@ class Customized_Collection_view_cell : UICollectionViewCell {
         
         NSLayoutConstraint.activate(college_image_constraint)
         
-        college_name.topAnchor.constraint(equalTo: college_image.bottomAnchor, constant: 10).isActive = true
+        college_name.topAnchor.constraint(equalTo: college_image.bottomAnchor, constant: -30).isActive = true
         college_name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         college_name.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
-        college_name.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
+        college_name.bottomAnchor.constraint(equalTo: college_image.bottomAnchor, constant: 0).isActive = true
         
     }
     
