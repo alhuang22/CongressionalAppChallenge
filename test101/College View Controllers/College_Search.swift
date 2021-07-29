@@ -42,7 +42,6 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
                 guard let application_total = dictionary["application_total"] as? Int else {return}
                 guard let total_enrollment = dictionary["enrollment"] as? Int else {return}
                 
-                print("works")
 
                 DispatchQueue.main.async {
                     [weak self] in
@@ -59,16 +58,44 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     
+    //MARK: IMAGES FOR CLEARBIT.COM
+    
+    
+    
+//    public func get_logo(url : String){
+//
+//        guard let url_string = URL(string: url) else {return}
+//
+//        URLSession.shared.dataTask(with: url_string){
+//            (data, res, err) in
+//
+//            if let data = data {//means if data exists
+//                let output = String(data : data , encoding: .utf8)
+//                print(output as Any)
+//                print("succesful")
+//            }
+//        }.resume()
+//
+//    }
+    
+    
+    
+    
+    
     let college_table_view_identifier : String = "cell"
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 100//ten rows of tableview cell
+            return 0//ten rows of tableview cell
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = college_table_view.dequeueReusableCell(withIdentifier: college_table_view_identifier, for: indexPath)
-        cell.textLabel?.text = "pp"
-        cell.imageView?.image = UIImage(named: "Harvard University")
+        cell.textLabel?.text = "example"
+        
+        
+        let url_link = college_list[indexPath.row].domain
+        
+        cell.imageView?.downloaded(from: url_link ?? "Harvard", contentMode: .scaleAspectFit)
         return cell
     }
     
@@ -93,3 +120,4 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
 }
+

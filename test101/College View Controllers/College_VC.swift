@@ -280,6 +280,8 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
         destination.received_string = top_thirty[indexPath.row]
         destination.receieved_image_string = top_thirty[indexPath.row]
+        destination.College_Data = college_list[indexPath.row]
+        
         self.present(destination, animated: true)
         
         print(indexPath)
