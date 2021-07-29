@@ -25,6 +25,7 @@
 		69D3F3F226AE61E100BCB7EB /* Image_Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D3F3F126AE61E100BCB7EB /* Image_Downloader.swift */; };
 		69EEACAD26ABDE24003E605B /* test.json in Sources */ = {isa = PBXBuildFile; fileRef = 69EEACAC26ABDE24003E605B /* test.json */; };
 		69FA90A12697F14100F2AA0D /* Taskbar_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FA90A02697F14100F2AA0D /* Taskbar_VC.swift */; };
+		CCB90FCB26B237A200D62E5B /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = CCB90FCA26B237A100D62E5B /* data.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		69D3F3F126AE61E100BCB7EB /* Image_Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image_Downloader.swift; sourceTree = "<group>"; };
 		69EEACAC26ABDE24003E605B /* test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
 		69FA90A02697F14100F2AA0D /* Taskbar_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Taskbar_VC.swift; sourceTree = "<group>"; };
+		CCB90FCA26B237A100D62E5B /* data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 				69A3E7BD2684345A00973B52 /* AppDelegate.swift */,
 				69A3E7BF2684345A00973B52 /* SceneDelegate.swift */,
 				69EEACAC26ABDE24003E605B /* test.json */,
+				CCB90FCA26B237A100D62E5B /* data.json */,
 				69A3E7C32684345A00973B52 /* Main.storyboard */,
 				69A3E7C62684345C00973B52 /* Assets.xcassets */,
 				69A3E7C82684345C00973B52 /* LaunchScreen.storyboard */,
@@ -278,6 +281,7 @@
 				6995CA8226ABE6BF00C48AF5 /* test.json in Resources */,
 				69A3E7CA2684345C00973B52 /* LaunchScreen.storyboard in Resources */,
 				69A3E7C72684345C00973B52 /* Assets.xcassets in Resources */,
+				CCB90FCB26B237A200D62E5B /* data.json in Resources */,
 				69A3E7C52684345A00973B52 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
