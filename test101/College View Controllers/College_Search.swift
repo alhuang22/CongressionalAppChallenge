@@ -58,34 +58,12 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     
-    //MARK: IMAGES FOR CLEARBIT.COM
-    
-    
-    
-//    public func get_logo(url : String){
-//
-//        guard let url_string = URL(string: url) else {return}
-//
-//        URLSession.shared.dataTask(with: url_string){
-//            (data, res, err) in
-//
-//            if let data = data {//means if data exists
-//                let output = String(data : data , encoding: .utf8)
-//                print(output as Any)
-//                print("succesful")
-//            }
-//        }.resume()
-//
-//    }
-    
-    
-    
-    
     
     let college_table_view_identifier : String = "cell"
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 0//ten rows of tableview cell
+        //return college_list.count//ten rows of tableview cell
+        return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -93,9 +71,9 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
         cell.textLabel?.text = "example"
         
         
-        let url_link = college_list[indexPath.row].domain
-        
-        cell.imageView?.downloaded(from: url_link ?? "Harvard", contentMode: .scaleAspectFit)
+        //let url_link = college_list[indexPath.row].domain
+        let url_link : URL = URL(string: "https://www.uab.edu")!
+        cell.imageView?.downloaded(from: url_link, contentMode: .scaleAspectFit)
         return cell
     }
     

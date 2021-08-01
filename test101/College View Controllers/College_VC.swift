@@ -195,20 +195,7 @@ class College_VC : UIViewController{
         college_title.bottomAnchor.constraint(equalTo: college_collection.topAnchor, constant: 0).isActive = true
         
     }
-    //MARK: SET LOGO IMAGE
-//    func setLogoImage(from url: String) {
-//            guard let imageURL = URL(string: url) else { return }
-//
-//                // just not to cause a deadlock in UI!
-//            DispatchQueue.global().async {
-//                guard let imageData = try? Data(contentsOf: imageURL) else { return }
-//
-//                let image = UIImage(data: imageData)
-//                DispatchQueue.main.async {
-//                               self.logoImageView.image = image
-//                           }
-//            }
-//        }
+
     
     //MARK: View Did Load
     override func viewDidLoad(){
@@ -279,8 +266,7 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
         
         destination.received_string = top_thirty[indexPath.row]
-        destination.receieved_image_string = top_thirty[indexPath.row]
-        destination.College_Data = college_list[indexPath.row]
+        destination.received_image_string = top_thirty[indexPath.row]
         
         self.present(destination, animated: true)
         

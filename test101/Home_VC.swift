@@ -61,7 +61,7 @@ class Home_VC : UIViewController {
         bt.setTitleColor(UIColor.systemBlue, for: .normal)
         
         //image
-        let image = UIImage(named: "blueSchool.png")
+        let image = UIImage(named: "blueSchool")
         let imageView = UIImageView(image: image!)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
