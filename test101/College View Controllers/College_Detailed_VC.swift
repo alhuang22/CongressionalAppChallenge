@@ -297,7 +297,7 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_range_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "99%"
+        label.text = "SAT Range:"
 
         label.textColor = Style.myApp.color(for: .subtitle)
         label.font = Style.myApp.font(for: .subtitle)
@@ -307,7 +307,7 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_range_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "99%"
+        label.text = "1500-1600"
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -317,17 +317,17 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_reading_writing_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "99%"
+        label.text = "SAT Reading/Writing"
 
-        label.textColor = Style.myApp.color(for: .title)
-        label.font = Style.myApp.font(for: .title)
+        label.textColor = Style.myApp.color(for: .subtitle)
+        label.font = Style.myApp.font(for: .subtitle)
         return label
     }()
     
     lazy var sat_reading_writing_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "99%"
+        label.text = "770-800%"
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -337,17 +337,17 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_math_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "99%"
+        label.text = "SAT Math"
 
-        label.textColor = Style.myApp.color(for: .title)
-        label.font = Style.myApp.font(for: .title)
+        label.textColor = Style.myApp.color(for: .subtitle)
+        label.font = Style.myApp.font(for: .subtitle)
         return label
     }()
     
     lazy var sat_math_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "99%"
+        label.text = "770-800"
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
