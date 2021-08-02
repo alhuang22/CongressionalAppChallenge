@@ -36,17 +36,17 @@ private extension Style.TextStyle {
 
 extension UIFont {
     static var myAppTitle: UIFont {
-        return UIFont.systemFont(ofSize: 28)
+        return UIFont(name: "Georgia-Bold", size: 28)!
     }
     static var myAppSubtitle: UIFont {
-        return UIFont.systemFont(ofSize: 20)
+        return UIFont(name: "Georgia", size: 20)!
     }
     
     static var myAppSubSubtitle: UIFont {
-        return UIFont.systemFont(ofSize: 16)
+        return UIFont(name: "Georgia", size: 14)!
     }
     
     static var myAppInformation: UIFont {
-        return UIFont.systemFont(ofSize: 12)
+        return UIFont(name: "Georgia", size: 12)!
     }
 }

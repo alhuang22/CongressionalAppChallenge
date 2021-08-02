@@ -299,8 +299,8 @@ class College_Detailed_VC : UIViewController{
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "SAT Range:"
 
-        label.textColor = Style.myApp.color(for: .subtitle)
-        label.font = Style.myApp.font(for: .subtitle)
+        label.textColor = Style.myApp.color(for: .subsubtitle)
+        label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
     
@@ -319,15 +319,15 @@ class College_Detailed_VC : UIViewController{
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "SAT Reading/Writing"
 
-        label.textColor = Style.myApp.color(for: .subtitle)
-        label.font = Style.myApp.font(for: .subtitle)
+        label.textColor = Style.myApp.color(for: .subsubtitle)
+        label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
     
     lazy var sat_reading_writing_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "770-800%"
+        label.text = "770-800"
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -339,8 +339,8 @@ class College_Detailed_VC : UIViewController{
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "SAT Math"
 
-        label.textColor = Style.myApp.color(for: .subtitle)
-        label.font = Style.myApp.font(for: .subtitle)
+        label.textColor = Style.myApp.color(for: .subsubtitle)
+        label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
     
@@ -355,8 +355,76 @@ class College_Detailed_VC : UIViewController{
     }()
     
     
+    lazy var act_range_label : UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "ACT Range:"
+
+        label.textColor = Style.myApp.color(for: .subsubtitle)
+        label.font = Style.myApp.font(for: .subsubtitle)
+        return label
+    }()
+    
+    lazy var act_range_number_label : UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "35"
+
+        label.textColor = Style.myApp.color(for: .title)
+        label.font = Style.myApp.font(for: .title)
+        return label
+    }()
+    
+    lazy var act_reading_label : UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "ACT Reading:"
+
+        label.textColor = Style.myApp.color(for: .subsubtitle)
+        label.font = Style.myApp.font(for: .subsubtitle)
+        return label
+    }()
+    
+    lazy var act_reading_number_label : UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "33-35"
+
+        label.textColor = Style.myApp.color(for: .title)
+        label.font = Style.myApp.font(for: .title)
+        return label
+    }()
+    
+    lazy var act_math_label : UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "ACT Math:"
+
+        label.textColor = Style.myApp.color(for: .subsubtitle)
+        label.font = Style.myApp.font(for: .subsubtitle)
+        return label
+    }()
+    
+    lazy var act_math_number_label : UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "34-36"
+
+        label.textColor = Style.myApp.color(for: .title)
+        label.font = Style.myApp.font(for: .title)
+        return label
+    }()
+    
+    
     
     //MARK: SET UP BASE VIEW 2
+    
+    //bewteen each rate (acceptance number --> graduation rate label)there is 15 gap
+    //within each rate (graduation label to graduation number) there is a 3 gap
+    //between rates ---> test scores there is a 25 gap
+    
+    
+    
     func setup_Base_View_2 (){
         scroll_view.addSubview(Base_View_2)
         Base_View_2.topAnchor.constraint(equalTo: Base_View_1.bottomAnchor, constant: 15).isActive = true
@@ -368,14 +436,13 @@ class College_Detailed_VC : UIViewController{
         overview_label.topAnchor.constraint(equalTo: Base_View_2.topAnchor, constant: 20).isActive = true
         overview_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
         
-        
+        //PERCENTAGE SETUP
         Base_View_2.addSubview(acceptance_rate_label)
         acceptance_rate_label.topAnchor.constraint(equalTo: overview_label.bottomAnchor, constant: 5).isActive = true
         acceptance_rate_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
         Base_View_2.addSubview(acceptance_rate_number_label)
         acceptance_rate_number_label.topAnchor.constraint(equalTo: acceptance_rate_label.bottomAnchor, constant: 3).isActive = true
         acceptance_rate_number_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
-        
         
         Base_View_2.addSubview(graduation_rate_label)
         graduation_rate_label.topAnchor.constraint(equalTo: acceptance_rate_number_label.bottomAnchor, constant: 15).isActive = true
@@ -384,7 +451,6 @@ class College_Detailed_VC : UIViewController{
         graduation_rate_number_label.topAnchor.constraint(equalTo: graduation_rate_label.bottomAnchor, constant: 3).isActive = true
         graduation_rate_number_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
         
-        
         Base_View_2.addSubview(retention_rate_label)
         retention_rate_label.topAnchor.constraint(equalTo: graduation_rate_number_label.bottomAnchor, constant: 15).isActive = true
         retention_rate_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
@@ -392,6 +458,102 @@ class College_Detailed_VC : UIViewController{
         retention_rate_number_label.topAnchor.constraint(equalTo: retention_rate_label.bottomAnchor, constant: 3).isActive = true
         retention_rate_number_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
         
+        //SAT SETUP
+        Base_View_2.addSubview(sat_range_label)
+        sat_range_label.topAnchor.constraint(equalTo: retention_rate_number_label.bottomAnchor, constant: 25).isActive = true
+        sat_range_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
+        Base_View_2.addSubview(sat_range_number_label)
+        sat_range_number_label.topAnchor.constraint(equalTo: sat_range_label.bottomAnchor, constant: 3).isActive = true
+        sat_range_number_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
+        
+        Base_View_2.addSubview(sat_reading_writing_label)
+        sat_reading_writing_label.topAnchor.constraint(equalTo: sat_range_number_label.bottomAnchor, constant: 15).isActive = true
+        sat_reading_writing_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
+        Base_View_2.addSubview(sat_reading_writing_number_label)
+        sat_reading_writing_number_label.topAnchor.constraint(equalTo: sat_reading_writing_label.bottomAnchor, constant: 3).isActive = true
+        sat_reading_writing_number_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
+        
+        Base_View_2.addSubview(sat_math_label)
+        sat_math_label.topAnchor.constraint(equalTo: sat_reading_writing_number_label.bottomAnchor, constant: 15).isActive = true
+        sat_math_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
+        Base_View_2.addSubview(sat_math_number_label)
+        sat_math_number_label.topAnchor.constraint(equalTo: sat_math_label.bottomAnchor, constant: 3).isActive = true
+        sat_math_number_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
+        
+        
+        //ACT SETUP
+        Base_View_2.addSubview(act_range_label)
+        act_range_label.topAnchor.constraint(equalTo: retention_rate_number_label.bottomAnchor, constant: 25).isActive = true
+        act_range_label.leadingAnchor.constraint(equalTo: Base_View_2.centerXAnchor, constant: 35).isActive = true
+        Base_View_2.addSubview(act_range_number_label)
+        act_range_number_label.topAnchor.constraint(equalTo: act_range_label.bottomAnchor, constant: 3).isActive = true
+        act_range_number_label.leadingAnchor.constraint(equalTo: Base_View_2.centerXAnchor, constant: 35).isActive = true
+        
+        Base_View_2.addSubview(act_reading_label)
+        act_reading_label.topAnchor.constraint(equalTo: act_range_number_label.bottomAnchor, constant: 15).isActive = true
+        act_reading_label.leadingAnchor.constraint(equalTo: Base_View_2.centerXAnchor, constant: 35).isActive = true
+        Base_View_2.addSubview(act_reading_number_label)
+        act_reading_number_label.topAnchor.constraint(equalTo: act_reading_label.bottomAnchor, constant: 3).isActive = true
+        act_reading_number_label.leadingAnchor.constraint(equalTo: Base_View_2.centerXAnchor, constant: 35).isActive = true
+        
+        Base_View_2.addSubview(act_math_label)
+        act_math_label.topAnchor.constraint(equalTo: act_reading_number_label.bottomAnchor, constant: 15).isActive = true
+        act_math_label.leadingAnchor.constraint(equalTo: Base_View_2.centerXAnchor, constant: 35).isActive = true
+        Base_View_2.addSubview(act_math_number_label)
+        act_math_number_label.topAnchor.constraint(equalTo: act_math_label.bottomAnchor, constant: 3).isActive = true
+        act_math_number_label.leadingAnchor.constraint(equalTo: Base_View_2.centerXAnchor, constant: 35).isActive = true
+    }
+    
+    
+    
+    //MARK: ----------------------------------------------------------------------------------
+    //MARK: ----------------------------------------------------------------------------------
+    
+    //MARK: BASE VIEW 3
+    
+    lazy var Base_View_3 : UIView = {
+        let iv = UIView()
+        iv.backgroundColor = .white
+        iv.layer.cornerRadius = 15
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        return iv
+    }()
+    
+    lazy var major_label : UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Majors"
+
+        label.textColor = Style.myApp.color(for: .title)
+        label.font = Style.myApp.font(for: .title)
+        return label
+    }()
+    
+    lazy var popular_majors_label : UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Popular Majors"
+
+        label.textColor = Style.myApp.color(for: .subtitle)
+        label.font = Style.myApp.font(for: .subtitle)
+        return label
+    }()
+    
+    func setup_Base_View_3 (){
+        
+        scroll_view.addSubview(Base_View_3)
+        Base_View_3.topAnchor.constraint(equalTo: Base_View_2.bottomAnchor, constant: 15).isActive = true
+        Base_View_3.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
+        Base_View_3.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        Base_View_3.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.66).isActive = true
+        
+        Base_View_3.addSubview(major_label)
+        major_label.topAnchor.constraint(equalTo: Base_View_3.topAnchor, constant: 20).isActive = true
+        major_label.leadingAnchor.constraint(equalTo: Base_View_3.leadingAnchor, constant: 20).isActive = true
+        
+        Base_View_3.addSubview(popular_majors_label)
+        popular_majors_label.topAnchor.constraint(equalTo: major_label.bottomAnchor, constant: 25).isActive = true
+        popular_majors_label.leadingAnchor.constraint(equalTo: Base_View_3.leadingAnchor, constant: 20).isActive = true
     }
     
     
@@ -419,7 +581,7 @@ class College_Detailed_VC : UIViewController{
         setup_UI()
         setup_Base_View_1()
         setup_Base_View_2()
-    
+        setup_Base_View_3()
     }
 }
  
