@@ -12,6 +12,8 @@
 		695AD11B26B4E99A0041F89F /* finalized_college_data.json in Sources */ = {isa = PBXBuildFile; fileRef = 695AD11A26B4E99A0041F89F /* finalized_college_data.json */; };
 		695AD11F26B648780041F89F /* CollegeStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695AD11E26B648780041F89F /* CollegeStyling.swift */; };
 		696756A6269FE02A00C26401 /* College_Detailed_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696756A5269FE02A00C26401 /* College_Detailed_VC.swift */; };
+		6982A91B26B7A8C4004F8FB9 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6982A91A26B7A8C4004F8FB9 /* Extension.swift */; };
+		6982A91D26B7A9E1004F8FB9 /* Extension_College_Detailed_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6982A91C26B7A9E1004F8FB9 /* Extension_College_Detailed_VC.swift */; };
 		6995CA8226ABE6BF00C48AF5 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 69EEACAC26ABDE24003E605B /* test.json */; };
 		69A3E7BE2684345A00973B52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A3E7BD2684345A00973B52 /* AppDelegate.swift */; };
 		69A3E7C02684345A00973B52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A3E7BF2684345A00973B52 /* SceneDelegate.swift */; };
@@ -51,6 +53,8 @@
 		695AD11A26B4E99A0041F89F /* finalized_college_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = finalized_college_data.json; sourceTree = "<group>"; };
 		695AD11E26B648780041F89F /* CollegeStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollegeStyling.swift; sourceTree = "<group>"; };
 		696756A5269FE02A00C26401 /* College_Detailed_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = College_Detailed_VC.swift; sourceTree = "<group>"; };
+		6982A91A26B7A8C4004F8FB9 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		6982A91C26B7A9E1004F8FB9 /* Extension_College_Detailed_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_College_Detailed_VC.swift; sourceTree = "<group>"; };
 		69A3E7BA2684345A00973B52 /* test101.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test101.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69A3E7BD2684345A00973B52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69A3E7BF2684345A00973B52 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +101,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6982A91926B7A8A6004F8FB9 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				6982A91A26B7A8C4004F8FB9 /* Extension.swift */,
+				6982A91C26B7A9E1004F8FB9 /* Extension_College_Detailed_VC.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		69A3E7B12684345A00973B52 = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +144,7 @@
 				69A3E7ED2684348700973B52 /* Home_VC.swift */,
 				69D3DE9B268836B800EED564 /* Scholarship_VC.swift */,
 				69D3F3F126AE61E100BCB7EB /* Image_Downloader.swift */,
+				6982A91926B7A8A6004F8FB9 /* Extension */,
 				69E3F51F26ABF5C600D31392 /* College View Controllers */,
 				69FA90A02697F14100F2AA0D /* Taskbar_VC.swift */,
 			);
@@ -306,7 +320,9 @@
 				69FA90A12697F14100F2AA0D /* Taskbar_VC.swift in Sources */,
 				6924873A26A91C0F006865C4 /* College_Search.swift in Sources */,
 				69D3DE9E268836D600EED564 /* College_VC.swift in Sources */,
+				6982A91D26B7A9E1004F8FB9 /* Extension_College_Detailed_VC.swift in Sources */,
 				695AD11F26B648780041F89F /* CollegeStyling.swift in Sources */,
+				6982A91B26B7A8C4004F8FB9 /* Extension.swift in Sources */,
 				69A3E7EE2684348700973B52 /* Home_VC.swift in Sources */,
 				696756A6269FE02A00C26401 /* College_Detailed_VC.swift in Sources */,
 				69A3E7BE2684345A00973B52 /* AppDelegate.swift in Sources */,

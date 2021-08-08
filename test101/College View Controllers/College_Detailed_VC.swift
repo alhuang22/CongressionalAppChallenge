@@ -9,8 +9,30 @@ class College_Detailed_VC : UIViewController{
     var College_Data : College?
     
     
+    var popular_majors_data_array = [//for the popular majors table, import dictionary from json file
     
-    //MARK: SETUP BASE VIEW 1 LABELS
+        ExpandableArray(isExpanded: false, category: ["econ", "41", "127410"]),
+        ExpandableArray(isExpanded: false, category: ["cs", "12", "41981"]),
+        ExpandableArray(isExpanded: false, category: ["biology", "98", "89120"]),
+        ExpandableArray(isExpanded: false, category: ["econ", "41", "127410"]),
+        ExpandableArray(isExpanded: false, category: ["cs", "12", "41981"]),
+        ExpandableArray(isExpanded: false, category: ["biology", "98", "89120"]),
+        ExpandableArray(isExpanded: false, category: ["econ", "41", "127410"]),
+        ExpandableArray(isExpanded: false, category: ["cs", "12", "41981"]),
+        ExpandableArray(isExpanded: false, category: ["biology", "98", "89120"]),
+        
+    ]
+    
+    var highest_earning_majors_data_array = [
+    
+        ExpandableArray(isExpanded: false, category: ["a", "b", "c"]),
+        ExpandableArray(isExpanded: false, category: ["d", "e", "f"]),
+        ExpandableArray(isExpanded: false, category: ["g", "h", "i"])
+        
+    ]
+    
+    
+    //MARK: BASE VIEW 1 LABELS
     lazy var Base_View_1 : UIView = {
         let iv = UIView()
         iv.backgroundColor = .white
@@ -104,7 +126,7 @@ class College_Detailed_VC : UIViewController{
         return label
     }()
     
-    //MARK: SETUP BASE VIEW 1
+    //MARK: BASE VIEW 1
     
     func setup_Base_View_1 (){
         view.addSubview(scroll_view)
@@ -207,8 +229,7 @@ class College_Detailed_VC : UIViewController{
         size_label.centerXAnchor.constraint(equalTo: size_image_view.centerXAnchor).isActive = true
     }
     
-    //MARK: -------------------------------------------------------------
-    //MARK: -------------------------------------------------------------
+    //MARK: ---------------------
     
     
     
@@ -424,7 +445,6 @@ class College_Detailed_VC : UIViewController{
     //between rates ---> test scores there is a 25 gap
     
     
-    
     func setup_Base_View_2 (){
         scroll_view.addSubview(Base_View_2)
         Base_View_2.topAnchor.constraint(equalTo: Base_View_1.bottomAnchor, constant: 15).isActive = true
@@ -506,20 +526,21 @@ class College_Detailed_VC : UIViewController{
     
     
     
-    //MARK: ----------------------------------------------------------------------------------
-    //MARK: ----------------------------------------------------------------------------------
+    //MARK: --------------------------
     
-    //MARK: BASE VIEW 3
+    
+    
+    //MARK: BASE VIEW 3 LABELS
     
     lazy var Base_View_3 : UIView = {
         let iv = UIView()
-        iv.backgroundColor = .white
+        iv.backgroundColor = .systemRed
         iv.layer.cornerRadius = 15
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
     
-    lazy var major_label : UILabel = {
+    lazy var majors_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Majors"
@@ -539,24 +560,134 @@ class College_Detailed_VC : UIViewController{
         return label
     }()
     
+    lazy var major_label: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Major"
+
+        label.textColor = Style.myApp.color(for: .subsubtitle)
+        label.font = Style.myApp.font(for: .subsubtitle)
+        return label
+    }()
+    
+    lazy var graduates_label: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Graduates"
+
+        label.textColor = Style.myApp.color(for: .subsubtitle)
+        label.font = Style.myApp.font(for: .subsubtitle)
+        return label
+    }()
+    
+    
+    lazy var popular_majors_tableview : UITableView = {
+       let tb = UITableView()
+        tb.register(college_detailed_tableview_cell.self, forCellReuseIdentifier: "popular_majors")
+        tb.delegate = self
+        tb.dataSource = self
+        tb.translatesAutoresizingMaskIntoConstraints = false
+        return tb
+    }()
+    
+    lazy var highest_earning_majors_label : UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Highest Earning Majors"
+
+        label.textColor = Style.myApp.color(for: .subtitle)
+        label.font = Style.myApp.font(for: .subtitle)
+        return label
+    }()
+    
+    lazy var he_major_label: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Major"
+
+        label.textColor = Style.myApp.color(for: .subsubtitle)
+        label.font = Style.myApp.font(for: .subsubtitle)
+        return label
+    }()
+    
+    lazy var he_graduates_label: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Graduates"
+
+        label.textColor = Style.myApp.color(for: .subsubtitle)
+        label.font = Style.myApp.font(for: .subsubtitle)
+        return label
+    }()
+    
+    lazy var highest_earning_majors_tableview : UITableView = {
+       let tb = UITableView()
+        tb.register(college_detailed_tableview_cell.self, forCellReuseIdentifier: "highest_earning_majors")
+        tb.delegate = self
+        tb.dataSource = self
+        tb.translatesAutoresizingMaskIntoConstraints = false
+        return tb
+    }()
+    
+    //MARK: SETUP BASE VIEW 3
+    
     func setup_Base_View_3 (){
         
         scroll_view.addSubview(Base_View_3)
         Base_View_3.topAnchor.constraint(equalTo: Base_View_2.bottomAnchor, constant: 15).isActive = true
         Base_View_3.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
         Base_View_3.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        Base_View_3.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.66).isActive = true
+        Base_View_3.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8).isActive = true
         
-        Base_View_3.addSubview(major_label)
-        major_label.topAnchor.constraint(equalTo: Base_View_3.topAnchor, constant: 20).isActive = true
-        major_label.leadingAnchor.constraint(equalTo: Base_View_3.leadingAnchor, constant: 20).isActive = true
+        Base_View_3.addSubview(majors_label)
+        majors_label.topAnchor.constraint(equalTo: Base_View_3.topAnchor, constant: 20).isActive = true
+        majors_label.leadingAnchor.constraint(equalTo: Base_View_3.leadingAnchor, constant: 20).isActive = true
         
         Base_View_3.addSubview(popular_majors_label)
-        popular_majors_label.topAnchor.constraint(equalTo: major_label.bottomAnchor, constant: 25).isActive = true
+        popular_majors_label.topAnchor.constraint(equalTo: majors_label.bottomAnchor, constant: 15).isActive = true
         popular_majors_label.leadingAnchor.constraint(equalTo: Base_View_3.leadingAnchor, constant: 20).isActive = true
+        
+        Base_View_3.addSubview(major_label)
+        major_label.topAnchor.constraint(equalTo: popular_majors_label.bottomAnchor, constant: 10).isActive = true
+        major_label.leadingAnchor.constraint(equalTo: Base_View_3.leadingAnchor, constant: 20).isActive = true
+        
+        Base_View_3.addSubview(graduates_label)
+        graduates_label.topAnchor.constraint(equalTo: popular_majors_label.bottomAnchor, constant: 10).isActive = true
+        graduates_label.trailingAnchor.constraint(equalTo: Base_View_3.trailingAnchor, constant: -80).isActive = true
+        
+        Base_View_3.addSubview(popular_majors_tableview)
+        popular_majors_tableview.topAnchor.constraint(equalTo: major_label.bottomAnchor, constant: 6).isActive = true
+        popular_majors_tableview.heightAnchor.constraint(equalTo: Base_View_3.heightAnchor, multiplier: 0.3).isActive = true
+        popular_majors_tableview.centerXAnchor.constraint(equalTo: Base_View_3.centerXAnchor).isActive = true
+        popular_majors_tableview.widthAnchor.constraint(equalTo: Base_View_3.widthAnchor, multiplier: 0.9).isActive = true
+        
+        
+        Base_View_3.addSubview(highest_earning_majors_label)
+        highest_earning_majors_label.topAnchor.constraint(equalTo: popular_majors_tableview.bottomAnchor, constant: 25).isActive = true
+        highest_earning_majors_label.leadingAnchor.constraint(equalTo: Base_View_3.leadingAnchor, constant: 20).isActive = true
+        
+        Base_View_3.addSubview(he_major_label)
+        he_major_label.topAnchor.constraint(equalTo: highest_earning_majors_label.bottomAnchor, constant: 10).isActive = true
+        he_major_label.leadingAnchor.constraint(equalTo: Base_View_3.leadingAnchor, constant: 20).isActive = true
+        
+        Base_View_3.addSubview(he_graduates_label)
+        he_graduates_label.topAnchor.constraint(equalTo: highest_earning_majors_label.bottomAnchor, constant: 10).isActive = true
+        he_graduates_label.trailingAnchor.constraint(equalTo: Base_View_3.trailingAnchor, constant: -80).isActive = true
+        
+        Base_View_3.addSubview(highest_earning_majors_tableview)
+        highest_earning_majors_tableview.topAnchor.constraint(equalTo: he_major_label.bottomAnchor, constant: 6).isActive = true
+        highest_earning_majors_tableview.heightAnchor.constraint(equalTo: Base_View_3.heightAnchor, multiplier: 0.3).isActive = true
+        highest_earning_majors_tableview.centerXAnchor.constraint(equalTo: Base_View_3.centerXAnchor).isActive = true
+        highest_earning_majors_tableview.widthAnchor.constraint(equalTo: Base_View_3.widthAnchor, multiplier: 0.9).isActive = true
     }
     
     
+    
+    
+    
+    
+    
+    //MARK: SCROLL VIEW
     lazy var scroll_view : UIScrollView = {
        let sc = UIScrollView()
         sc.showsVerticalScrollIndicator = true // dismiss the indicator by assigning false
@@ -584,7 +715,9 @@ class College_Detailed_VC : UIViewController{
         setup_Base_View_3()
     }
 }
- 
+
+
+
 
 //MARK: STYLING FOR PAGE
 
