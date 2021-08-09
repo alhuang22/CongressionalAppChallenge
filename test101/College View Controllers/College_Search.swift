@@ -16,54 +16,60 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
         guard let path = Bundle.main.path(forResource : file_path, ofType: "json") else {return}
         
         let url = URL(fileURLWithPath: path)
-        
-        do{
-            let data = try Data(contentsOf : url)//gets data from url
-            let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
-
-            guard let array = json as? [Any] else {return}
-
-            for item in array {
-                guard let dictionary = item as? [String : Any] else {return}
-
-                guard let college_name = dictionary["college_name"] as? String else {return}
-                guard let address = dictionary["address"] as? String else {return}
-                guard let city = dictionary["city"] as? String else {return}
-                guard let state = dictionary["state"] as? String else {return}
-                guard let domain = dictionary["domain"] as? String else {return}
-                guard let graduation_rate = dictionary["graduation_rate"] as? Int else {return}
-                guard let percent_admitted = dictionary["percent_admitted"] as? Int else {return}
-                guard let tuition = dictionary["tuition"] as? Int else {return}
-                guard let percent_financial_aid = dictionary["percent_finicial_aid"] as? Int else {return}
-                guard let SAT_W_75_Percentile = dictionary["SAT_W_75_Percentile"] as? Int else {return}
-                guard let SAT_M_75_Percentile = dictionary["SAT_M_75_Percentile"] as? Int else {return}
-                guard let ACT_25_Percentile = dictionary["ACT_25_Percentile"] as? Int else {return}
-                guard let ACT_75_Percentile = dictionary["ACT_75_Percentile"] as? Int else {return}
-                guard let application_total = dictionary["application_total"] as? Int else {return}
-                guard let total_enrollment = dictionary["enrollment"] as? Int else {return}
-                
-
-                DispatchQueue.main.async {
-                    [weak self] in
-                    self?.college_list.append(College(college_name: college_name, address: address, city: city, state: state, domain : domain,  graduation_rate: graduation_rate, percent_admitted: percent_admitted, tuition: tuition, percent_financial_aid: percent_financial_aid, SAT_W_75_Percentile: SAT_W_75_Percentile, SAT_M_75_Percentile: SAT_M_75_Percentile, ACT_25_Percentile: ACT_25_Percentile, ACT_75_Percentile: ACT_75_Percentile, application_total: application_total, total_enrollment : total_enrollment))
-
-                }
-
-                self.college_table_view.reloadData()
-            }
-
-        }catch{
-            print("error")
+        if let data = try? Data(contentsOf: url) {
+            parse(json: data)
         }
     }
+    
+    func parse(json: Data) {
+        let decoder = JSONDecoder()
+        do {
+            let jsonColleges = try decoder.decode([College].self, from: json)
+            college_list = jsonColleges
+            print(college_list)
+            self.college_table_view.reloadData()
+        } catch DecodingError.keyNotFound(let key, let context) {
+            Swift.print("could not find key \(key) in JSON: \(context.debugDescription)")
+        } catch DecodingError.valueNotFound(let type, let context) {
+            Swift.print("could not find type \(type) in JSON: \(context.debugDescription)")
+        } catch DecodingError.typeMismatch(let type, let context) {
+            Swift.print("type mismatch for type \(type) in JSON: \(context.debugDescription)")
+        } catch DecodingError.dataCorrupted(let context) {
+            Swift.print("data found to be corrupted in JSON: \(context.debugDescription)")
+        } catch let error as NSError {
+            NSLog("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
+        }
+    }
+    
+    
+    //MARK: IMAGES FOR CLEARBIT.COM
+    
+    
+    
+//    public func get_logo(url : String){
+//
+//        guard let url_string = URL(string: url) else {return}
+//
+//        URLSession.shared.dataTask(with: url_string){
+//            (data, res, err) in
+//
+//            if let data = data {//means if data exists
+//                let output = String(data : data , encoding: .utf8)
+//                print(output as Any)
+//                print("succesful")
+//            }
+//        }.resume()
+//
+//    }
+    
+    
     
     
     
     let college_table_view_identifier : String = "cell"
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return college_list.count//ten rows of tableview cell
-        return 10
+            return 0//ten rows of tableview cell
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -71,9 +77,9 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
         cell.textLabel?.text = "example"
         
         
-        //let url_link = college_list[indexPath.row].domain
-        let url_link : URL = URL(string: "https://www.uab.edu")!
-        cell.imageView?.downloaded(from: url_link, contentMode: .scaleAspectFit)
+        let url_link = college_list[indexPath.row].domain
+        
+        cell.imageView?.downloaded(from: url_link ?? "Harvard", contentMode: .scaleAspectFit)
         return cell
     }
     
