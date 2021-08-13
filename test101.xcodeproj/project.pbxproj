@@ -28,6 +28,7 @@
 		69D3F3F226AE61E100BCB7EB /* Image_Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D3F3F126AE61E100BCB7EB /* Image_Downloader.swift */; };
 		69EEACAD26ABDE24003E605B /* test.json in Sources */ = {isa = PBXBuildFile; fileRef = 69EEACAC26ABDE24003E605B /* test.json */; };
 		69FA90A12697F14100F2AA0D /* Taskbar_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FA90A02697F14100F2AA0D /* Taskbar_VC.swift */; };
+		CC72955D26C1BD79005E7241 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = CC72955C26C1BD79005E7241 /* data.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		69D3F3F126AE61E100BCB7EB /* Image_Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image_Downloader.swift; sourceTree = "<group>"; };
 		69EEACAC26ABDE24003E605B /* test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
 		69FA90A02697F14100F2AA0D /* Taskbar_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Taskbar_VC.swift; sourceTree = "<group>"; };
+		CC72955C26C1BD79005E7241 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 			children = (
 				69A3E7BD2684345A00973B52 /* AppDelegate.swift */,
 				69A3E7BF2684345A00973B52 /* SceneDelegate.swift */,
+				CC72955C26C1BD79005E7241 /* data.json */,
 				69EEACAC26ABDE24003E605B /* test.json */,
 				69A3E7C32684345A00973B52 /* Main.storyboard */,
 				695AD11A26B4E99A0041F89F /* finalized_college_data.json */,
@@ -287,6 +290,7 @@
 				6995CA8226ABE6BF00C48AF5 /* test.json in Resources */,
 				69A3E7CA2684345C00973B52 /* LaunchScreen.storyboard in Resources */,
 				69A3E7C72684345C00973B52 /* Assets.xcassets in Resources */,
+				CC72955D26C1BD79005E7241 /* data.json in Resources */,
 				69A3E7C52684345A00973B52 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

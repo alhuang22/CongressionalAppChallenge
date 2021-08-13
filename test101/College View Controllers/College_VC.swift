@@ -45,11 +45,11 @@ class College_VC : UIViewController{
                 guard let total_enrollment = dictionary["enrollment"] as? Int else {return}
 
 
-                DispatchQueue.main.async {
-                    [weak self] in
-                    self?.college_list.append(College(college_name: college_name, address: address, city: city, state: state, domain : domain,  graduation_rate: graduation_rate, percent_admitted: percent_admitted, tuition: tuition, percent_financial_aid: percent_financial_aid, SAT_W_75_Percentile: SAT_W_75_Percentile, SAT_M_75_Percentile: SAT_M_75_Percentile, ACT_25_Percentile: ACT_25_Percentile, ACT_75_Percentile: ACT_75_Percentile, application_total: application_total, total_enrollment : total_enrollment))
-
-                }
+//                DispatchQueue.main.async {
+//                    [weak self] in
+//                    self?.college_list.append(College(college_name: college_name, address: address, city: city, state: state, domain : domain,  graduation_rate: graduation_rate, percent_admitted: percent_admitted, tuition: tuition, percent_financial_aid: percent_financial_aid, SAT_W_75_Percentile: SAT_W_75_Percentile, SAT_M_75_Percentile: SAT_M_75_Percentile, ACT_25_Percentile: ACT_25_Percentile, ACT_75_Percentile: ACT_75_Percentile, application_total: application_total, total_enrollment : total_enrollment))
+//
+//                }
 
 
             }
