@@ -587,6 +587,7 @@ class College_Detailed_VC : UIViewController{
         tb.delegate = self
         tb.dataSource = self
         tb.translatesAutoresizingMaskIntoConstraints = false
+        tb.layer.cornerRadius = 6
         return tb
     }()
     
@@ -626,6 +627,7 @@ class College_Detailed_VC : UIViewController{
         tb.delegate = self
         tb.dataSource = self
         tb.translatesAutoresizingMaskIntoConstraints = false
+        tb.layer.cornerRadius = 6
         return tb
     }()
     

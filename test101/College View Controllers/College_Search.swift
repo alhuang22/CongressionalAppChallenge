@@ -16,70 +16,62 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
         guard let path = Bundle.main.path(forResource : file_path, ofType: "json") else {return}
         
         let url = URL(fileURLWithPath: path)
-        
-        do{
-            let data = try Data(contentsOf : url)//gets data from url
-            let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
-
-            guard let array = json as? [Any] else {return}
-
-            for item in array {
-                guard let dictionary = item as? [String : Any] else {return}
-
-                guard let college_name = dictionary["college_name"] as? String else {return}
-                guard let address = dictionary["address"] as? String else {return}
-                guard let city = dictionary["city"] as? String else {return}
-                guard let state = dictionary["state"] as? String else {return}
-                guard let domain = dictionary["domain"] as? String else {return}
-                guard let graduation_rate = dictionary["graduation_rate"] as? Int else {return}
-                guard let percent_admitted = dictionary["percent_admitted"] as? Int else {return}
-                guard let tuition = dictionary["tuition"] as? Int else {return}
-                guard let percent_financial_aid = dictionary["percent_finicial_aid"] as? Int else {return}
-                guard let SAT_W_75_Percentile = dictionary["SAT_W_75_Percentile"] as? Int else {return}
-                guard let SAT_M_75_Percentile = dictionary["SAT_M_75_Percentile"] as? Int else {return}
-                guard let ACT_25_Percentile = dictionary["ACT_25_Percentile"] as? Int else {return}
-                guard let ACT_75_Percentile = dictionary["ACT_75_Percentile"] as? Int else {return}
-                guard let application_total = dictionary["application_total"] as? Int else {return}
-                guard let total_enrollment = dictionary["enrollment"] as? Int else {return}
-                
-
-                DispatchQueue.main.async {
-                    [weak self] in
-                    self?.college_list.append(College(college_name: college_name, address: address, city: city, state: state, domain : domain,  graduation_rate: graduation_rate, percent_admitted: percent_admitted, tuition: tuition, percent_financial_aid: percent_financial_aid, SAT_W_75_Percentile: SAT_W_75_Percentile, SAT_M_75_Percentile: SAT_M_75_Percentile, ACT_25_Percentile: ACT_25_Percentile, ACT_75_Percentile: ACT_75_Percentile, application_total: application_total, total_enrollment : total_enrollment))
-
-                }
-
-                self.college_table_view.reloadData()
-            }
-
-        }catch{
-            print("error")
+        if let data = try? Data(contentsOf: url) {
+            parse(json: data)
         }
     }
+    
+    func parse(json: Data) {
+        let decoder = JSONDecoder()
+        do {
+            let jsonColleges = try decoder.decode([College].self, from: json)
+            college_list = jsonColleges
+            self.college_table_view.reloadData()
+        } catch DecodingError.keyNotFound(let key, let context) {
+            Swift.print("could not find key \(key) in JSON: \(context.debugDescription)")
+        } catch DecodingError.valueNotFound(let type, let context) {
+            Swift.print("could not find type \(type) in JSON: \(context.debugDescription)")
+        } catch DecodingError.typeMismatch(let type, let context) {
+            Swift.print("type mismatch for type \(type) in JSON: \(context.debugDescription)")
+        } catch DecodingError.dataCorrupted(let context) {
+            Swift.print("data found to be corrupted in JSON: \(context.debugDescription)")
+        } catch let error as NSError {
+            NSLog("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
+        }
+    }
+    
+    
+    
     
     
     
     let college_table_view_identifier : String = "cell"
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return college_list.count//ten rows of tableview cell
-        return 10
+        return college_list.count//number of rows/tableview cells
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = college_table_view.dequeueReusableCell(withIdentifier: college_table_view_identifier, for: indexPath)
-        cell.textLabel?.text = "example"
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {//defines height for each row
+        return 50
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {//styling for each cell, imports custom search cell
+        let cell = college_table_view.dequeueReusableCell(withIdentifier: college_table_view_identifier, for: indexPath) as! search_customized_cell
+        cell.name.text = college_list[indexPath.row].college_name
         
         
-        //let url_link = college_list[indexPath.row].domain
-        let url_link : URL = URL(string: "https://www.uab.edu")!
-        cell.imageView?.downloaded(from: url_link, contentMode: .scaleAspectFit)
+        var url_link = "https://logo.clearbit.com/"
+        url_link+=college_list[indexPath.row].domain!
+        
+        cell.logo.downloaded(from: url_link, contentMode: .scaleAspectFit)
+        
         return cell
     }
     
     lazy var college_table_view : UITableView = {
        let tb = UITableView()
-        tb.register(UITableViewCell.self, forCellReuseIdentifier: college_table_view_identifier)
+        tb.register(search_customized_cell.self, forCellReuseIdentifier: college_table_view_identifier)
         tb.delegate = self
         tb.dataSource = self
         tb.frame = view.frame
@@ -94,8 +86,58 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
         super.viewDidLoad()
         setup_table_view()
         get_Data(file_path: "test")
-        print(college_list)
     }
     
+}
+
+
+
+
+
+
+
+
+class search_customized_cell : UITableViewCell {
+    //MARK: Customized Image View
+    lazy var logo : UIImageView = {
+       let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.layer.cornerRadius = 5
+        iv.backgroundColor = UIColor.systemGray
+        iv.clipsToBounds = true
+        return iv
+    }()
+    
+    //MARK: Customized UILabel
+    lazy var name : UILabel = {
+       let lb = UILabel()
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        lb.textColor = .black
+        lb.font = UIFont(name: "Georgia", size: 12)
+        lb.clipsToBounds = true
+        return lb
+    }()
+    
+    //MARK: Customized Format for Cell
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: "search_tableView_cell")
+        contentView.addSubview(logo)
+        contentView.addSubview(name)
+        
+        logo.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
+        logo.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2).isActive = true
+        logo.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2).isActive = true
+        logo.widthAnchor.constraint(equalTo: logo.heightAnchor, multiplier: 1).isActive = true
+        
+        name.leadingAnchor.constraint(equalTo: logo.leadingAnchor, constant: 60).isActive = true
+        name.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        
+        
+
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 

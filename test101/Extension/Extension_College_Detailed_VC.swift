@@ -12,7 +12,7 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {//defines height for each row
-        return 60
+        return 50
     }
     
     
@@ -79,33 +79,85 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
         return 10
     }
     
-    //how to implement drop down header
+    //MARK: DROPDOWN HEADERS
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        //create base view
-        //then add drop dwn utton, title graduates to subview of baseview
+        //use section to iterate
+        //indexPath. modify major title and graduates title
+        var major_name : String = ""
+        if tableView == popular_majors_tableview{
+            major_name = popular_majors_data_array[section].category[0]
+        }
+        if tableView == highest_earning_majors_tableview{
+            major_name = highest_earning_majors_data_array[section].category[0]
+        }
+        var graduates : String = ""
+        if tableView == popular_majors_tableview{
+            graduates = popular_majors_data_array[section].category[2]
+        }
+        if tableView == highest_earning_majors_tableview{
+            graduates = highest_earning_majors_data_array[section].category[2]
+        }
         
-        //return base view
         
-        //if data base is finalized please try to insert data to this expandable tableview
-        //change two dimensional data array
-        let drop_down_button = UIButton(type: .system)
-        drop_down_button.setTitle("Down", for: .normal)//initial status to be down
-        drop_down_button.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        let drop_down_button = UIButton()
+        drop_down_button.translatesAutoresizingMaskIntoConstraints = false
         drop_down_button.tag = section
-        drop_down_button.setTitleColor(UIColor.white, for: .normal)
+        drop_down_button.setImage(UIImage(named: "drop_down"), for: .normal)
+        
+        let container : UIView = {
+            let iv = UIView()
+            iv.backgroundColor = .white
+            
+            let major_title = UILabel()
+            major_title.text = major_name
+            major_title.textColor = Style.myApp.color(for: .subsubtitle)
+            major_title.font = Style.myApp.font(for: .subsubtitle)
+            major_title.translatesAutoresizingMaskIntoConstraints = false
+            
+            
+            let graduate_number = UILabel()
+            graduate_number.text = graduates
+            graduate_number.textColor = Style.myApp.color(for: .subsubtitle)
+            graduate_number.font = Style.myApp.font(for: .subsubtitle)
+            graduate_number.translatesAutoresizingMaskIntoConstraints = false
+            
+            
+            iv.addSubview(drop_down_button)
+            iv.addSubview(graduate_number)
+            iv.addSubview(major_title)
+            
+            major_title.centerYAnchor.constraint(equalTo: iv.centerYAnchor).isActive = true
+            major_title.leadingAnchor.constraint(equalTo: iv.leadingAnchor, constant: 15).isActive = true
+            
+            graduate_number.centerYAnchor.constraint(equalTo: iv.centerYAnchor).isActive = true
+            graduate_number.trailingAnchor.constraint(equalTo: iv.trailingAnchor, constant: -75).isActive = true
+            
+            
+            drop_down_button.centerYAnchor.constraint(equalTo: major_title.centerYAnchor).isActive = true
+            drop_down_button.trailingAnchor.constraint(equalTo: iv.trailingAnchor, constant: -15).isActive = true
+            drop_down_button.heightAnchor.constraint(equalTo: iv.heightAnchor, multiplier: 0.45).isActive = true
+            drop_down_button.widthAnchor.constraint(equalTo: drop_down_button.heightAnchor).isActive = true
+           
+            
+            return iv
+        }()
+    
         if tableView == popular_majors_tableview{
             drop_down_button.addTarget(self, action: #selector(handle_popular_expansion), for: .touchUpInside)
         }
         if tableView == highest_earning_majors_tableview{
             drop_down_button.addTarget(self, action: #selector(handle_highest_earning_expansion), for: .touchUpInside)
         }
-        //UIButton is a sublcass of UIview, this is why return a button is legit......
-        return drop_down_button
+
+        return container
+    }
+    //MARK: HEADER HEIGHT
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 45
     }
     
-    
-    
+    //MARK: EXPANSION FUNCTIONS
     @objc func handle_popular_expansion(sender : UIButton){
         let section = sender.tag
         var indexPaths = [IndexPath]()
@@ -155,9 +207,6 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
         }
         
     }
-    
-    
-    
 }
 
 
