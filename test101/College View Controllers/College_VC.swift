@@ -13,57 +13,42 @@ class College_VC : UIViewController{
     
     //MARK: GET DATA FROM JSON FILE, 1022 colleges (degree-granting US colleges larger than 1000 students)
     
-    private func getData(file_path : String) {
-
+    func get_Data(file_path : String){
+        
         guard let path = Bundle.main.path(forResource : file_path, ofType: "json") else {return}
+        
         let url = URL(fileURLWithPath: path)
-        do{
-            let data = try Data(contentsOf : url)//gets data from url
-            let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
-
-            guard let array = json as? [Any] else {return}
-
-
-
-            for item in array {
-                guard let dictionary = item as? [String : Any] else {return}
-
-                guard let college_name = dictionary["college_name"] as? String else {return}
-                guard let address = dictionary["address"] as? String else {return}
-                guard let city = dictionary["city"] as? String else {return}
-                guard let state = dictionary["state"] as? String else {return}
-                guard let domain = dictionary["domain"] as? String else {return}
-                guard let graduation_rate = dictionary["graduation_rate"] as? Int else {return}
-                guard let percent_admitted = dictionary["percent_admitted"] as? Int else {return}
-                guard let tuition = dictionary["tuition"] as? Int else {return}
-                guard let percent_financial_aid = dictionary["percent_finicial_aid"] as? Int else {return}
-                guard let SAT_W_75_Percentile = dictionary["SAT_W_75_Percentile"] as? Int else {return}
-                guard let SAT_M_75_Percentile = dictionary["SAT_M_75_Percentile"] as? Int else {return}
-                guard let ACT_25_Percentile = dictionary["ACT_25_Percentile"] as? Int else {return}
-                guard let ACT_75_Percentile = dictionary["ACT_75_Percentile"] as? Int else {return}
-                guard let application_total = dictionary["application_total"] as? Int else {return}
-                guard let total_enrollment = dictionary["enrollment"] as? Int else {return}
-
-
-//                DispatchQueue.main.async {
-//                    [weak self] in
-//                    self?.college_list.append(College(college_name: college_name, address: address, city: city, state: state, domain : domain,  graduation_rate: graduation_rate, percent_admitted: percent_admitted, tuition: tuition, percent_financial_aid: percent_financial_aid, SAT_W_75_Percentile: SAT_W_75_Percentile, SAT_M_75_Percentile: SAT_M_75_Percentile, ACT_25_Percentile: ACT_25_Percentile, ACT_75_Percentile: ACT_75_Percentile, application_total: application_total, total_enrollment : total_enrollment))
-//
-//                }
-
-
-            }
-
-        }catch{
-            print("error")
+        if let data = try? Data(contentsOf: url) {
+            parse(json: data)
         }
-
+    }
+    
+    func parse(json: Data) {
+        let decoder = JSONDecoder()
+        do {
+            let jsonColleges = try decoder.decode([College].self, from: json)
+            college_list = jsonColleges
+            print(college_list.count)
+            print(college_list[10])
+        } catch DecodingError.keyNotFound(let key, let context) {
+            Swift.print("could not find key \(key) in JSON: \(context.debugDescription)")
+        } catch DecodingError.valueNotFound(let type, let context) {
+            Swift.print("could not find type \(type) in JSON: \(context.debugDescription)")
+        } catch DecodingError.typeMismatch(let type, let context) {
+            Swift.print("type mismatch for type \(type) in JSON: \(context.debugDescription)")
+        } catch DecodingError.dataCorrupted(let context) {
+            Swift.print("data found to be corrupted in JSON: \(context.debugDescription)")
+        } catch let error as NSError {
+            NSLog("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
+        }
     }
 
     
     
     //MARK: College Array
     let top_thirty = ["Princeton University", "Harvard University", "Columbia University", "Massachusetts Institute of Technology", "Yale University", "Stanford University", "University of Chicago", "University of Pennsylvania", "California Institute of Technology", "Johns Hopkins University", "Northwestern University", "Duke University", "Dartmouth College", "Brown University", "Vanderbilt University", "Rice University", "Washington University in St. Louis", "Cornell University", "University of Notre Dame", "University of California - Los Angeles", "Emory University", "University of California - Berkeley", "Georgetown University", "University of Michigan", "University of Southern California", "Carnegie Mellon University", "New York University", "Tufts University", "University of California - Santa Barbara", "University of Florida"]
+    
+    let top_thirty_indices = [493, 360, 515, 367, 114, 978, 190, 743, 36, 333, 211, 590, 482, 769, 835, 867, 466, 517, 247, 51, 153, 48, 120, 401, 86, 709, 535, 377, 54, 135]
     
     //MARK: Top 30 COLLEGES TITLE
     
@@ -202,6 +187,7 @@ class College_VC : UIViewController{
         super.viewDidLoad()
         view.backgroundColor = UIColor.black
         
+        get_Data(file_path: "data")
         setup_collectionview()
         setup_Bottom_Taskbar()
         set_up_college_label()
@@ -267,6 +253,7 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
         destination.received_string = top_thirty[indexPath.row]
         destination.received_image_string = top_thirty[indexPath.row]
+        destination.College_Data = college_list[top_thirty_indices[indexPath.row]]
         
         self.present(destination, animated: true)
         

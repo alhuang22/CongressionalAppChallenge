@@ -17,15 +17,14 @@ public struct College : Codable {
     let state : String
     let domain : String?
     let graduation_rate : Int?
-    let percent_admitted : Int?
     let tuition : Int?
     let percent_financial_aid : Int?
     let ACT_25_Percentile : Int?
     let ACT_75_Percentile : Int?
     let application_total : Int?
     let total_enrollment : Int?
-    let popular_majors: [[String: String?]]?
-    let top_salaries: [[String: String?]]?
+    let popular_majors: [[String: String?]?]?
+    let top_salaries: [[String: String?]?]?
     let admission_rate: Double?
     let retention_rate: Double?
     let undergrad_size: Int?

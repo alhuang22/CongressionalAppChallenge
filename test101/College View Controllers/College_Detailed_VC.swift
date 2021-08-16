@@ -31,6 +31,21 @@ class College_Detailed_VC : UIViewController{
         
     ]
     
+    func matches(for regex: String, in text: String) -> [String] {
+
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let results = regex.matches(in: text,
+                                        range: NSRange(text.startIndex..., in: text))
+            return results.map {
+                String(text[Range($0.range, in: text)!])
+            }
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
     
     //MARK: BASE VIEW 1 LABELS
     lazy var Base_View_1 : UIView = {
@@ -56,7 +71,7 @@ class College_Detailed_VC : UIViewController{
     lazy var college_name : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Columbia University"
+        label.text = (College_Data?.college_name)!
 
         label.textColor = Style.myApp.color(for: .subtitle)
         label.font = Style.myApp.font(for: .subtitle)
@@ -66,7 +81,11 @@ class College_Detailed_VC : UIViewController{
     lazy var undergraduate_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "47024 undergraduates"
+        if var undergrad_size = College_Data?.undergrad_size {
+            label.text = String(undergrad_size) + " undergraduates"
+        } else {
+            label.text = "No Undergraduate Data"
+        }
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         label.font = Style.myApp.font(for: .subsubtitle)
@@ -77,7 +96,11 @@ class College_Detailed_VC : UIViewController{
     lazy var location_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "New York, NY"
+        if var city = College_Data?.city {
+            label.text = city + ", " + (College_Data?.state)!
+        } else {
+            label.text = "No Location Data"
+        }
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         label.font = Style.myApp.font(for: .subsubtitle)
@@ -87,7 +110,13 @@ class College_Detailed_VC : UIViewController{
     lazy var domain_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "columbia.edu"
+        if var domain = College_Data?.domain {
+            domain = domain.lowercased()
+//            let matched = matches(for: ".+\\.(com|edu).*", in: domain)
+            label.text = domain
+        } else {
+            label.text = "No Website Found"
+        }
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         label.font = Style.myApp.font(for: .subsubtitle)
@@ -266,7 +295,12 @@ class College_Detailed_VC : UIViewController{
     lazy var acceptance_rate_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "5%"
+        if var acc_rate = College_Data?.admission_rate {
+            acc_rate *= 100
+            label.text = String(acc_rate.rounded(toPlaces: 2)) + "%"
+        } else {
+            label.text = "No Data"
+        }
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
         return label
@@ -285,7 +319,11 @@ class College_Detailed_VC : UIViewController{
     lazy var graduation_rate_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "97%"
+        if var grad_rate = College_Data?.graduation_rate {
+            label.text = String(grad_rate) + "%"
+        } else {
+            label.text = "No Data"
+        }
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -305,7 +343,12 @@ class College_Detailed_VC : UIViewController{
     lazy var retention_rate_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "99%"
+        if var ret_rate = College_Data?.retention_rate {
+            ret_rate *= 100
+            label.text = String(ret_rate.rounded(toPlaces: 2)) + "%"
+        } else {
+            label.text = "No Data"
+        }
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -328,7 +371,13 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_range_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "1500-1600"
+        if var sat_reading_25 = College_Data?.sat_reading_25 {
+            let total_25 = String(sat_reading_25 + (College_Data?.sat_math_25)!)
+            let total_75 = String((College_Data?.sat_reading_75)! + (College_Data?.sat_math_75)!)
+            label.text = total_25 + "-" + total_75
+        } else {
+            label.text = "No Data"
+        }
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -348,7 +397,12 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_reading_writing_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "770-800"
+        if var sat_reading_25 = College_Data?.sat_reading_25 {
+            let sat_reading_75 = String((College_Data?.sat_reading_75)!)
+            label.text = String(sat_reading_25) + "-" + sat_reading_75
+        } else {
+            label.text = "No Data"
+        }
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -368,7 +422,12 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_math_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "770-800"
+        if var sat_math_25 = College_Data?.sat_math_25 {
+            let sat_math_75 = String((College_Data?.sat_math_75)!)
+            label.text = String(sat_math_25) + "-" + sat_math_75
+        } else {
+            label.text = "No Data"
+        }
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -389,7 +448,12 @@ class College_Detailed_VC : UIViewController{
     lazy var act_range_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "35"
+        if var act_25 = College_Data?.ACT_25_Percentile {
+            let act_75 = String((College_Data?.ACT_75_Percentile)!)
+            label.text = String(act_25) + "-" + act_75
+        } else {
+            label.text = "No Data"
+        }
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -409,7 +473,12 @@ class College_Detailed_VC : UIViewController{
     lazy var act_reading_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "33-35"
+        if var act_reading_25 = College_Data?.act_english_25 {
+            let act_reading_75 = String((College_Data?.act_english_75)!)
+            label.text = String(act_reading_25) + "-" + act_reading_75
+        } else {
+            label.text = "No Data"
+        }
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -429,7 +498,12 @@ class College_Detailed_VC : UIViewController{
     lazy var act_math_number_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "34-36"
+        if var act_math_25 = College_Data?.act_math_25 {
+            let act_math_75 = String((College_Data?.act_math_75)!)
+            label.text = String(act_math_25) + "-" + act_math_75
+        } else {
+            label.text = "No Data"
+        }
 
         label.textColor = Style.myApp.color(for: .title)
         label.font = Style.myApp.font(for: .title)
@@ -706,13 +780,13 @@ class College_Detailed_VC : UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         view.backgroundColor = .black
         
         setup_UI()
         setup_Base_View_1()
         setup_Base_View_2()
         setup_Base_View_3()
+        print(College_Data?.admission_rate)
     }
 }
 

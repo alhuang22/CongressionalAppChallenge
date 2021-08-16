@@ -11,7 +11,7 @@ import UIKit
 class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSource {
     var college_list = [College]()
     
-    private func get_Data(file_path : String){
+    func get_Data(file_path : String){
         
         guard let path = Bundle.main.path(forResource : file_path, ofType: "json") else {return}
         
@@ -26,7 +26,8 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
         do {
             let jsonColleges = try decoder.decode([College].self, from: json)
             college_list = jsonColleges
-            print(college_list)
+            print(college_list.count)
+            print(college_list[10])
             self.college_table_view.reloadData()
         } catch DecodingError.keyNotFound(let key, let context) {
             Swift.print("could not find key \(key) in JSON: \(context.debugDescription)")
