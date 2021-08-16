@@ -66,6 +66,9 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
         
         cell.logo.downloaded(from: url_link, contentMode: .scaleAspectFit)
         
+        
+        
+        cell.arrow.addTarget(self, action: #selector(bring_up_detailed_view(sender:)), for: .touchUpInside)
         return cell
     }
     
@@ -74,16 +77,32 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
         tb.register(search_customized_cell.self, forCellReuseIdentifier: college_table_view_identifier)
         tb.delegate = self
         tb.dataSource = self
-        tb.frame = view.frame
+        tb.translatesAutoresizingMaskIntoConstraints = false
         return tb
     }()
     
+    @objc func bring_up_detailed_view (sender: UITableViewCell){
+        let secondVC = College_Detailed_VC()
+        
+        secondVC.modalPresentationStyle = .fullScreen
+        secondVC.modalTransitionStyle = .coverVertical
+        
+        present(secondVC, animated: true, completion: nil)
+        
+    }
+    
+    
     func setup_table_view(){
         view.addSubview(college_table_view)
+        college_table_view.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        college_table_view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        college_table_view.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        college_table_view.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
     override func viewDidLoad(){
         super.viewDidLoad()
+        view.backgroundColor = .black
         setup_table_view()
         get_Data(file_path: "test")
     }
@@ -92,13 +111,9 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
 
 
 
-
-
-
-
-
+//MARK: CUSTOMIZED TABLEVIEW CELL
 class search_customized_cell : UITableViewCell {
-    //MARK: Customized Image View
+    
     lazy var logo : UIImageView = {
        let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -118,12 +133,21 @@ class search_customized_cell : UITableViewCell {
         return lb
     }()
     
+    lazy var arrow : UIButton = {
+       var bt = UIButton()
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        let image = UIImage(named: "arrow")
+        bt.setImage(image, for: .normal)
+        bt.clipsToBounds = true
+        return bt
+    }()
+    
     //MARK: Customized Format for Cell
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: "search_tableView_cell")
         contentView.addSubview(logo)
         contentView.addSubview(name)
-        
+        contentView.addSubview(arrow)
         logo.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         logo.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2).isActive = true
         logo.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2).isActive = true
@@ -132,8 +156,12 @@ class search_customized_cell : UITableViewCell {
         name.leadingAnchor.constraint(equalTo: logo.leadingAnchor, constant: 60).isActive = true
         name.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
+        arrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
+        arrow.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        arrow.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5).isActive = true
+        arrow.widthAnchor.constraint(equalTo: arrow.heightAnchor).isActive = true
         
-
+        
     }
     
     required init?(coder: NSCoder) {

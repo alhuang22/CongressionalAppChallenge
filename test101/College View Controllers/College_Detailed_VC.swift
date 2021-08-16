@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
- 
+import Charts
+
 class College_Detailed_VC : UIViewController{
     
     var received_string : String?
@@ -31,6 +32,28 @@ class College_Detailed_VC : UIViewController{
         
     ]
     
+    lazy var dismiss_button : UIButton = {
+        let bt = UIButton()
+        let image = UIImage(named: "back")
+        bt.setImage(image, for: .normal)
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        return bt
+    }()
+    
+    @objc func dismiss_detailed_view (){
+        dismiss(animated: true, completion: nil)
+    }
+    
+    lazy var college_info_title : UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "College Information"
+
+        label.textColor = .white
+        label.font = Style.myApp.font(for: .subtitle)
+        return label
+    }()
+
     
     //MARK: BASE VIEW 1 LABELS
     lazy var Base_View_1 : UIView = {
@@ -129,10 +152,22 @@ class College_Detailed_VC : UIViewController{
     //MARK: BASE VIEW 1
     
     func setup_Base_View_1 (){
-        view.addSubview(scroll_view)
+        view.addSubview(dismiss_button)
+        dismiss_button.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
+        dismiss_button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        dismiss_button.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.07).isActive = true
+        dismiss_button.heightAnchor.constraint(equalTo: dismiss_button.widthAnchor).isActive = true
+        dismiss_button.addTarget(self, action: #selector(dismiss_detailed_view), for: .touchUpInside)
         
+        view.addSubview(college_info_title)
+        college_info_title.centerYAnchor.constraint(equalTo: dismiss_button.centerYAnchor).isActive = true
+        college_info_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
+    
+        
+        
+        view.addSubview(scroll_view)
         scroll_view.addSubview(Base_View_1)
-        Base_View_1.topAnchor.constraint(equalTo: scroll_view.topAnchor, constant: 60).isActive = true
+        Base_View_1.topAnchor.constraint(equalTo: scroll_view.topAnchor, constant: 5).isActive = true
 //        Base_View_1.leadingAnchor.constraint(equalTo: scroll_view.leadingAnchor, constant: 10).isActive = true
         Base_View_1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
         Base_View_1.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -694,7 +729,9 @@ class College_Detailed_VC : UIViewController{
        let sc = UIScrollView()
         sc.showsVerticalScrollIndicator = true // dismiss the indicator by assigning false
         sc.bounces = true
-        sc.frame = view.frame//this is all good, no need for auto layout
+        
+        sc.translatesAutoresizingMaskIntoConstraints = false
+//        sc.frame = view.frame//this is all good, no need for auto layout
         sc.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 1500)
         return sc
     }()
@@ -703,6 +740,10 @@ class College_Detailed_VC : UIViewController{
     
     private func setup_UI() {
         view.addSubview(scroll_view) // we will add everything on the scroll_view instead of view
+        scroll_view.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        scroll_view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 50).isActive = true
+        scroll_view.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        scroll_view.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
     override func viewDidLoad() {

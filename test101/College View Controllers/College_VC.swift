@@ -9,57 +9,6 @@ import UIKit
 
 
 class College_VC : UIViewController{
-    var college_list = [College]() // MARK: array with all colleges
-    
-    //MARK: GET DATA FROM JSON FILE, 1022 colleges (degree-granting US colleges larger than 1000 students)
-    
-    private func getData(file_path : String) {
-
-        guard let path = Bundle.main.path(forResource : file_path, ofType: "json") else {return}
-        let url = URL(fileURLWithPath: path)
-        do{
-            let data = try Data(contentsOf : url)//gets data from url
-            let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
-
-            guard let array = json as? [Any] else {return}
-
-
-
-            for item in array {
-                guard let dictionary = item as? [String : Any] else {return}
-
-                guard let college_name = dictionary["college_name"] as? String else {return}
-                guard let address = dictionary["address"] as? String else {return}
-                guard let city = dictionary["city"] as? String else {return}
-                guard let state = dictionary["state"] as? String else {return}
-                guard let domain = dictionary["domain"] as? String else {return}
-                guard let graduation_rate = dictionary["graduation_rate"] as? Int else {return}
-                guard let percent_admitted = dictionary["percent_admitted"] as? Int else {return}
-                guard let tuition = dictionary["tuition"] as? Int else {return}
-                guard let percent_financial_aid = dictionary["percent_finicial_aid"] as? Int else {return}
-                guard let SAT_W_75_Percentile = dictionary["SAT_W_75_Percentile"] as? Int else {return}
-                guard let SAT_M_75_Percentile = dictionary["SAT_M_75_Percentile"] as? Int else {return}
-                guard let ACT_25_Percentile = dictionary["ACT_25_Percentile"] as? Int else {return}
-                guard let ACT_75_Percentile = dictionary["ACT_75_Percentile"] as? Int else {return}
-                guard let application_total = dictionary["application_total"] as? Int else {return}
-                guard let total_enrollment = dictionary["enrollment"] as? Int else {return}
-
-
-//                DispatchQueue.main.async {
-//                    [weak self] in
-//                    self?.college_list.append(College(college_name: college_name, address: address, city: city, state: state, domain : domain,  graduation_rate: graduation_rate, percent_admitted: percent_admitted, tuition: tuition, percent_financial_aid: percent_financial_aid, SAT_W_75_Percentile: SAT_W_75_Percentile, SAT_M_75_Percentile: SAT_M_75_Percentile, ACT_25_Percentile: ACT_25_Percentile, ACT_75_Percentile: ACT_75_Percentile, application_total: application_total, total_enrollment : total_enrollment))
-//
-//                }
-
-
-            }
-
-        }catch{
-            print("error")
-        }
-
-    }
-
     
     
     //MARK: College Array
@@ -70,10 +19,18 @@ class College_VC : UIViewController{
     let college_title : UILabel = {
         let bt = UILabel()
         bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.text = "Top 30 US Colleges"
-        bt.font = UIFont(name: "Georgia-Bold", size: 25)
-        bt.textColor = .systemBlue
+        bt.text = "US News: Top 30 US Universities"
+        bt.font = Style.myApp.font(for: .subtitle)
+        bt.textColor = .white
                 
+        return bt
+    }()
+    
+    lazy var dismiss_button : UIButton = {
+        let bt = UIButton()
+        let image = UIImage(named: "back")
+        bt.setImage(image, for: .normal)
+        bt.translatesAutoresizingMaskIntoConstraints = false
         return bt
     }()
     
@@ -188,14 +145,24 @@ class College_VC : UIViewController{
     }
     
     public func set_up_college_label (){
+        view.addSubview(dismiss_button)
+        dismiss_button.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
+        dismiss_button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        dismiss_button.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.07).isActive = true
+        dismiss_button.heightAnchor.constraint(equalTo: dismiss_button.widthAnchor).isActive = true
+        dismiss_button.addTarget(self, action: #selector(dismiss_detailed_view), for: .touchUpInside)
+        
         view.addSubview(college_title)
-        college_title.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
-        college_title.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        college_title.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        college_title.bottomAnchor.constraint(equalTo: college_collection.topAnchor, constant: 0).isActive = true
+        college_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
+        college_title.centerYAnchor.constraint(equalTo: dismiss_button.centerYAnchor).isActive = true
+        
         
     }
-
+    
+    @objc func dismiss_detailed_view (){
+        dismiss(animated: true, completion: nil)
+    }
+    
     
     //MARK: View Did Load
     override func viewDidLoad(){
@@ -220,7 +187,7 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         view.addSubview(college_collection)
         college_collection.backgroundColor = .clear
         college_collection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        college_collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80).isActive = true
+        college_collection.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         college_collection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         college_collection.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true
         
@@ -267,7 +234,7 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
         destination.received_string = top_thirty[indexPath.row]
         destination.received_image_string = top_thirty[indexPath.row]
-        
+        destination.modalPresentationStyle = .fullScreen
         self.present(destination, animated: true)
         
         print(indexPath)
@@ -285,7 +252,6 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
 
     @objc func bring_up_home_page (sender: UIButton){
-
         dismiss(animated: true, completion: nil)
     }
 
