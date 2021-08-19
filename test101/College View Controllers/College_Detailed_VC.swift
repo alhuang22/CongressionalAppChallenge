@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import Charts
  
 class College_Detailed_VC : UIViewController{
     
@@ -31,20 +32,20 @@ class College_Detailed_VC : UIViewController{
         
     ]
     
-    func matches(for regex: String, in text: String) -> [String] {
-
-        do {
-            let regex = try NSRegularExpression(pattern: regex)
-            let results = regex.matches(in: text,
-                                        range: NSRange(text.startIndex..., in: text))
-            return results.map {
-                String(text[Range($0.range, in: text)!])
-            }
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return []
-        }
-    }
+//    func matches(for regex: String, in text: String) -> [String] {
+//
+//        do {
+//            let regex = try NSRegularExpression(pattern: regex)
+//            let results = regex.matches(in: text,
+//                                        range: NSRange(text.startIndex..., in: text))
+//            return results.map {
+//                String(text[Range($0.range, in: text)!])
+//            }
+//        } catch let error {
+//            print("invalid regex: \(error.localizedDescription)")
+//            return []
+//        }
+//    }
     
     
     //MARK: BASE VIEW 1 LABELS
@@ -58,11 +59,12 @@ class College_Detailed_VC : UIViewController{
     
     
     lazy var college_logo : UIImageView = {
+        let domain = (College_Data?.domain)!
        let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.backgroundColor = .darkGray
         iv.layer.cornerRadius = 15
-        iv.downloaded(from: "https://logo.clearbit.com/https://www.harvard.edu", contentMode: .scaleToFill)
+        iv.downloaded(from: "https://logo.clearbit.com/\(domain)", contentMode: .scaleToFill)
         iv.clipsToBounds = true
         
         return iv
@@ -126,9 +128,26 @@ class College_Detailed_VC : UIViewController{
     
     
     lazy var setting_label : UILabel = {
+        var setting: Locale
+        if let locale = College_Data?.locale {
+            switch locale {
+            case 11...13:
+                setting = .City
+            case 21...23:
+                setting = .Suburb
+            case 31...33:
+                setting = .Town
+            case 41...43:
+                setting = .Rural
+            default:
+                setting = .None
+            }
+        } else {
+            setting = .None
+        }
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Urban"
+        label.text = setting.rawValue
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         label.font = Style.myApp.font(for: .subsubtitle)
@@ -136,9 +155,26 @@ class College_Detailed_VC : UIViewController{
     }()
     
     lazy var funded_label : UILabel = {
+        var funding: Ownership
+        if let ownership = College_Data?.ownership {
+            switch ownership {
+            case 1:
+                funding = .Public
+            case 2:
+                funding = .PrivateNonprofit
+            case 3:
+                funding = .PrivateProfit
+            default:
+                funding = .None
+            }
+        } else {
+            funding = .None
+        }
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Private"
+        label.text = funding.rawValue
+        label.numberOfLines = 0
+        label.textAlignment = .center
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         label.font = Style.myApp.font(for: .subsubtitle)
@@ -146,9 +182,30 @@ class College_Detailed_VC : UIViewController{
     }()
     
     lazy var size_label : UILabel = {
+        var size: Size
+        if let sz = College_Data?.carnegie_size_setting {
+            switch sz {
+            case 1, (6...8):
+                size = .verySmall
+            case 2, (9...11):
+                size = .small
+            case 3, (12...14):
+                size = .medium
+            case 4, (15...17):
+                size = .large
+            case 5:
+                size = .veryLarge
+            case 18:
+                size = .gradOnly
+            default:
+                size = .None
+            }
+        } else {
+            size = .None
+        }
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Medium"
+        label.text = size.rawValue
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         label.font = Style.myApp.font(for: .subsubtitle)
@@ -169,8 +226,8 @@ class College_Detailed_VC : UIViewController{
         
         Base_View_1.addSubview(college_logo)
         college_logo.centerYAnchor.constraint(equalTo: Base_View_1.centerYAnchor).isActive = true
-        college_logo.trailingAnchor.constraint(equalTo:Base_View_1.trailingAnchor, constant:0).isActive = true
-        college_logo.heightAnchor.constraint(equalTo:Base_View_1.widthAnchor, multiplier: 0.45).isActive = true
+        college_logo.trailingAnchor.constraint(equalTo:Base_View_1.trailingAnchor, constant: -5).isActive = true
+        college_logo.heightAnchor.constraint(equalTo:Base_View_1.widthAnchor, multiplier: 0.40).isActive = true
         college_logo.widthAnchor.constraint(equalTo: college_logo.heightAnchor, multiplier: 1).isActive = true
         
         Base_View_1.addSubview(college_name)
@@ -266,7 +323,7 @@ class College_Detailed_VC : UIViewController{
     
     lazy var Base_View_2 : UIView = {
         let iv = UIView()
-        iv.backgroundColor = .systemRed
+        iv.backgroundColor = UIColor(red: CGFloat((College_Data?.red)!) / 255, green: CGFloat((College_Data?.green)!) / 255, blue: CGFloat((College_Data?.blue)!) / 255, alpha: 1)
         iv.layer.cornerRadius = 15
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
@@ -354,6 +411,28 @@ class College_Detailed_VC : UIViewController{
         label.font = Style.myApp.font(for: .title)
         return label
     }()
+    
+    // MARK: Pie chart code
+    
+    let pieChartView = PieChartView()
+    
+    func setupChart(dataPoints: [String], values: [Double]) {
+        pieChartView.frame = CGRect(x: 120, y: 25, width: 245, height: 245)
+//        pieChartView.translatesAutoresizingMaskIntoConstraints = false
+        var dataEntries: [ChartDataEntry] = []
+        for i in 0..<dataPoints.count {
+            let dataEntry1 = PieChartDataEntry(value: values[i], label: dataPoints[i])
+            dataEntry1.y = values[i]
+          dataEntries.append(dataEntry1)
+        }
+        print(dataEntries)
+        let pieChartDataSet = PieChartDataSet(entries: dataEntries)
+        pieChartDataSet.colors = ChartColorTemplates.material()
+        let pieChartData = PieChartData(dataSet: pieChartDataSet)
+        pieChartView.data = pieChartData
+        pieChartView.holeRadiusPercent = 0.4
+        pieChartView.legend.enabled = false
+      }
     
     
     //MARK: TEST SCORE LABELS
@@ -552,6 +631,12 @@ class College_Detailed_VC : UIViewController{
         retention_rate_number_label.topAnchor.constraint(equalTo: retention_rate_label.bottomAnchor, constant: 3).isActive = true
         retention_rate_number_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
         
+        // Pie chart setup
+        Base_View_2.addSubview(pieChartView)
+//        pieChartView.trailingAnchor.constraint(equalTo: Base_View_2.trailingAnchor, constant: -10).isActive = true
+//        pieChartView.leadingAnchor.constraint(equalTo: overview_label.trailingAnchor, constant: 10).isActive = true
+//        pieChartView.bottomAnchor.constraint(equalTo: act_range_label.topAnchor, constant: 5).isActive = true
+        
         //SAT SETUP
         Base_View_2.addSubview(sat_range_label)
         sat_range_label.topAnchor.constraint(equalTo: retention_rate_number_label.bottomAnchor, constant: 25).isActive = true
@@ -608,7 +693,7 @@ class College_Detailed_VC : UIViewController{
     
     lazy var Base_View_3 : UIView = {
         let iv = UIView()
-        iv.backgroundColor = .systemRed
+        iv.backgroundColor = UIColor(red: CGFloat((College_Data?.red)!) / 255, green: CGFloat((College_Data?.green)!) / 255, blue: CGFloat((College_Data?.blue)!) / 255, alpha: 1)
         iv.layer.cornerRadius = 15
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
@@ -785,8 +870,13 @@ class College_Detailed_VC : UIViewController{
         setup_UI()
         setup_Base_View_1()
         setup_Base_View_2()
+        var values = [(College_Data?.white)!, (College_Data?.black)!, (College_Data?.asian)!, (College_Data?.hispanic)!, (College_Data?.aian)! + (College_Data?.nhpi)!, (College_Data?.two_or_more)!, (College_Data?.non_resident_alien)!, (College_Data?.unknown)!]
+        for i in 0..<values.count {
+            values[i] *= 100
+        }
+        let labels = ["White", "Black", "Asian", "Hispanic", "Other", "Two or more", "Non-resident", "Unknown"]
+        setupChart(dataPoints: labels, values: values)
         setup_Base_View_3()
-        print(College_Data?.admission_rate)
     }
 }
 

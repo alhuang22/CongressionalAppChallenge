@@ -33,6 +33,8 @@
 		ACA6642836EFA476A7CD465D /* Pods_test101Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAC9A621A60AD249ECF9CF03 /* Pods_test101Tests.framework */; };
 		CC72955D26C1BD79005E7241 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = CC72955C26C1BD79005E7241 /* data.json */; };
 		CCDB802726C8F22F00F9BD22 /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDB802626C8F22F00F9BD22 /* Double+.swift */; };
+		CCDB802A26CA0B4800F9BD22 /* Search_Model_TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDB802926CA0B4700F9BD22 /* Search_Model_TableView.swift */; };
+		CCDB802C26CCCB1F00F9BD22 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDB802B26CCCB1F00F9BD22 /* Enums.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +91,8 @@
 		BAC9A621A60AD249ECF9CF03 /* Pods_test101Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_test101Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC72955C26C1BD79005E7241 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		CCDB802626C8F22F00F9BD22 /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
+		CCDB802926CA0B4700F9BD22 /* Search_Model_TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search_Model_TableView.swift; sourceTree = "<group>"; };
+		CCDB802B26CCCB1F00F9BD22 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		EA304C0BDB71E922CE5867A9 /* Pods-test101-test101UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test101-test101UITests.debug.xcconfig"; path = "Target Support Files/Pods-test101-test101UITests/Pods-test101-test101UITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -167,6 +171,8 @@
 				69A3E7ED2684348700973B52 /* Home_VC.swift */,
 				69D3DE9B268836B800EED564 /* Scholarship_VC.swift */,
 				69D3F3F126AE61E100BCB7EB /* Image_Downloader.swift */,
+				CCDB802B26CCCB1F00F9BD22 /* Enums.swift */,
+				CCDB802826CA0B2A00F9BD22 /* SearchEngineModel */,
 				6982A91926B7A8A6004F8FB9 /* Extension */,
 				69E3F51F26ABF5C600D31392 /* College View Controllers */,
 				69FA90A02697F14100F2AA0D /* Taskbar_VC.swift */,
@@ -225,6 +231,14 @@
 				B8F5ACCD1D18BBF8F0709FD8 /* Pods-test101Tests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		CCDB802826CA0B2A00F9BD22 /* SearchEngineModel */ = {
+			isa = PBXGroup;
+			children = (
+				CCDB802926CA0B4700F9BD22 /* Search_Model_TableView.swift */,
+			);
+			path = SearchEngineModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -477,11 +491,13 @@
 				69D3DE9E268836D600EED564 /* College_VC.swift in Sources */,
 				6982A91D26B7A9E1004F8FB9 /* Extension_College_Detailed_VC.swift in Sources */,
 				695AD11F26B648780041F89F /* CollegeStyling.swift in Sources */,
+				CCDB802A26CA0B4800F9BD22 /* Search_Model_TableView.swift in Sources */,
 				6982A91B26B7A8C4004F8FB9 /* Extension.swift in Sources */,
 				69A3E7EE2684348700973B52 /* Home_VC.swift in Sources */,
 				696756A6269FE02A00C26401 /* College_Detailed_VC.swift in Sources */,
 				69A3E7BE2684345A00973B52 /* AppDelegate.swift in Sources */,
 				CCDB802726C8F22F00F9BD22 /* Double+.swift in Sources */,
+				CCDB802C26CCCB1F00F9BD22 /* Enums.swift in Sources */,
 				69A3E7C02684345A00973B52 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
