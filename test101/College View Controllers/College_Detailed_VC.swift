@@ -70,10 +70,11 @@ class College_Detailed_VC : UIViewController{
         return iv
     }()
     
-    lazy var college_name : UILabel = {
-       let label = UILabel()
+    lazy var college_name : UITextView = {
+       let label = UITextView()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = (College_Data?.college_name)!
+        label.isUserInteractionEnabled = false
 
         label.textColor = Style.myApp.color(for: .subtitle)
         label.font = Style.myApp.font(for: .subtitle)
@@ -225,8 +226,11 @@ class College_Detailed_VC : UIViewController{
         Base_View_1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.33).isActive = true
         
         Base_View_1.addSubview(college_name)
-        college_name.topAnchor.constraint(equalTo: Base_View_1.topAnchor, constant:40).isActive = true
+        college_name.topAnchor.constraint(equalTo: Base_View_1.topAnchor, constant:20).isActive = true
         college_name.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor,constant: 20).isActive = true
+        college_name.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        college_name.widthAnchor.constraint(equalTo: college_name.heightAnchor, multiplier: 4).isActive = true
+        
 
         Base_View_1.addSubview(college_logo)
 //        college_logo.centerYAnchor.constraint(equalTo: Base_View_1.centerYAnchor).isActive = true
@@ -399,6 +403,7 @@ class College_Detailed_VC : UIViewController{
     }()
     
     lazy var retention_rate_number_label : UILabel = {
+        let iv = UIView()
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         if var ret_rate = College_Data?.retention_rate {
@@ -431,7 +436,8 @@ class College_Detailed_VC : UIViewController{
         pieChartDataSet.colors = ChartColorTemplates.material()
         let pieChartData = PieChartData(dataSet: pieChartDataSet)
         pieChartView.data = pieChartData
-        pieChartView.holeRadiusPercent = 0.4
+        pieChartView.holeRadiusPercent = 0
+        pieChartView.transparentCircleColor = UIColor.clear
         pieChartView.legend.enabled = false
       }
     
