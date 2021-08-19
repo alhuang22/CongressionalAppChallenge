@@ -224,16 +224,17 @@ class College_Detailed_VC : UIViewController{
         Base_View_1.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         Base_View_1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.33).isActive = true
         
-        Base_View_1.addSubview(college_logo)
-        college_logo.centerYAnchor.constraint(equalTo: Base_View_1.centerYAnchor).isActive = true
-        college_logo.trailingAnchor.constraint(equalTo:Base_View_1.trailingAnchor, constant: -5).isActive = true
-        college_logo.heightAnchor.constraint(equalTo:Base_View_1.widthAnchor, multiplier: 0.40).isActive = true
-        college_logo.widthAnchor.constraint(equalTo: college_logo.heightAnchor, multiplier: 1).isActive = true
-        
         Base_View_1.addSubview(college_name)
         college_name.topAnchor.constraint(equalTo: Base_View_1.topAnchor, constant:40).isActive = true
         college_name.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor,constant: 20).isActive = true
 
+        Base_View_1.addSubview(college_logo)
+//        college_logo.centerYAnchor.constraint(equalTo: Base_View_1.centerYAnchor).isActive = true
+        college_logo.topAnchor.constraint(equalTo: college_name.bottomAnchor, constant: 5).isActive = true
+        college_logo.trailingAnchor.constraint(equalTo:Base_View_1.trailingAnchor, constant: -5).isActive = true
+        college_logo.heightAnchor.constraint(equalTo:Base_View_1.widthAnchor, multiplier: 0.40).isActive = true
+        college_logo.widthAnchor.constraint(equalTo: college_logo.heightAnchor, multiplier: 1).isActive = true
+        
         Base_View_1.addSubview(undergraduate_label)
         undergraduate_label.topAnchor.constraint(equalTo: college_name.bottomAnchor, constant:10).isActive = true
         undergraduate_label.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor,constant: 45).isActive = true
