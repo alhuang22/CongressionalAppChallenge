@@ -10,6 +10,9 @@ import UIKit
 
 class College_VC : UIViewController{
     
+    deinit {
+        
+    }
     
     //MARK: College Array
     let top_thirty = ["Princeton University", "Harvard University", "Columbia University", "Massachusetts Institute of Technology", "Yale University", "Stanford University", "University of Chicago", "University of Pennsylvania", "California Institute of Technology", "Johns Hopkins University", "Northwestern University", "Duke University", "Dartmouth College", "Brown University", "Vanderbilt University", "Rice University", "Washington University in St. Louis", "Cornell University", "University of Notre Dame", "University of California - Los Angeles", "Emory University", "University of California - Berkeley", "Georgetown University", "University of Michigan", "University of Southern California", "Carnegie Mellon University", "New York University", "Tufts University", "University of California - Santa Barbara", "University of Florida"]
@@ -103,7 +106,6 @@ class College_VC : UIViewController{
         homeimageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         homeimageView.centerYAnchor.constraint(equalTo: home.centerYAnchor, constant: 0).isActive = true
         homeimageView.centerXAnchor.constraint(equalTo: home.centerXAnchor, constant: 0).isActive = true
-        home.addTarget(self, action: #selector(bring_up_home_page(sender:)), for: .touchUpInside)
         
         
         //MARK: handle bookmark
@@ -150,7 +152,7 @@ class College_VC : UIViewController{
         dismiss_button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         dismiss_button.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.07).isActive = true
         dismiss_button.heightAnchor.constraint(equalTo: dismiss_button.widthAnchor).isActive = true
-        dismiss_button.addTarget(self, action: #selector(dismiss_detailed_view), for: .touchUpInside)
+        dismiss_button.addTarget(self, action: #selector(bring_up_home_page), for: .touchUpInside)
         
         view.addSubview(college_title)
         college_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
@@ -159,9 +161,33 @@ class College_VC : UIViewController{
         
     }
     
-    @objc func dismiss_detailed_view (){
+    //MARK: HANDLE VIEW TRANSITIONS
+    
+    @objc func bring_up_home_page (){
         dismiss(animated: true, completion: nil)
     }
+    
+    @objc func bring_up_search_page (sender: UIButton){
+        weak var temp = self.presentingViewController
+        let nav = UINavigationController(rootViewController: College_Search())
+        nav.modalPresentationStyle = .fullScreen
+        dismiss(animated: true, completion: {
+            temp?.present(nav, animated: true)
+        })
+//        var x = College_Search()
+//        x.modalPresentationStyle = .fullScreen
+//        present(x, animated: false)
+    }
+    
+    @objc func bring_up_bookmark_page (sender: UIButton){
+        weak var temp = self.presentingViewController
+        dismiss(animated: true, completion: {
+            let bookmark = College_VC()
+            bookmark.modalPresentationStyle = .fullScreen
+            temp?.present(bookmark, animated: false)
+        })
+    }
+
     
     
     //MARK: View Did Load
@@ -240,28 +266,6 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         print(indexPath)
     }
     
-    
-    //MARK: HANDLE VIEW TRANSITIONS
-    
-    @objc func bring_up_search_page (sender: UIButton){
-        
-        let search = College_Search()
-        //self targets Home_VC
-        self.present(search, animated: true)
-    }
-    
-
-    @objc func bring_up_home_page (sender: UIButton){
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc func bring_up_bookmark_page (sender: UIButton){
-        
-        let search = College_Search()
-        //self targets Home_VC
-        self.present(search, animated: true)
-    }
-
 }
 
 
