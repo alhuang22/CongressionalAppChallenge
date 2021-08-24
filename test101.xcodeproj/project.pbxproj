@@ -31,6 +31,7 @@
 		69FA90A12697F14100F2AA0D /* Taskbar_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FA90A02697F14100F2AA0D /* Taskbar_VC.swift */; };
 		6DF09180FDB2213402169BEB /* Pods_test101_test101UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449CCE2CD27A05E5ADA30AF /* Pods_test101_test101UITests.framework */; };
 		ACA6642836EFA476A7CD465D /* Pods_test101Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAC9A621A60AD249ECF9CF03 /* Pods_test101Tests.framework */; };
+		CC4FDA2926D1F7510022AEEE /* Color_Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4FDA2826D1F7510022AEEE /* Color_Calculator.swift */; };
 		CC72955D26C1BD79005E7241 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = CC72955C26C1BD79005E7241 /* data.json */; };
 		CCDB802726C8F22F00F9BD22 /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDB802626C8F22F00F9BD22 /* Double+.swift */; };
 		CCDB802A26CA0B4800F9BD22 /* Search_Model_TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDB802926CA0B4700F9BD22 /* Search_Model_TableView.swift */; };
@@ -89,6 +90,7 @@
 		B449CCE2CD27A05E5ADA30AF /* Pods_test101_test101UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_test101_test101UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8F5ACCD1D18BBF8F0709FD8 /* Pods-test101Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test101Tests.release.xcconfig"; path = "Target Support Files/Pods-test101Tests/Pods-test101Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BAC9A621A60AD249ECF9CF03 /* Pods_test101Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_test101Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC4FDA2826D1F7510022AEEE /* Color_Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color_Calculator.swift; sourceTree = "<group>"; };
 		CC72955C26C1BD79005E7241 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		CCDB802626C8F22F00F9BD22 /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
 		CCDB802926CA0B4700F9BD22 /* Search_Model_TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search_Model_TableView.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				69D3DE9B268836B800EED564 /* Scholarship_VC.swift */,
 				69D3F3F126AE61E100BCB7EB /* Image_Downloader.swift */,
 				CCDB802B26CCCB1F00F9BD22 /* Enums.swift */,
+				CC4FDA2726D1F7170022AEEE /* Utils */,
 				CCDB802826CA0B2A00F9BD22 /* SearchEngineModel */,
 				6982A91926B7A8A6004F8FB9 /* Extension */,
 				69E3F51F26ABF5C600D31392 /* College View Controllers */,
@@ -231,6 +234,14 @@
 				B8F5ACCD1D18BBF8F0709FD8 /* Pods-test101Tests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		CC4FDA2726D1F7170022AEEE /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				CC4FDA2826D1F7510022AEEE /* Color_Calculator.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		CCDB802826CA0B2A00F9BD22 /* SearchEngineModel */ = {
@@ -498,6 +509,7 @@
 				69A3E7BE2684345A00973B52 /* AppDelegate.swift in Sources */,
 				CCDB802726C8F22F00F9BD22 /* Double+.swift in Sources */,
 				CCDB802C26CCCB1F00F9BD22 /* Enums.swift in Sources */,
+				CC4FDA2926D1F7510022AEEE /* Color_Calculator.swift in Sources */,
 				69A3E7C02684345A00973B52 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

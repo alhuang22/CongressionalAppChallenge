@@ -9,6 +9,9 @@ class College_Detailed_VC : UIViewController{
     
     var College_Data : College?
     
+    var popular_majors: [[String: String?]?]?
+    var highest_earning_majors: [[String: String?]?]?
+    
     
     var popular_majors_data_array = [//for the popular majors table, import dictionary from json file
     
@@ -29,8 +32,29 @@ class College_Detailed_VC : UIViewController{
         ExpandableArray(isExpanded: false, category: ["a", "b", "c"]),
         ExpandableArray(isExpanded: false, category: ["d", "e", "f"]),
         ExpandableArray(isExpanded: false, category: ["g", "h", "i"])
-        
     ]
+    
+    lazy var dismiss_button : UIButton = {
+            let bt = UIButton()
+            let image = UIImage(named: "back")
+            bt.setImage(image, for: .normal)
+            bt.translatesAutoresizingMaskIntoConstraints = false
+            return bt
+        }()
+
+        @objc func dismiss_detailed_view (){
+            dismiss(animated: true, completion: nil)
+        }
+
+        lazy var college_info_title : UILabel = {
+           let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.text = "College Information"
+
+            label.textColor = .white
+            label.font = Style.myApp.font(for: .subtitle)
+            return label
+        }()
     
 //    func matches(for regex: String, in text: String) -> [String] {
 //
@@ -216,10 +240,26 @@ class College_Detailed_VC : UIViewController{
     //MARK: BASE VIEW 1
     
     func setup_Base_View_1 (){
+        view.addSubview(dismiss_button)
+        dismiss_button.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
+        dismiss_button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        dismiss_button.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.07).isActive = true
+        dismiss_button.heightAnchor.constraint(equalTo: dismiss_button.widthAnchor).isActive = true
+        dismiss_button.addTarget(self, action: #selector(dismiss_detailed_view), for: .touchUpInside)
+
+        view.addSubview(college_info_title)
+        college_info_title.centerYAnchor.constraint(equalTo: dismiss_button.centerYAnchor).isActive = true
+        college_info_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
+
+
+
         view.addSubview(scroll_view)
         
+//        college_name.setNeedsLayout()
+//        college_name.layoutIfNeeded()
+        
         scroll_view.addSubview(Base_View_1)
-        Base_View_1.topAnchor.constraint(equalTo: scroll_view.topAnchor, constant: 60).isActive = true
+        Base_View_1.topAnchor.constraint(equalTo: scroll_view.topAnchor, constant: 5).isActive = true
 //        Base_View_1.leadingAnchor.constraint(equalTo: scroll_view.leadingAnchor, constant: 10).isActive = true
         Base_View_1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
         Base_View_1.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -234,7 +274,7 @@ class College_Detailed_VC : UIViewController{
 
         Base_View_1.addSubview(college_logo)
 //        college_logo.centerYAnchor.constraint(equalTo: Base_View_1.centerYAnchor).isActive = true
-        college_logo.topAnchor.constraint(equalTo: college_name.bottomAnchor, constant: 5).isActive = true
+        college_logo.topAnchor.constraint(equalTo: college_name.bottomAnchor, constant: 0).isActive = true
         college_logo.trailingAnchor.constraint(equalTo:Base_View_1.trailingAnchor, constant: -5).isActive = true
         college_logo.heightAnchor.constraint(equalTo:Base_View_1.widthAnchor, multiplier: 0.40).isActive = true
         college_logo.widthAnchor.constraint(equalTo: college_logo.heightAnchor, multiplier: 1).isActive = true
@@ -431,7 +471,6 @@ class College_Detailed_VC : UIViewController{
             dataEntry1.y = values[i]
           dataEntries.append(dataEntry1)
         }
-        print(dataEntries)
         let pieChartDataSet = PieChartDataSet(entries: dataEntries)
         pieChartDataSet.colors = ChartColorTemplates.material()
         let pieChartData = PieChartData(dataSet: pieChartDataSet)
@@ -753,6 +792,7 @@ class College_Detailed_VC : UIViewController{
         tb.delegate = self
         tb.dataSource = self
         tb.translatesAutoresizingMaskIntoConstraints = false
+        tb.layer.cornerRadius = 6
         return tb
     }()
     
@@ -792,6 +832,7 @@ class College_Detailed_VC : UIViewController{
         tb.delegate = self
         tb.dataSource = self
         tb.translatesAutoresizingMaskIntoConstraints = false
+        tb.layer.cornerRadius = 6
         return tb
     }()
     
@@ -858,7 +899,8 @@ class College_Detailed_VC : UIViewController{
        let sc = UIScrollView()
         sc.showsVerticalScrollIndicator = true // dismiss the indicator by assigning false
         sc.bounces = true
-        sc.frame = view.frame//this is all good, no need for auto layout
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        // sc.frame = view.frame//this is all good, no need for auto layout
         sc.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 1500)
         return sc
     }()
@@ -867,6 +909,10 @@ class College_Detailed_VC : UIViewController{
     
     private func setup_UI() {
         view.addSubview(scroll_view) // we will add everything on the scroll_view instead of view
+        scroll_view.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        scroll_view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 50).isActive = true
+        scroll_view.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        scroll_view.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
     override func viewDidLoad() {
@@ -874,6 +920,7 @@ class College_Detailed_VC : UIViewController{
         
         view.backgroundColor = .black
         
+        set_arrays()
         setup_UI()
         setup_Base_View_1()
         setup_Base_View_2()
@@ -896,6 +943,7 @@ class Style {
     enum TextStyle {
         
         case title
+        case lightTitle
         case subtitle
         case subsubtitle
         case information

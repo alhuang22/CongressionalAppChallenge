@@ -23,6 +23,8 @@ private extension Style.TextStyle {
         switch self {
         case .title:
             return Style.TextAttributes(font: .myAppTitle, color: .black)
+        case .lightTitle:
+            return Style.TextAttributes(font: .myAppTitle, color: .white)
         case .subtitle:
             return Style.TextAttributes(font: .myAppSubtitle, color: .black)
         case .subsubtitle:

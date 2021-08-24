@@ -9,40 +9,10 @@ import UIKit
 
 
 class College_VC : UIViewController{
-    var college_list = [College]() // MARK: array with all colleges
     
-    //MARK: GET DATA FROM JSON FILE, 1022 colleges (degree-granting US colleges larger than 1000 students)
-    
-    func get_Data(file_path : String){
+    deinit {
         
-        guard let path = Bundle.main.path(forResource : file_path, ofType: "json") else {return}
-        
-        let url = URL(fileURLWithPath: path)
-        if let data = try? Data(contentsOf: url) {
-            parse(json: data)
-        }
     }
-    
-    func parse(json: Data) {
-        let decoder = JSONDecoder()
-        do {
-            let jsonColleges = try decoder.decode([College].self, from: json)
-            college_list = jsonColleges
-            print(college_list.count)
-            print(college_list[10])
-        } catch DecodingError.keyNotFound(let key, let context) {
-            Swift.print("could not find key \(key) in JSON: \(context.debugDescription)")
-        } catch DecodingError.valueNotFound(let type, let context) {
-            Swift.print("could not find type \(type) in JSON: \(context.debugDescription)")
-        } catch DecodingError.typeMismatch(let type, let context) {
-            Swift.print("type mismatch for type \(type) in JSON: \(context.debugDescription)")
-        } catch DecodingError.dataCorrupted(let context) {
-            Swift.print("data found to be corrupted in JSON: \(context.debugDescription)")
-        } catch let error as NSError {
-            NSLog("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
-        }
-    }
-
     
     
     //MARK: College Array
@@ -55,10 +25,18 @@ class College_VC : UIViewController{
     let college_title : UILabel = {
         let bt = UILabel()
         bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.text = "Top 30 US Colleges"
-        bt.font = UIFont(name: "Georgia-Bold", size: 25)
-        bt.textColor = .systemBlue
+        bt.text = "US News: Top 30 US Universities"
+        bt.font = Style.myApp.font(for: .subtitle)
+        bt.textColor = .white
                 
+        return bt
+    }()
+    
+    lazy var dismiss_button : UIButton = {
+        let bt = UIButton()
+        let image = UIImage(named: "back")
+        bt.setImage(image, for: .normal)
+        bt.translatesAutoresizingMaskIntoConstraints = false
         return bt
     }()
     
@@ -131,7 +109,6 @@ class College_VC : UIViewController{
         homeimageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         homeimageView.centerYAnchor.constraint(equalTo: home.centerYAnchor, constant: 0).isActive = true
         homeimageView.centerXAnchor.constraint(equalTo: home.centerXAnchor, constant: 0).isActive = true
-        home.addTarget(self, action: #selector(bring_up_home_page(sender:)), for: .touchUpInside)
         
         
         //MARK: handle bookmark
@@ -173,21 +150,50 @@ class College_VC : UIViewController{
     }
     
     public func set_up_college_label (){
+        view.addSubview(dismiss_button)
+        dismiss_button.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
+        dismiss_button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        dismiss_button.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.07).isActive = true
+        dismiss_button.heightAnchor.constraint(equalTo: dismiss_button.widthAnchor).isActive = true
+        dismiss_button.addTarget(self, action: #selector(bring_up_home_page), for: .touchUpInside)
         view.addSubview(college_title)
-        college_title.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
-        college_title.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        college_title.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        college_title.bottomAnchor.constraint(equalTo: college_collection.topAnchor, constant: 0).isActive = true
+        college_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
+        college_title.centerYAnchor.constraint(equalTo: dismiss_button.centerYAnchor).isActive = true
         
     }
+    
+    //MARK: HANDLE VIEW TRANSITIONS
+      
+      @objc func bring_up_home_page (){
+          dismiss(animated: true, completion: nil)
+      }
+
+      @objc func bring_up_search_page (sender: UIButton){
+          weak var temp = self.presentingViewController
+          let nav = UINavigationController(rootViewController: College_Search())
+          nav.modalPresentationStyle = .fullScreen
+          dismiss(animated: true, completion: {
+              temp?.present(nav, animated: true)
+          })
+  //        var x = College_Search()
+  //        x.modalPresentationStyle = .fullScreen
+  //        present(x, animated: false)
+      }
+
+      @objc func bring_up_bookmark_page (sender: UIButton){
+          weak var temp = self.presentingViewController
+          dismiss(animated: true, completion: {
+              let bookmark = College_VC()
+              bookmark.modalPresentationStyle = .fullScreen
+              temp?.present(bookmark, animated: false)
+          })
+      }
 
     
     //MARK: View Did Load
     override func viewDidLoad(){
         super.viewDidLoad()
         view.backgroundColor = UIColor.black
-        
-        get_Data(file_path: "data")
         setup_collectionview()
         setup_Bottom_Taskbar()
         set_up_college_label()
@@ -206,7 +212,7 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         view.addSubview(college_collection)
         college_collection.backgroundColor = .clear
         college_collection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        college_collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80).isActive = true
+        college_collection.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         college_collection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         college_collection.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true
         
@@ -253,36 +259,12 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
         destination.received_string = top_thirty[indexPath.row]
         destination.received_image_string = top_thirty[indexPath.row]
-        destination.College_Data = college_list[top_thirty_indices[indexPath.row]]
+        destination.modalPresentationStyle = .fullScreen
         
         self.present(destination, animated: true)
         
         print(indexPath)
     }
-    
-    
-    //MARK: HANDLE VIEW TRANSITIONS
-    
-    @objc func bring_up_search_page (sender: UIButton){
-        
-        let search = College_Search()
-        //self targets Home_VC
-        self.present(search, animated: true)
-    }
-    
-
-    @objc func bring_up_home_page (sender: UIButton){
-
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc func bring_up_bookmark_page (sender: UIButton){
-        
-        let search = College_Search()
-        //self targets Home_VC
-        self.present(search, animated: true)
-    }
-
 }
 
 
