@@ -10,6 +10,8 @@ import UIKit
 
 class College_VC : UIViewController{
     
+    var College_Data = [College]()
+    
     deinit {
         
     }
@@ -194,17 +196,45 @@ class College_VC : UIViewController{
     override func viewDidLoad(){
         super.viewDidLoad()
         view.backgroundColor = UIColor.black
+        get_Data(file_path: "data")
         setup_collectionview()
         setup_Bottom_Taskbar()
         set_up_college_label()
         //getData(file_path: "college_data")
-        
     }
 }
 
 
 
 extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{//extensions cannot declare variables but can declare methods
+    
+    func get_Data(file_path : String){
+        
+        guard let path = Bundle.main.path(forResource : file_path, ofType: "json") else {return}
+        
+        let url = URL(fileURLWithPath: path)
+        if let data = try? Data(contentsOf: url) {
+            parse(json: data)
+        }
+    }
+    
+    func parse(json: Data) {
+        let decoder = JSONDecoder()
+        do {
+            let jsonColleges = try decoder.decode([College].self, from: json)
+            College_Data = jsonColleges
+        } catch DecodingError.keyNotFound(let key, let context) {
+            Swift.print("could not find key \(key) in JSON: \(context.debugDescription)")
+        } catch DecodingError.valueNotFound(let type, let context) {
+            Swift.print("could not find type \(type) in JSON: \(context.debugDescription)")
+        } catch DecodingError.typeMismatch(let type, let context) {
+            Swift.print("type mismatch for type \(type) in JSON: \(context.debugDescription)")
+        } catch DecodingError.dataCorrupted(let context) {
+            Swift.print("data found to be corrupted in JSON: \(context.debugDescription)")
+        } catch let error as NSError {
+            NSLog("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
+        }
+    }
     //MARK: Set up COLLECTION VIEW
     public func setup_collectionview(){
         
@@ -255,6 +285,7 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         
         let destination = College_Detailed_VC()//sets next UIView
+        destination.College_Data = College_Data[top_thirty_indices[indexPath.row]]
         
         
         destination.received_string = top_thirty[indexPath.row]

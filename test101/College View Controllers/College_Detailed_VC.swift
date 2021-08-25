@@ -910,9 +910,9 @@ class College_Detailed_VC : UIViewController{
     private func setup_UI() {
         view.addSubview(scroll_view) // we will add everything on the scroll_view instead of view
         scroll_view.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
-        scroll_view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 50).isActive = true
+        scroll_view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         scroll_view.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        scroll_view.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        //scroll_view.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
     override func viewDidLoad() {
