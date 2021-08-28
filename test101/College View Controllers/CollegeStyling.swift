@@ -27,8 +27,12 @@ private extension Style.TextStyle {
             return Style.TextAttributes(font: .myAppTitle, color: .white)
         case .subtitle:
             return Style.TextAttributes(font: .myAppSubtitle, color: .black)
+        case .lightSubtitle:
+            return Style.TextAttributes(font: .myAppSubSubtitle, color: .white)
         case .subsubtitle:
             return Style.TextAttributes(font: .myAppSubSubtitle, color: .black)
+        case .lightSubsubtitle:
+            return Style.TextAttributes(font: .myAppSubSubtitle, color: .white)
         case .information:
             return Style.TextAttributes(font: .myAppInformation, color: .black)
         }

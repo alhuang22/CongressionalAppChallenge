@@ -1,11 +1,17 @@
 import Foundation
 import UIKit
+import SafariServices
 import Charts
  
 class College_Detailed_VC : UIViewController{
     
+    let NO_DATA_CONSTANT: String = "No Data"
+    
     var received_string : String?
     var received_image_string : String?
+    
+    var text_mode: colorDetect?
+    var background_color: UIColor?
     
     var College_Data : College?
     
@@ -13,19 +19,20 @@ class College_Detailed_VC : UIViewController{
     var highest_earning_majors: [[String: String?]?]?
     
     
-    var popular_majors_data_array = [//for the popular majors table, import dictionary from json file
-    
-        ExpandableArray(isExpanded: false, category: ["econ", "41", "127410"]),
-        ExpandableArray(isExpanded: false, category: ["cs", "12", "41981"]),
-        ExpandableArray(isExpanded: false, category: ["biology", "98", "89120"]),
-        ExpandableArray(isExpanded: false, category: ["econ", "41", "127410"]),
-        ExpandableArray(isExpanded: false, category: ["cs", "12", "41981"]),
-        ExpandableArray(isExpanded: false, category: ["biology", "98", "89120"]),
-        ExpandableArray(isExpanded: false, category: ["econ", "41", "127410"]),
-        ExpandableArray(isExpanded: false, category: ["cs", "12", "41981"]),
-        ExpandableArray(isExpanded: false, category: ["biology", "98", "89120"]),
-        
-    ]
+//    var popular_majors_data_array = [//for the popular majors table, import dictionary from json file
+//
+//        ExpandableArray(isExpanded: false, category: ["econ", "41", "127410"]),
+//        ExpandableArray(isExpanded: false, category: ["cs", "12", "41981"]),
+//        ExpandableArray(isExpanded: false, category: ["biology", "98", "89120"]),
+//        ExpandableArray(isExpanded: false, category: ["econ", "41", "127410"]),
+//        ExpandableArray(isExpanded: false, category: ["cs", "12", "41981"]),
+//        ExpandableArray(isExpanded: false, category: ["biology", "98", "89120"]),
+//        ExpandableArray(isExpanded: false, category: ["econ", "41", "127410"]),
+//        ExpandableArray(isExpanded: false, category: ["cs", "12", "41981"]),
+//        ExpandableArray(isExpanded: false, category: ["biology", "98", "89120"]),
+//
+//    ]
+    var popular_majors_data_array = [ExpandableArray]()
     
     var highest_earning_majors_data_array = [
     
@@ -134,20 +141,26 @@ class College_Detailed_VC : UIViewController{
         return label
     }()
     
-    lazy var domain_label : UILabel = {
-       let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+    lazy var domain_button : UIButton = {
+       let bt = UIButton()
+        bt.translatesAutoresizingMaskIntoConstraints = false
         if var domain = College_Data?.domain {
             domain = domain.lowercased()
+            domain = domain.replacingOccurrences(of: "www.", with: "")
+            domain = domain.replacingOccurrences(of: "https://", with: "")
+            if domain.last == "/" {
+                domain = String(domain.dropLast())
+            }
+            bt.setTitle(domain, for: .normal)
 //            let matched = matches(for: ".+\\.(com|edu).*", in: domain)
-            label.text = domain
+//            label.attributedText = attributedString
         } else {
-            label.text = "No Website Found"
+            bt.setTitle("No Website Found", for: .normal)
         }
 
-        label.textColor = Style.myApp.color(for: .subsubtitle)
-        label.font = Style.myApp.font(for: .subsubtitle)
-        return label
+        bt.setTitleColor(Style.myApp.color(for: .subsubtitle), for: .normal)
+        bt.titleLabel?.font = Style.myApp.font(for: .subsubtitle)
+        return bt
     }()
     
     
@@ -263,7 +276,7 @@ class College_Detailed_VC : UIViewController{
 //        Base_View_1.leadingAnchor.constraint(equalTo: scroll_view.leadingAnchor, constant: 10).isActive = true
         Base_View_1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
         Base_View_1.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        Base_View_1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.33).isActive = true
+        Base_View_1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.34).isActive = true
         
         Base_View_1.addSubview(college_name)
         college_name.topAnchor.constraint(equalTo: Base_View_1.topAnchor, constant:20).isActive = true
@@ -305,16 +318,16 @@ class College_Detailed_VC : UIViewController{
         location_image_view.heightAnchor.constraint(equalToConstant: 18).isActive = true
         location_image_view.widthAnchor.constraint(equalToConstant: 18).isActive = true
         
-        Base_View_1.addSubview(domain_label)
-        domain_label.topAnchor.constraint(equalTo: location_label.bottomAnchor, constant:10).isActive = true
-        domain_label.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor,constant: 20).isActive = true
+        Base_View_1.addSubview(domain_button)
+        domain_button.topAnchor.constraint(equalTo: location_label.bottomAnchor, constant:6).isActive = true
+        domain_button.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor,constant: 20).isActive = true
         
         let domain_image = UIImage(named: "domain")
         let domain_image_view = UIImageView(image: domain_image!)
         domain_image_view.translatesAutoresizingMaskIntoConstraints = false
         Base_View_1.addSubview(domain_image_view)
         domain_image_view.topAnchor.constraint(equalTo: location_label.bottomAnchor, constant:12).isActive = true
-        domain_image_view.leadingAnchor.constraint(equalTo: domain_label.trailingAnchor, constant: 5).isActive = true
+        domain_image_view.leadingAnchor.constraint(equalTo: domain_button.trailingAnchor, constant: 5).isActive = true
         domain_image_view.heightAnchor.constraint(equalToConstant: 18).isActive = true
         domain_image_view.widthAnchor.constraint(equalToConstant: 18).isActive = true
         
@@ -324,7 +337,7 @@ class College_Detailed_VC : UIViewController{
         let setting_image_view = UIImageView(image: setting_image!)
         setting_image_view.translatesAutoresizingMaskIntoConstraints = false
         Base_View_1.addSubview(setting_image_view)
-        setting_image_view.topAnchor.constraint(equalTo: domain_label.bottomAnchor, constant:28).isActive = true
+        setting_image_view.topAnchor.constraint(equalTo: domain_button.bottomAnchor, constant:28).isActive = true
         setting_image_view.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor, constant: 20).isActive = true
         setting_image_view.heightAnchor.constraint(equalToConstant: 40).isActive = true
         setting_image_view.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -337,7 +350,7 @@ class College_Detailed_VC : UIViewController{
         let funded_image_view = UIImageView(image: funded_image!)
         funded_image_view.translatesAutoresizingMaskIntoConstraints = false
         Base_View_1.addSubview(funded_image_view)
-        funded_image_view.topAnchor.constraint(equalTo: domain_label.bottomAnchor, constant:28).isActive = true
+        funded_image_view.topAnchor.constraint(equalTo: domain_button.bottomAnchor, constant:28).isActive = true
         funded_image_view.leadingAnchor.constraint(equalTo: setting_image_view.trailingAnchor, constant: 25).isActive = true
         funded_image_view.heightAnchor.constraint(equalToConstant: 40).isActive = true
         funded_image_view.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -350,7 +363,7 @@ class College_Detailed_VC : UIViewController{
         let size_image_view = UIImageView(image: size_image!)
         size_image_view.translatesAutoresizingMaskIntoConstraints = false
         Base_View_1.addSubview(size_image_view)
-        size_image_view.topAnchor.constraint(equalTo: domain_label.bottomAnchor, constant:28).isActive = true
+        size_image_view.topAnchor.constraint(equalTo: domain_button.bottomAnchor, constant:28).isActive = true
         size_image_view.leadingAnchor.constraint(equalTo: funded_image_view.trailingAnchor, constant: 25).isActive = true
         size_image_view.heightAnchor.constraint(equalToConstant: 40).isActive = true
         size_image_view.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -368,7 +381,7 @@ class College_Detailed_VC : UIViewController{
     
     lazy var Base_View_2 : UIView = {
         let iv = UIView()
-        iv.backgroundColor = UIColor(red: CGFloat((College_Data?.red)!) / 255, green: CGFloat((College_Data?.green)!) / 255, blue: CGFloat((College_Data?.blue)!) / 255, alpha: 1)
+        iv.backgroundColor = background_color
         iv.layer.cornerRadius = 15
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
@@ -378,8 +391,10 @@ class College_Detailed_VC : UIViewController{
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Overview"
-
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -390,6 +405,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "Acceptance Rate:"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -404,6 +422,9 @@ class College_Detailed_VC : UIViewController{
             label.text = "No Data"
         }
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -414,6 +435,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "Graduation Rate:"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -428,6 +452,9 @@ class College_Detailed_VC : UIViewController{
         }
 
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -438,6 +465,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "Retention Rate:"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -454,6 +484,9 @@ class College_Detailed_VC : UIViewController{
         }
 
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -489,6 +522,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "SAT Range:"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -505,6 +541,9 @@ class College_Detailed_VC : UIViewController{
         }
 
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -515,6 +554,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "SAT Reading/Writing"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -530,6 +572,9 @@ class College_Detailed_VC : UIViewController{
         }
 
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -540,6 +585,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "SAT Math"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -555,6 +603,9 @@ class College_Detailed_VC : UIViewController{
         }
 
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -566,6 +617,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "ACT Range:"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -581,6 +635,9 @@ class College_Detailed_VC : UIViewController{
         }
 
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -591,6 +648,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "ACT Reading:"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -606,6 +666,9 @@ class College_Detailed_VC : UIViewController{
         }
 
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -616,6 +679,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "ACT Math:"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -631,6 +697,9 @@ class College_Detailed_VC : UIViewController{
         }
 
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -649,7 +718,7 @@ class College_Detailed_VC : UIViewController{
         Base_View_2.topAnchor.constraint(equalTo: Base_View_1.bottomAnchor, constant: 15).isActive = true
         Base_View_2.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
         Base_View_2.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        Base_View_2.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.66).isActive = true
+        Base_View_2.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.58).isActive = true
         
         Base_View_2.addSubview(overview_label)
         overview_label.topAnchor.constraint(equalTo: Base_View_2.topAnchor, constant: 20).isActive = true
@@ -751,6 +820,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "Majors"
 
         label.textColor = Style.myApp.color(for: .title)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightTitle)
+        }
         label.font = Style.myApp.font(for: .title)
         return label
     }()
@@ -761,6 +833,10 @@ class College_Detailed_VC : UIViewController{
         label.text = "Popular Majors"
 
         label.textColor = Style.myApp.color(for: .subtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubtitle)
+        }
+        
         label.font = Style.myApp.font(for: .subtitle)
         return label
     }()
@@ -771,6 +847,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "Major"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -781,6 +860,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "Graduates"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -802,6 +884,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "Highest Earning Majors"
 
         label.textColor = Style.myApp.color(for: .subtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubtitle)
+        }
         label.font = Style.myApp.font(for: .subtitle)
         return label
     }()
@@ -812,6 +897,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "Major"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -822,6 +910,9 @@ class College_Detailed_VC : UIViewController{
         label.text = "Graduates"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -920,10 +1011,13 @@ class College_Detailed_VC : UIViewController{
         
         view.backgroundColor = .black
         
-        set_arrays()
+//        set_arrays()
+        calculate_colors()
+        set_headers()
         setup_UI()
         setup_Base_View_1()
         setup_Base_View_2()
+        domain_button.addTarget(self, action: #selector(didTapLink(sender:)), for: .touchUpInside)
         var values = [(College_Data?.white)!, (College_Data?.black)!, (College_Data?.asian)!, (College_Data?.hispanic)!, (College_Data?.aian)! + (College_Data?.nhpi)!, (College_Data?.two_or_more)!, (College_Data?.non_resident_alien)!, (College_Data?.unknown)!]
         for i in 0..<values.count {
             values[i] *= 100
@@ -931,6 +1025,19 @@ class College_Detailed_VC : UIViewController{
         let labels = ["White", "Black", "Asian", "Hispanic", "Other", "Two or more", "Non-resident", "Unknown"]
         setupChart(dataPoints: labels, values: values)
         setup_Base_View_3()
+    }
+    @objc func didTapLink(sender: AnyObject) {
+        if var domain = College_Data?.domain {
+            if !domain.contains("https://") && !domain.contains("http://") {
+                domain = "https://" + domain
+            }
+//            if let url = NSURL(string: domain) {
+//                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+//            }
+            let url = URL(string: domain)
+            let vc = SFSafariViewController(url: url!)
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 }
 
@@ -945,7 +1052,9 @@ class Style {
         case title
         case lightTitle
         case subtitle
+        case lightSubtitle
         case subsubtitle
+        case lightSubsubtitle
         case information
     }
 

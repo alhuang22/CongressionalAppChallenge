@@ -10,6 +10,38 @@ import UIKit
 
 extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
     
+    func calculate_colors() -> Void {
+        if let r = College_Data?.red {
+            let g = (College_Data?.green)!
+            let b = (College_Data?.blue)!
+            background_color = UIColor(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: 1)
+            text_mode = colorDetect.calculate_text_color(r: Double(r), g: Double(g), b: Double(b))
+        } else {
+            text_mode = colorDetect.dark
+            background_color = .lightGray
+        }
+        
+    }
+    
+    func set_headers() {
+        popular_majors = College_Data?.popular_majors
+        if let popular = popular_majors {
+            var name = NO_DATA_CONSTANT
+            var level = ""
+            for major in popular {
+                if let m = major {
+                    if let title = m["title"] {
+                        name = title ?? NO_DATA_CONSTANT
+                        if name != NO_DATA_CONSTANT {
+                            level = m["credential"]! ?? ""
+                            popular_majors_data_array.append(ExpandableArray(isExpanded: false, category: [name + " - " + level, ""]))
+                            print(name + " - " + level)
+                        }
+                    }
+                }
+            }
+        }
+    }
     func set_arrays() {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -17,22 +49,30 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
         highest_earning_majors = College_Data?.top_salaries
         if let popular = popular_majors {
             for major in popular {
-//                guard let earnings = major["earnings"] else {
-//                    continue
-//                }
-                var earnings: String
-                var grads: Int
+                var earnings: String = NO_DATA_CONSTANT
+                var grads: String = NO_DATA_CONSTANT
                 if let m = major {
-                    if m["earnings"] == nil {
-                        earnings = "No Data"
-                    } else {
-                        let received = Double(m["earnings"]!!)
+                    if let earn = m["earnings"] {
+                        earnings = earn ?? NO_DATA_CONSTANT
+                    }
+                    if earnings != NO_DATA_CONSTANT {
+                        let received = Double(earnings)
                         let formatted = numberFormatter.string(from: NSNumber(floatLiteral: received!))!
-                        earnings = formatted
-                        print(earnings)
+                        earnings = "$" + formatted
+                    }
+                    if let count = m["counts"] {
+                        grads = count ?? NO_DATA_CONSTANT
+                    }
+                    if grads != NO_DATA_CONSTANT {
+                        let received = Double(grads)
+                        let formatted = numberFormatter.string(from: NSNumber(floatLiteral: received!))!
+                        grads = formatted
                     }
 //                    if m["counts"]
                 }
+                print(earnings)
+                print(grads)
+                popular_majors_data_array.append(ExpandableArray(isExpanded: false, category: ["Median Earnings: " + earnings, "Graduates: " + grads]))
 //                if earnings != nil {
 //                    let converted_earnings = Double(earnings!)
 //                    let formattedSalary = numberFormatter.string(from: NSNumber(floatLiteral: converted_earnings!))!
@@ -126,10 +166,10 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
         }
         var graduates : String = ""
         if tableView == popular_majors_tableview{
-            graduates = popular_majors_data_array[section].category[2]
+            graduates = popular_majors_data_array[section].category[1]
         }
         if tableView == highest_earning_majors_tableview{
-            graduates = highest_earning_majors_data_array[section].category[2]
+            graduates = highest_earning_majors_data_array[section].category[1]
         }
         
         //return base view

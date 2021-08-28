@@ -18,14 +18,11 @@ enum colorDetect {
             return .black
         }
     }
-    func calculate_text_color() -> Self {
+    static func calculate_text_color(r: Double, g: Double, b: Double) -> Self {
         var d: Self
-//        let r = CGFloat((College_Data?.red)!) / 255
-//        let g = CGFloat((College_Data?.green)!) / 255
-//        let b = CGFloat((College_Data?.blue)!) / 255
-        let r: Double = 255
-        let b: Double = 255
-        let g: Double = 51
+//        let r: Double = 255
+//        let b: Double = 255
+//        let g: Double = 51
         
         let rc = 0.299 * r
         let gc = 0.587 * g
