@@ -18,6 +18,8 @@ class College_Detailed_VC : UIViewController{
     var popular_majors: [[String: String?]?]?
     var highest_earning_majors: [[String: String?]?]?
     
+    var height: CGFloat = CGFloat(60)
+    
     
 //    var popular_majors_data_array = [//for the popular majors table, import dictionary from json file
 //
@@ -101,22 +103,39 @@ class College_Detailed_VC : UIViewController{
         return iv
     }()
     
-    lazy var college_name : UITextView = {
-       let label = UITextView()
+//    lazy var college_name : UITextView = {
+//       let label = UITextView()
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.text = (College_Data?.college_name)!
+//        label.isUserInteractionEnabled = false
+////        label.numberOfLines
+//        label.textColor = Style.myApp.color(for: .subtitle)
+//        label.font = Style.myApp.font(for: .subtitle)
+//        return label
+//    }()
+    
+    lazy var college_name : UILabel = {
+       let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = (College_Data?.college_name)!
-        label.isUserInteractionEnabled = false
-
+//        label.isUserInteractionEnabled = false
+        label.numberOfLines = 0
+        label.contentMode = .scaleAspectFill
         label.textColor = Style.myApp.color(for: .subtitle)
         label.font = Style.myApp.font(for: .subtitle)
+        height = label.text!.heightWithConstrainedWidth(width: CGFloat(240), font: label.font)
         return label
     }()
     
     lazy var undergraduate_label : UILabel = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         if var undergrad_size = College_Data?.undergrad_size {
-            label.text = String(undergrad_size) + " undergraduates"
+            let val = Int(undergrad_size)
+            let formatted = numberFormatter.string(from: NSNumber(integerLiteral: val))!
+            label.text = formatted + " undergraduates"
         } else {
             label.text = "No Undergraduate Data"
         }
@@ -219,6 +238,11 @@ class College_Detailed_VC : UIViewController{
         return label
     }()
     
+    var bar: GradientHorizontalProgressBar = {
+        let b = GradientHorizontalProgressBar()
+        return b
+    }()
+    
     lazy var size_label : UILabel = {
         var size: Size
         if let sz = College_Data?.carnegie_size_setting {
@@ -276,18 +300,17 @@ class College_Detailed_VC : UIViewController{
 //        Base_View_1.leadingAnchor.constraint(equalTo: scroll_view.leadingAnchor, constant: 10).isActive = true
         Base_View_1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
         Base_View_1.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        Base_View_1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.34).isActive = true
         
         Base_View_1.addSubview(college_name)
         college_name.topAnchor.constraint(equalTo: Base_View_1.topAnchor, constant:20).isActive = true
         college_name.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor,constant: 20).isActive = true
-        college_name.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        college_name.widthAnchor.constraint(equalTo: college_name.heightAnchor, multiplier: 4).isActive = true
+        college_name.widthAnchor.constraint(equalToConstant: 240).isActive = true
+        college_name.heightAnchor.constraint(equalToConstant: height).isActive = true
         
 
         Base_View_1.addSubview(college_logo)
 //        college_logo.centerYAnchor.constraint(equalTo: Base_View_1.centerYAnchor).isActive = true
-        college_logo.topAnchor.constraint(equalTo: college_name.bottomAnchor, constant: 0).isActive = true
+        college_logo.topAnchor.constraint(equalTo: college_name.bottomAnchor, constant: 5).isActive = true
         college_logo.trailingAnchor.constraint(equalTo:Base_View_1.trailingAnchor, constant: -5).isActive = true
         college_logo.heightAnchor.constraint(equalTo:Base_View_1.widthAnchor, multiplier: 0.40).isActive = true
         college_logo.widthAnchor.constraint(equalTo: college_logo.heightAnchor, multiplier: 1).isActive = true
@@ -337,7 +360,7 @@ class College_Detailed_VC : UIViewController{
         let setting_image_view = UIImageView(image: setting_image!)
         setting_image_view.translatesAutoresizingMaskIntoConstraints = false
         Base_View_1.addSubview(setting_image_view)
-        setting_image_view.topAnchor.constraint(equalTo: domain_button.bottomAnchor, constant:28).isActive = true
+        setting_image_view.topAnchor.constraint(equalTo: domain_button.bottomAnchor, constant:10).isActive = true
         setting_image_view.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor, constant: 20).isActive = true
         setting_image_view.heightAnchor.constraint(equalToConstant: 40).isActive = true
         setting_image_view.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -350,7 +373,7 @@ class College_Detailed_VC : UIViewController{
         let funded_image_view = UIImageView(image: funded_image!)
         funded_image_view.translatesAutoresizingMaskIntoConstraints = false
         Base_View_1.addSubview(funded_image_view)
-        funded_image_view.topAnchor.constraint(equalTo: domain_button.bottomAnchor, constant:28).isActive = true
+        funded_image_view.topAnchor.constraint(equalTo: setting_image_view.topAnchor, constant:0).isActive = true
         funded_image_view.leadingAnchor.constraint(equalTo: setting_image_view.trailingAnchor, constant: 25).isActive = true
         funded_image_view.heightAnchor.constraint(equalToConstant: 40).isActive = true
         funded_image_view.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -359,11 +382,13 @@ class College_Detailed_VC : UIViewController{
         funded_label.topAnchor.constraint(equalTo: setting_image_view.bottomAnchor, constant:0).isActive = true
         funded_label.centerXAnchor.constraint(equalTo: funded_image_view.centerXAnchor).isActive = true
         
+        Base_View_1.bottomAnchor.constraint(equalTo: funded_label.bottomAnchor, constant: 10).isActive = true
+        
         let size_image = UIImage(named: "size")
         let size_image_view = UIImageView(image: size_image!)
         size_image_view.translatesAutoresizingMaskIntoConstraints = false
         Base_View_1.addSubview(size_image_view)
-        size_image_view.topAnchor.constraint(equalTo: domain_button.bottomAnchor, constant:28).isActive = true
+        size_image_view.topAnchor.constraint(equalTo: setting_image_view.topAnchor, constant:0).isActive = true
         size_image_view.leadingAnchor.constraint(equalTo: funded_image_view.trailingAnchor, constant: 25).isActive = true
         size_image_view.heightAnchor.constraint(equalToConstant: 40).isActive = true
         size_image_view.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -371,6 +396,10 @@ class College_Detailed_VC : UIViewController{
         Base_View_1.addSubview(size_label)
         size_label.topAnchor.constraint(equalTo: setting_image_view.bottomAnchor, constant:0).isActive = true
         size_label.centerXAnchor.constraint(equalTo: size_image_view.centerXAnchor).isActive = true
+        
+//        Base_View_1.addSubview(bar)
+//        bar.topAnchor.constraint(equalTo: funded_label.bottomAnchor, constant: 10).isActive = true
+//        bar.bottomAnchor.constraint(equalTo: Base_View_1.bottomAnchor, constant: 0).isActive = true
     }
     
     //MARK: ---------------------
@@ -519,7 +548,7 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_range_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "SAT Range:"
+        label.text = "SAT Range (25%-75%):"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
