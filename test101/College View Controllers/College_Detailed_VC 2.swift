@@ -12,6 +12,7 @@ class College_Detailed_VC : UIViewController{
     var popular_majors: [[String: String?]?]?
     var highest_earning_majors: [[String: String?]?]?
     
+    var is_saved : Bool?
     
     var popular_majors_data_array = [//for the popular majors table, import dictionary from json file
     
@@ -46,15 +47,76 @@ class College_Detailed_VC : UIViewController{
             dismiss(animated: true, completion: nil)
         }
 
-        lazy var college_info_title : UILabel = {
-           let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.text = "College Information"
+    lazy var college_info_title : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "College Information"
+        label.textColor = .white
+        label.font = Style.myApp.font(for: .subtitle)
+        return label
+    }()
+    
+    lazy var save_button : UIButton = {
+        let bt = UIButton()
+        if is_saved == true{
+            let image = UIImage(named: "star_saved")//filled in star
+            bt.setImage(image, for: .normal)
+        }
+        else{
+            let image = UIImage(named: "star_save")//outlined star
+            bt.setImage(image, for: .normal)
+        }
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        
+        return bt
+    }()
+    
+    
+    //MARK: SETUP HEADER
+    
+    func setup_header(){
+        view.addSubview(dismiss_button)
+        dismiss_button.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
+        dismiss_button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        dismiss_button.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.08).isActive = true
+        dismiss_button.heightAnchor.constraint(equalTo: dismiss_button.widthAnchor).isActive = true
+        dismiss_button.addTarget(self, action: #selector(dismiss_detailed_view), for: .touchUpInside)
 
-            label.textColor = .white
-            label.font = Style.myApp.font(for: .subtitle)
-            return label
-        }()
+        view.addSubview(college_info_title)
+        college_info_title.centerYAnchor.constraint(equalTo: dismiss_button.centerYAnchor).isActive = true
+        college_info_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
+        
+        
+        view.addSubview(save_button)
+        save_button.centerYAnchor.constraint(equalTo: dismiss_button.centerYAnchor).isActive = true
+        save_button.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60).isActive = true
+        save_button.heightAnchor.constraint(equalTo: dismiss_button.heightAnchor, multiplier: 1.1).isActive = true
+        save_button.widthAnchor.constraint(equalTo: save_button.heightAnchor, multiplier: 1).isActive = true
+        save_button.addTarget(self, action: #selector(change_save_status), for: .touchUpInside)
+    }
+    
+    @objc func change_save_status(){
+        if is_saved == true{//unsaves it on click
+            let image = UIImage(named: "star_save")//outlined star
+            save_button.setImage(image, for: .normal)
+            //loops and removes college from array
+            
+            for i in stride(from: 0, to: GlobalArray.saved_colleges.count, by: 1){
+                if College_Data?.college_name == GlobalArray.saved_colleges[i].college_name{
+                    GlobalArray.saved_colleges.remove(at: i)
+                    break
+                }
+            }
+            is_saved = false
+        }
+        
+        else {//saves it on click
+            let image = UIImage(named: "star_saved")//outlined star
+            save_button.setImage(image, for: .normal)
+            GlobalArray.saved_colleges.append(College_Data!)
+            is_saved = true
+        }
+    }
     
 //    func matches(for regex: String, in text: String) -> [String] {
 //
@@ -75,7 +137,7 @@ class College_Detailed_VC : UIViewController{
     //MARK: BASE VIEW 1 LABELS
     lazy var Base_View_1 : UIView = {
         let iv = UIView()
-        iv.backgroundColor = .white
+        iv.backgroundColor = UIColor(red: CGFloat((College_Data?.red)!) / 255, green: CGFloat((College_Data?.green)!) / 255, blue: CGFloat((College_Data?.blue)!) / 255, alpha: 1)
         iv.layer.cornerRadius = 15
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
@@ -99,7 +161,7 @@ class College_Detailed_VC : UIViewController{
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = (College_Data?.college_name)!
         label.isUserInteractionEnabled = false
-
+        label.backgroundColor = .clear
         label.textColor = Style.myApp.color(for: .subtitle)
         label.font = Style.myApp.font(for: .subtitle)
         return label
@@ -240,20 +302,6 @@ class College_Detailed_VC : UIViewController{
     //MARK: BASE VIEW 1
     
     func setup_Base_View_1 (){
-        view.addSubview(dismiss_button)
-        dismiss_button.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
-        dismiss_button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
-        dismiss_button.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.07).isActive = true
-        dismiss_button.heightAnchor.constraint(equalTo: dismiss_button.widthAnchor).isActive = true
-        dismiss_button.addTarget(self, action: #selector(dismiss_detailed_view), for: .touchUpInside)
-
-        view.addSubview(college_info_title)
-        college_info_title.centerYAnchor.constraint(equalTo: dismiss_button.centerYAnchor).isActive = true
-        college_info_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
-
-
-
-        view.addSubview(scroll_view)
         
 //        college_name.setNeedsLayout()
 //        college_name.layoutIfNeeded()
@@ -273,10 +321,10 @@ class College_Detailed_VC : UIViewController{
         
 
         Base_View_1.addSubview(college_logo)
-//        college_logo.centerYAnchor.constraint(equalTo: Base_View_1.centerYAnchor).isActive = true
-        college_logo.topAnchor.constraint(equalTo: college_name.bottomAnchor, constant: 0).isActive = true
+        college_logo.centerYAnchor.constraint(equalTo: Base_View_1.centerYAnchor).isActive = true
+//        college_logo.topAnchor.constraint(equalTo: college_name.bottomAnchor, constant: 0).isActive = true
         college_logo.trailingAnchor.constraint(equalTo:Base_View_1.trailingAnchor, constant: -5).isActive = true
-        college_logo.heightAnchor.constraint(equalTo:Base_View_1.widthAnchor, multiplier: 0.40).isActive = true
+        college_logo.heightAnchor.constraint(equalTo:Base_View_1.widthAnchor, multiplier: 0.35).isActive = true
         college_logo.widthAnchor.constraint(equalTo: college_logo.heightAnchor, multiplier: 1).isActive = true
         
         Base_View_1.addSubview(undergraduate_label)
@@ -907,21 +955,33 @@ class College_Detailed_VC : UIViewController{
     
    
     
-    private func setup_UI() {
+    private func setup_scroll_view() {
         view.addSubview(scroll_view) // we will add everything on the scroll_view instead of view
         scroll_view.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
-        scroll_view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 50).isActive = true
+        scroll_view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         scroll_view.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        scroll_view.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        //scroll_view.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
+    
+    //MARK: VIEW DID LOAD
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .black
         
+        //checks if college is already in GlobalArray or not, if it is there sets is_saved to true
+        is_saved = false
+        for i in stride(from: 0, to: GlobalArray.saved_colleges.count, by: 1){
+            if College_Data?.college_name == GlobalArray.saved_colleges[i].college_name{//appears in saved global array
+                is_saved = true
+                break
+            }
+        }
+        
         set_arrays()
-        setup_UI()
+        setup_header()
+        setup_scroll_view()
         setup_Base_View_1()
         setup_Base_View_2()
         var values = [(College_Data?.white)!, (College_Data?.black)!, (College_Data?.asian)!, (College_Data?.hispanic)!, (College_Data?.aian)! + (College_Data?.nhpi)!, (College_Data?.two_or_more)!, (College_Data?.non_resident_alien)!, (College_Data?.unknown)!]
