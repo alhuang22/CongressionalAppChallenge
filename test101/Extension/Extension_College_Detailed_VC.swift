@@ -70,8 +70,6 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
                     }
 //                    if m["counts"]
                 }
-                print(earnings)
-                print(grads)
                 popular_majors_data_array.append(ExpandableArray(isExpanded: false, category: ["Median Earnings: " + earnings, "Graduates: " + grads]))
 //                if earnings != nil {
 //                    let converted_earnings = Double(earnings!)

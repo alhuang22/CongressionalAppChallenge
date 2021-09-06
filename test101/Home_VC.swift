@@ -87,7 +87,7 @@ class Home_VC : UIViewController {
         view.addSubview(College_BT)
         
         let half_height = view.frame.height/4
-        print(half_height)
+//        print(half_height)
         
         College_BT.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -half_height).isActive = true
         College_BT.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50).isActive = true//trailing is the right side    leading is left side
