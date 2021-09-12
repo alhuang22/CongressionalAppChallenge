@@ -67,6 +67,7 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
         }
     
     func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
+        college_list = GlobalArray.saved_colleges
         college_table_view.reloadData()
         print(college_list)
     }
