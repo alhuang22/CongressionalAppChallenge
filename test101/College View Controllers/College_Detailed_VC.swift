@@ -35,13 +35,11 @@ class College_Detailed_VC : UIViewController{
 //
 //    ]
     var popular_majors_data_array = [ExpandableArray]()
+    var popular_majors_subarray = [ExpandableArray]()
+    var expansion_image_array = ["grad", "salary"]
     
-    var highest_earning_majors_data_array = [
-    
-        ExpandableArray(isExpanded: false, category: ["a", "b", "c"]),
-        ExpandableArray(isExpanded: false, category: ["d", "e", "f"]),
-        ExpandableArray(isExpanded: false, category: ["g", "h", "i"])
-    ]
+    var highest_earning_majors_data_array = [ExpandableArray]()
+    var highest_earning_majors_subarray = [ExpandableArray]()
     
     lazy var dismiss_button : UIButton = {
             let bt = UIButton()
@@ -157,6 +155,8 @@ class College_Detailed_VC : UIViewController{
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         label.font = Style.myApp.font(for: .subsubtitle)
+        label.numberOfLines = 0
+        label.contentMode = .scaleAspectFill
         return label
     }()
     
@@ -238,11 +238,6 @@ class College_Detailed_VC : UIViewController{
         return label
     }()
     
-    var bar: GradientHorizontalProgressBar = {
-        let b = GradientHorizontalProgressBar()
-        return b
-    }()
-    
     lazy var size_label : UILabel = {
         var size: Size
         if let sz = College_Data?.carnegie_size_setting {
@@ -277,6 +272,13 @@ class College_Detailed_VC : UIViewController{
     //MARK: BASE VIEW 1
     
     func setup_Base_View_1 (){
+        
+        var city: String = ""
+        
+        if let c = College_Data?.city {
+            city = c
+        }
+        
         view.addSubview(dismiss_button)
         dismiss_button.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
         dismiss_button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
@@ -331,6 +333,9 @@ class College_Detailed_VC : UIViewController{
         Base_View_1.addSubview(location_label)
         location_label.topAnchor.constraint(equalTo: undergraduate_label.bottomAnchor, constant:10).isActive = true
         location_label.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor,constant: 45).isActive = true
+//        location_label.widthAnchor.constraint(equalToConstant: college_logo.frame.minX - location_label.frame.minX).isActive = true
+//        location_label.widthAnchor.constraint(equalToConstant: view.frame.width * 0.4).isActive = true
+//        location_label.heightAnchor.constraint(equalToConstant: city.heightWithConstrainedWidth(width: view.frame.width * 0.4, font: location_label.font)).isActive = true
         
         let location_image = UIImage(named: "location")
         let location_image_view = UIImageView(image: location_image!)
@@ -542,6 +547,50 @@ class College_Detailed_VC : UIViewController{
         pieChartView.legend.enabled = false
       }
     
+    let rectangle: UIView = {
+        let vw = UIView()
+        vw.translatesAutoresizingMaskIntoConstraints = false
+        vw.backgroundColor = .green
+        return vw
+    }()
+    
+    func getRect(race: String, color: UIColor, percent: Double) -> UIView {
+        let vw = UIView()
+        vw.translatesAutoresizingMaskIntoConstraints = false
+        vw.backgroundColor = color
+        
+        
+        let pt = UILabel()
+        pt.translatesAutoresizingMaskIntoConstraints = false
+        pt.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            pt.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
+        pt.font = Style.myApp.font(for: .subsubtitle)
+        pt.text = String(percent.rounded(toPlaces: 2)) + "%"
+        
+        let tx = UILabel()
+        tx.text = race
+        tx.translatesAutoresizingMaskIntoConstraints = false
+        tx.textColor = Style.myApp.color(for: .subsubtitle)
+        if text_mode == .bright {
+            tx.textColor = Style.myApp.color(for: .lightSubsubtitle)
+        }
+        tx.font = Style.myApp.font(for: .subsubtitle)
+        
+        vw.addSubview(pt)
+//        pt.centerXAnchor.constraint(equalTo: vw.centerXAnchor).isActive = true
+//        pt.centerYAnchor.constraint(equalTo: vw.centerYAnchor).isActive = true
+        pt.leadingAnchor.constraint(equalTo: vw.trailingAnchor, constant: 5).isActive = true
+        pt.centerYAnchor.constraint(equalTo: vw.centerYAnchor, constant: -1.5).isActive = true
+        
+        vw.addSubview(tx)
+        tx.leadingAnchor.constraint(equalTo: vw.leadingAnchor).isActive = true
+        tx.topAnchor.constraint(equalTo: vw.bottomAnchor, constant: 1).isActive = true
+        return vw
+    }
+    
+    
     
     //MARK: TEST SCORE LABELS
     
@@ -733,8 +782,6 @@ class College_Detailed_VC : UIViewController{
         return label
     }()
     
-    
-    
     //MARK: SET UP BASE VIEW 2
     
     //bewteen each rate (acceptance number --> graduation rate label)there is 15 gap
@@ -747,10 +794,10 @@ class College_Detailed_VC : UIViewController{
         Base_View_2.topAnchor.constraint(equalTo: Base_View_1.bottomAnchor, constant: 15).isActive = true
         Base_View_2.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
         Base_View_2.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        Base_View_2.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.58).isActive = true
+        // Base_View_2.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.58).isActive = true
         
         Base_View_2.addSubview(overview_label)
-        overview_label.topAnchor.constraint(equalTo: Base_View_2.topAnchor, constant: 20).isActive = true
+        overview_label.topAnchor.constraint(equalTo: Base_View_2.topAnchor, constant: 15).isActive = true
         overview_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
         
         //PERCENTAGE SETUP
@@ -776,10 +823,149 @@ class College_Detailed_VC : UIViewController{
         retention_rate_number_label.leadingAnchor.constraint(equalTo: Base_View_2.leadingAnchor, constant: 20).isActive = true
         
         // Pie chart setup
-        Base_View_2.addSubview(pieChartView)
+        // Base_View_2.addSubview(pieChartView)
 //        pieChartView.trailingAnchor.constraint(equalTo: Base_View_2.trailingAnchor, constant: -10).isActive = true
 //        pieChartView.leadingAnchor.constraint(equalTo: overview_label.trailingAnchor, constant: 10).isActive = true
 //        pieChartView.bottomAnchor.constraint(equalTo: act_range_label.topAnchor, constant: 5).isActive = true
+        
+//        Base_View_2.addSubview(rectangle)
+//        rectangle.leadingAnchor.constraint(equalTo: acceptance_rate_label.trailingAnchor, constant: 10).isActive = true
+//        // rectangle.centerYAnchor.constraint(equalTo: acceptance_rate_label.centerYAnchor).isActive = true
+//        rectangle.topAnchor.constraint(equalTo: Base_View_2.topAnchor, constant: 10).isActive = true
+//        rectangle.heightAnchor.constraint(equalToConstant: 20).isActive = true
+//        let widthConstraint = rectangle.widthAnchor.constraint(equalToConstant: 0)
+//
+//        NSLayoutConstraint.activate([
+//            widthConstraint
+//        ])
+//
+//        view.layoutIfNeeded()
+//
+//
+//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+//            UIView.animate(withDuration: 1.5) {
+//                widthConstraint.constant += 100
+//                self.view.layoutIfNeeded()
+//            }
+//        }
+//        var values = [(College_Data?.white)!, (College_Data?.black)!, (College_Data?.asian)!, (College_Data?.hispanic)!, (College_Data?.aian)! + (College_Data?.nhpi)!, (College_Data?.two_or_more)!, (College_Data?.non_resident_alien)!, (College_Data?.unknown)!]
+        var values = [Double]()
+        if let w = College_Data?.white {
+            values.append(w)
+            values.append((College_Data?.asian)!)
+            values.append((College_Data?.hispanic)!)
+            values.append((College_Data?.black)!)
+            values.append((College_Data?.two_or_more)!)
+            values.append((College_Data?.aian)! + (College_Data?.nhpi)! + (College_Data?.unknown)!)
+            values.append((College_Data?.non_resident_alien)!)
+        }
+        var percentages = [Double]()
+        for i in 0..<values.count {
+            percentages.append(values[i])
+            values[i] *= 100
+        }
+        let labels = ["White", "Asian", "Hispanic", "Black", "Mixed", "Other", "International"]
+        var color: UIColor = .black.withAlphaComponent(0.75)
+        if text_mode == .bright {
+            color = .white.withAlphaComponent(0.75)
+        }
+        var rects = [UIView]()
+        for i in 0..<values.count {
+            let r = getRect(race: labels[i], color: color, percent: values[i])
+            rects.append(r)
+        }
+        
+        Base_View_2.addSubview(rects[0])
+        let HEIGHT_CONSTANT: CGFloat = 5
+        let SPACING: CGFloat = 8
+        
+        rects[0].leadingAnchor.constraint(equalTo: overview_label.trailingAnchor, constant: 10).isActive = true
+        // rectangle.centerYAnchor.constraint(equalTo: acceptance_rate_label.centerYAnchor).isActive = true
+        rects[0].topAnchor.constraint(equalTo: acceptance_rate_label.topAnchor).isActive = true
+        rects[0].heightAnchor.constraint(equalToConstant: HEIGHT_CONSTANT).isActive = true
+        
+        Base_View_2.addSubview(rects[1])
+        rects[1].leadingAnchor.constraint(equalTo: rects[0].leadingAnchor).isActive = true
+        rects[1].topAnchor.constraint(equalTo: rects[0].subviews[1].bottomAnchor, constant: SPACING).isActive = true
+        rects[1].heightAnchor.constraint(equalToConstant: HEIGHT_CONSTANT).isActive = true
+        
+        Base_View_2.addSubview(rects[2])
+        rects[2].leadingAnchor.constraint(equalTo: rects[0].leadingAnchor).isActive = true
+        rects[2].topAnchor.constraint(equalTo: rects[1].subviews[1].bottomAnchor, constant: SPACING).isActive = true
+        rects[2].heightAnchor.constraint(equalToConstant: HEIGHT_CONSTANT).isActive = true
+        
+        Base_View_2.addSubview(rects[3])
+        rects[3].leadingAnchor.constraint(equalTo: rects[0].leadingAnchor).isActive = true
+        rects[3].topAnchor.constraint(equalTo: rects[2].subviews[1].bottomAnchor, constant: SPACING).isActive = true
+        rects[3].heightAnchor.constraint(equalToConstant: HEIGHT_CONSTANT).isActive = true
+        
+        Base_View_2.addSubview(rects[4])
+        rects[4].leadingAnchor.constraint(equalTo: rects[0].leadingAnchor).isActive = true
+        rects[4].topAnchor.constraint(equalTo: rects[3].subviews[1].bottomAnchor, constant: SPACING).isActive = true
+        rects[4].heightAnchor.constraint(equalToConstant: HEIGHT_CONSTANT).isActive = true
+        
+        Base_View_2.addSubview(rects[5])
+        rects[5].leadingAnchor.constraint(equalTo: rects[0].leadingAnchor).isActive = true
+        rects[5].topAnchor.constraint(equalTo: rects[4].subviews[1].bottomAnchor, constant: SPACING).isActive = true
+        rects[5].heightAnchor.constraint(equalToConstant: HEIGHT_CONSTANT).isActive = true
+        
+        Base_View_2.addSubview(rects[6])
+        rects[6].leadingAnchor.constraint(equalTo: rects[0].leadingAnchor).isActive = true
+        rects[6].topAnchor.constraint(equalTo: rects[5].subviews[1].bottomAnchor, constant: SPACING).isActive = true
+        rects[6].heightAnchor.constraint(equalToConstant: HEIGHT_CONSTANT).isActive = true
+        
+        let widthConstraintWhite = rects[0].widthAnchor.constraint(equalToConstant: 0)
+        let widthConstraintAsian = rects[1].widthAnchor.constraint(equalToConstant: 0)
+        let widthConstraintHispanic = rects[2].widthAnchor.constraint(equalToConstant: 0)
+        let widthConstraintBlack = rects[3].widthAnchor.constraint(equalToConstant: 0)
+        let widthConstraintTwoPlus = rects[4].widthAnchor.constraint(equalToConstant: 0)
+        let widthConstraintOther = rects[5].widthAnchor.constraint(equalToConstant: 0)
+        let widthConstraintInternational = rects[6].widthAnchor.constraint(equalToConstant: 0)
+        
+        NSLayoutConstraint.activate([
+            widthConstraintWhite,
+            widthConstraintBlack,
+            widthConstraintAsian,
+            widthConstraintHispanic,
+            widthConstraintOther,
+            widthConstraintTwoPlus,
+            widthConstraintInternational
+        ])
+        
+        view.layoutIfNeeded()
+        
+        var shrink: Bool = false
+        
+        for percent in percentages {
+            if percent > 0.58 {
+                shrink = true
+                break
+            }
+        }
+        
+        var CONST = Double(abs(acceptance_rate_label.frame.maxX - Base_View_2.frame.maxX))
+        if shrink {
+            CONST = Double(abs(college_logo.frame.minX - Base_View_2.frame.maxX) - 40)
+        }
+        print(CONST)
+//        if let w = College_Data?.white {
+//            if w >
+//        }
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            UIView.animate(withDuration: 1.5) {
+//                widthConstraintWhite.constant += CGFloat(Double(percentages[0] * CONST))
+                widthConstraintWhite.constant += CGFloat(Double(percentages[0] * CONST))
+                widthConstraintAsian.constant += CGFloat(Double(percentages[1] * CONST))
+                widthConstraintHispanic.constant += CGFloat(Double(percentages[2] * CONST))
+                widthConstraintBlack.constant += CGFloat(Double(percentages[3] * CONST))
+                widthConstraintTwoPlus.constant += CGFloat(Double(percentages[4] * CONST))
+                widthConstraintOther.constant += CGFloat(Double(percentages[5] * CONST))
+                widthConstraintInternational.constant += CGFloat(Double(percentages[6] * CONST))
+                self.view.layoutIfNeeded()
+            }
+        }
         
         //SAT SETUP
         Base_View_2.addSubview(sat_range_label)
@@ -825,6 +1011,8 @@ class College_Detailed_VC : UIViewController{
         Base_View_2.addSubview(act_math_number_label)
         act_math_number_label.topAnchor.constraint(equalTo: act_math_label.bottomAnchor, constant: 3).isActive = true
         act_math_number_label.leadingAnchor.constraint(equalTo: Base_View_2.centerXAnchor, constant: 35).isActive = true
+        
+        Base_View_2.bottomAnchor.constraint(equalTo: act_math_number_label.bottomAnchor, constant: 15).isActive = true
     }
     
     
@@ -936,7 +1124,7 @@ class College_Detailed_VC : UIViewController{
     lazy var he_graduates_label: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Graduates"
+        label.text = "Median Salary"
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -980,7 +1168,7 @@ class College_Detailed_VC : UIViewController{
         
         Base_View_3.addSubview(graduates_label)
         graduates_label.topAnchor.constraint(equalTo: popular_majors_label.bottomAnchor, constant: 10).isActive = true
-        graduates_label.trailingAnchor.constraint(equalTo: Base_View_3.trailingAnchor, constant: -80).isActive = true
+        graduates_label.trailingAnchor.constraint(equalTo: Base_View_3.trailingAnchor, constant: -70).isActive = true
         
         Base_View_3.addSubview(popular_majors_tableview)
         popular_majors_tableview.topAnchor.constraint(equalTo: major_label.bottomAnchor, constant: 6).isActive = true
@@ -999,7 +1187,7 @@ class College_Detailed_VC : UIViewController{
         
         Base_View_3.addSubview(he_graduates_label)
         he_graduates_label.topAnchor.constraint(equalTo: highest_earning_majors_label.bottomAnchor, constant: 10).isActive = true
-        he_graduates_label.trailingAnchor.constraint(equalTo: Base_View_3.trailingAnchor, constant: -80).isActive = true
+        he_graduates_label.centerXAnchor.constraint(equalTo: graduates_label.centerXAnchor).isActive = true
         
         Base_View_3.addSubview(highest_earning_majors_tableview)
         highest_earning_majors_tableview.topAnchor.constraint(equalTo: he_major_label.bottomAnchor, constant: 6).isActive = true
@@ -1021,7 +1209,7 @@ class College_Detailed_VC : UIViewController{
         sc.bounces = true
         sc.translatesAutoresizingMaskIntoConstraints = false
         // sc.frame = view.frame//this is all good, no need for auto layout
-        sc.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 1500)
+        sc.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 550)
         return sc
     }()
     
@@ -1043,6 +1231,7 @@ class College_Detailed_VC : UIViewController{
 //        set_arrays()
         calculate_colors()
         set_headers()
+        set_arrays()
         setup_UI()
         setup_Base_View_1()
         setup_Base_View_2()

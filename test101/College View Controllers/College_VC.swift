@@ -270,7 +270,7 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //define the content in each cell
         let cell = college_collection.dequeueReusableCell(withReuseIdentifier: college_collection_identifier, for: indexPath) as! Customized_collection_view_cell//deque is a method in queue data structure          as adds a subclass
-        cell.backgroundColor = .systemBlue
+        cell.backgroundColor = .clear
         cell.c_image.image = UIImage(named: top_thirty[indexPath.row])
         
         // in order to fetch and read element from the array, first we want to use index path and then access row
@@ -334,12 +334,18 @@ class Customized_collection_view_cell : UICollectionViewCell {
         contentView.addSubview(c_name)
         //MARK: Image Format
         let c_image_constraint = [
-            c_image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10), c_image.topAnchor.constraint(equalTo: contentView.topAnchor,constant:10), c_image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10), c_image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            c_image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            c_image.topAnchor.constraint(equalTo: contentView.topAnchor,constant:10),
+            c_image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            c_image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ]
         NSLayoutConstraint.activate(c_image_constraint)
         //MARK: Label Format
         let c_name_constraint = [
-            c_name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10), c_name.topAnchor.constraint(equalTo: contentView.bottomAnchor,constant:-30), c_name.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10), c_name.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            c_name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            c_name.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant:-30),
+            c_name.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            c_name.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ]
         NSLayoutConstraint.activate(c_name_constraint)
         
