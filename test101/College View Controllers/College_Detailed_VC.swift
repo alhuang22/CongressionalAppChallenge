@@ -177,7 +177,7 @@ class College_Detailed_VC : UIViewController{
             bt.setTitle("No Website Found", for: .normal)
         }
 
-        bt.setTitleColor(Style.myApp.color(for: .subsubtitle), for: .normal)
+        bt.setTitleColor(.blue, for: .normal)
         bt.titleLabel?.font = Style.myApp.font(for: .subsubtitle)
         return bt
     }()

@@ -266,9 +266,9 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
 
             major_title.centerYAnchor.constraint(equalTo: iv.centerYAnchor).isActive = true
             major_title.leadingAnchor.constraint(equalTo: iv.leadingAnchor, constant: 15).isActive = true
-            major_title.widthAnchor.constraint(equalToConstant: popular_majors_tableview.bounds.width * 0.6).isActive = true
+            major_title.widthAnchor.constraint(equalToConstant: popular_majors_tableview.bounds.width * 0.58).isActive = true
 //            major_title.trailingAnchor.constraint(equalTo: graduates_label.leadingAnchor, constant: 5).isActive = true
-            major_title.heightAnchor.constraint(equalToConstant: major_name.heightWithConstrainedWidth(width: popular_majors_tableview.bounds.width * 0.6, font: major_title.font)).isActive = true
+            major_title.heightAnchor.constraint(equalToConstant: major_name.heightWithConstrainedWidth(width: popular_majors_tableview.bounds.width * 0.58, font: major_title.font)).isActive = true
             
             graduate_number.centerYAnchor.constraint(equalTo: drop_down_button.centerYAnchor, constant: -2).isActive = true
             
