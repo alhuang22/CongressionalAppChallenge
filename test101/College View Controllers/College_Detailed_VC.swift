@@ -156,6 +156,7 @@ class College_Detailed_VC : UIViewController{
         label.textColor = Style.myApp.color(for: .subsubtitle)
         label.font = Style.myApp.font(for: .subsubtitle)
         label.numberOfLines = 0
+//        label.lineBreakMode = .byClipping
         label.contentMode = .scaleAspectFill
         return label
     }()
@@ -276,7 +277,7 @@ class College_Detailed_VC : UIViewController{
         var city: String = ""
         
         if let c = College_Data?.city {
-            city = c
+            city = c + ", " + (College_Data?.state)!
         }
         
         view.addSubview(dismiss_button)
@@ -334,8 +335,8 @@ class College_Detailed_VC : UIViewController{
         location_label.topAnchor.constraint(equalTo: undergraduate_label.bottomAnchor, constant:10).isActive = true
         location_label.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor,constant: 45).isActive = true
 //        location_label.widthAnchor.constraint(equalToConstant: college_logo.frame.minX - location_label.frame.minX).isActive = true
-//        location_label.widthAnchor.constraint(equalToConstant: view.frame.width * 0.4).isActive = true
-//        location_label.heightAnchor.constraint(equalToConstant: city.heightWithConstrainedWidth(width: view.frame.width * 0.4, font: location_label.font)).isActive = true
+        location_label.widthAnchor.constraint(equalToConstant: view.frame.width * 0.5).isActive = true
+        location_label.heightAnchor.constraint(equalToConstant: city.heightWithConstrainedWidth(width: view.frame.width * 0.5, font: location_label.font)).isActive = true
         
         let location_image = UIImage(named: "location")
         let location_image_view = UIImageView(image: location_image!)
