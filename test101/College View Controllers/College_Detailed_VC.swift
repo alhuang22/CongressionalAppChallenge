@@ -948,7 +948,6 @@ class College_Detailed_VC : UIViewController{
         if shrink {
             CONST = Double(abs(college_logo.frame.minX - Base_View_2.frame.maxX) - 40)
         }
-        print(CONST)
 //        if let w = College_Data?.white {
 //            if w >
 //        }
@@ -1226,6 +1225,7 @@ class College_Detailed_VC : UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         view.backgroundColor = .black
         

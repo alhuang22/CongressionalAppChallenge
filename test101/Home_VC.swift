@@ -8,7 +8,11 @@
 import Foundation
 import UIKit
 
+var language: Language = .EN
+
 class Home_VC : UIViewController {
+    
+    var selected_button = 1
     
 
     
@@ -78,6 +82,54 @@ class Home_VC : UIViewController {
         return bt
     }()
     
+    let EN_BT : UIButton = {
+        let bt = UIButton(frame: .zero)
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        
+        bt.tag = 1
+        
+        let title = "EN"
+        bt.setTitle(title, for: .normal)
+        bt.setTitleColor(UIColor.white, for: .normal)
+        bt.layer.cornerRadius=10
+        
+        bt.addTarget(self, action: #selector(handle_EN(sender:)), for: .touchUpInside)
+        
+        return bt
+    }()
+    
+    let ES_BT : UIButton = {
+        let bt = UIButton(frame: .zero)
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        
+        bt.tag = 2
+        
+        let title = "ES"
+        bt.setTitle(title, for: .normal)
+        bt.setTitleColor(UIColor.white, for: .normal)
+        bt.layer.cornerRadius=10
+        
+        bt.addTarget(self, action: #selector(handle_ES(sender:)), for: .touchUpInside)
+        
+        return bt
+    }()
+    
+    let ZH_BT : UIButton = {
+        let bt = UIButton(frame: .zero)
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        
+        bt.tag = 3
+        
+        let title = "中"
+        bt.setTitle(title, for: .normal)
+        bt.setTitleColor(UIColor.white, for: .normal)
+        bt.layer.cornerRadius=10
+        
+        bt.addTarget(self, action: #selector(handle_ZH(sender:)), for: .touchUpInside)
+        
+        return bt
+    }()
+    
     
     
     
@@ -87,6 +139,7 @@ class Home_VC : UIViewController {
         view.addSubview(College_BT)
         
         let half_height = view.frame.height/4
+        let sixth = view.frame.width / 10
 //        print(half_height)
         
         College_BT.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -half_height).isActive = true
@@ -103,13 +156,58 @@ class Home_VC : UIViewController {
         
         Scholar_BT.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
         
+        view.addSubview(ZH_BT)
+        ZH_BT.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25).isActive = true
+        ZH_BT.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
+        ZH_BT.heightAnchor.constraint(equalToConstant: sixth).isActive = true
+        ZH_BT.widthAnchor.constraint(equalToConstant: sixth).isActive = true
+        
+        view.addSubview(ES_BT)
+        ES_BT.bottomAnchor.constraint(equalTo: ZH_BT.bottomAnchor).isActive = true
+        ES_BT.trailingAnchor.constraint(equalTo: ZH_BT.leadingAnchor, constant: -5).isActive = true
+        ES_BT.heightAnchor.constraint(equalToConstant: sixth).isActive = true
+        ES_BT.widthAnchor.constraint(equalToConstant: sixth).isActive = true
+        
+        view.addSubview(EN_BT)
+        EN_BT.bottomAnchor.constraint(equalTo: ZH_BT.bottomAnchor).isActive = true
+        EN_BT.trailingAnchor.constraint(equalTo: ES_BT.leadingAnchor, constant: -5).isActive = true
+        EN_BT.heightAnchor.constraint(equalToConstant: sixth).isActive = true
+        EN_BT.widthAnchor.constraint(equalToConstant: sixth).isActive = true
+        
+        
 
+    }
+    
+    func highlight_BT() {
+        if EN_BT.tag == selected_button {
+            EN_BT.backgroundColor = .systemBlue
+            language = .EN
+        } else {
+            EN_BT.backgroundColor = .clear
+        }
+        
+        if ES_BT.tag == selected_button {
+            ES_BT.backgroundColor = .systemBlue
+            language = .ES
+        } else {
+            ES_BT.backgroundColor = .clear
+        }
+        
+        if ZH_BT.tag == selected_button {
+            ZH_BT.backgroundColor = .systemBlue
+            language = .ZH
+        } else {
+            ZH_BT.backgroundColor = .clear
+        }
+        
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
+        
+        highlight_BT()
         
         setup_auto_layout()
         
@@ -141,6 +239,27 @@ extension Home_VC {
         
         college.modalPresentationStyle = .fullScreen
         self.present(college, animated: true)
+    }
+    
+    @objc func handle_EN (sender: UIButton) {
+        language = .EN
+        selected_button = sender.tag
+        highlight_BT()
+        print(selected_button)
+    }
+    
+    @objc func handle_ES (sender: UIButton) {
+        language = .ES
+        selected_button = sender.tag
+        highlight_BT()
+        print(selected_button)
+    }
+    
+    @objc func handle_ZH (sender: UIButton) {
+        language = .ZH
+        selected_button = sender.tag
+        highlight_BT()
+        print(selected_button)
     }
         
 }

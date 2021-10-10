@@ -33,3 +33,9 @@ enum Size: String {
     case gradOnly = "Graduates Only"
     case None = "N/A"
 }
+
+enum Language: String {
+    case EN = "English"
+    case ES = "Español"
+    case ZH = "中"
+}

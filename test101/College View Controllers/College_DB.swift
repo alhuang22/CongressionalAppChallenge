@@ -63,4 +63,10 @@ public struct College : Codable {
     let red: Int?
     let green: Int?
     let blue: Int?
+    let college_nameES: String?
+    let college_nameZH: String?
+    let popular_majorsES: [[String: String?]?]?
+    let popular_majorsZH: [[String: String?]?]?
+    let top_salariesES: [[String: String?]?]?
+    let top_salariesZH: [[String: String?]?]?
 }

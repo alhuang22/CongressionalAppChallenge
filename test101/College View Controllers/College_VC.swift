@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class College_VC : UIViewController{
     
     var College_Data = [College]()
@@ -20,6 +19,10 @@ class College_VC : UIViewController{
     //MARK: College Array
     let top_thirty = ["Princeton University", "Harvard University", "Columbia University", "Massachusetts Institute of Technology", "Yale University", "Stanford University", "University of Chicago", "University of Pennsylvania", "California Institute of Technology", "Johns Hopkins University", "Northwestern University", "Duke University", "Dartmouth College", "Brown University", "Vanderbilt University", "Rice University", "Washington University in St. Louis", "Cornell University", "University of Notre Dame", "University of California - Los Angeles", "Emory University", "University of California - Berkeley", "Georgetown University", "University of Michigan", "Carnegie Mellon University", "University of Virginia-Main Campus", "University of Southern California", "New York University", "Tufts University", "University of California - Santa Barbara"]
     
+    let top_thirtyES = ["Universidad de Princeton", "Universidad Harvard", "Universidad de Colombia", "Instituto de Tecnología de Massachusetts", "Universidad de Yale", "Universidad Stanford", "Universidad de Chicago", "Universidad de Pennsylvania", "Instituto de Tecnología de California", "Universidad Johns Hopkins", "Northwestern University", "Universidad de Duke", "Dartmouth College", "Universidad marrón", "Universidad de Vanderbilt", "Universidad de arroz", "Universidad de Washington en St. Louis", "Universidad de Cornell", "Universidad de Notre Dame", "Universidad de California, Los Angeles", "Universidad Emory", "Universidad de California, Berkeley", "Universidad de Georgetown", "Universidad de Michigan", "Universidad de Carnegie mellon", "Universidad de Virginia-Main Campus", "Universidad del Sur de California", "Universidad de Nueva York", "Universidad de Tufts", "Universidad de California - Santa Bárbara"]
+    
+    let top_thirtyZH = ["普林斯顿大学", "哈佛大学", "哥伦比亚大学", "麻省理工学院", "耶鲁大学", "斯坦福大学", "芝加哥大学", "宾夕法尼亚大学", "加利福尼亚州理工学院", "约翰霍普金斯大学", "西北大学", "杜克大学", "达特茅斯学院", "布朗大学", "范德比尔大学", "赖斯大学", "华盛顿大学在圣路易斯", "康奈尔大学", "巴黎圣母院大学", "加利福尼亚大学 - 洛杉矶", "埃默里大学", "加利福尼亚大学 - 伯克利", "乔治城大学", "密歇根大学", "卡内基·梅隆大学", "弗吉尼亚大学 - 主校园", "南加利福尼亚大学", "纽约大学", "塔夫茨大学", "加利福尼亚大学 - 圣巴巴拉"]
+    
     
     let top_thirty_indices = [493, 360, 515, 367, 114, 978, 190, 743, 36, 333, 211, 590, 482, 769, 835, 867, 466, 517, 247, 51, 153, 48, 120, 401, 709, 931, 86, 535, 377, 54]
     
@@ -29,6 +32,11 @@ class College_VC : UIViewController{
         let bt = UILabel()
         bt.translatesAutoresizingMaskIntoConstraints = false
         bt.text = "US News: Top 30 US Universities"
+        if language == .ES {
+            bt.text = "Las 30 mejores universidades de US"
+        } else if language == .ZH {
+            bt.text = "美国新闻：排名前 30 的美国大学"
+        }
         bt.font = Style.myApp.font(for: .subtitle)
         bt.textColor = .white
                 
@@ -40,7 +48,6 @@ class College_VC : UIViewController{
         let image = UIImage(named: "back")
         bt.setImage(image, for: .normal)
         bt.translatesAutoresizingMaskIntoConstraints = false
-        print(top_thirty.count)
         return bt
     }()
     
@@ -161,7 +168,8 @@ class College_VC : UIViewController{
         dismiss_button.heightAnchor.constraint(equalTo: dismiss_button.widthAnchor).isActive = true
         dismiss_button.addTarget(self, action: #selector(bring_up_home_page), for: .touchUpInside)
         view.addSubview(college_title)
-        college_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
+        // college_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
+        college_title.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         college_title.centerYAnchor.constraint(equalTo: dismiss_button.centerYAnchor).isActive = true
         
     }
@@ -192,6 +200,7 @@ class College_VC : UIViewController{
               temp?.present(bookmark, animated: false)
           })
       }
+    
 
     
     //MARK: View Did Load
@@ -277,13 +286,20 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
         // in order to fetch and read element from the array, first we want to use index path and then access row
         cell.c_name.text = top_thirty[indexPath.row]
+        if language == .ES {
+            cell.c_name.text = top_thirtyES[indexPath.row]
+        } else if language == .ZH {
+            cell.c_name.text = top_thirtyZH[indexPath.row]
+            cell.c_name.font = UIFont(name: "Georgia-Bold", size: 11)
+        }
+
         cell.layer.cornerRadius = 10
 //        cell.c_image.clipsToBounds = true //used for rounded corner for image
         return cell
     }
     
     
-    //MARK: Handle each collection view cell's actions
+    //MARK: Handle each collection view cell"s actions
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         
         let destination = College_Detailed_VC()//sets next UIView
@@ -296,7 +312,6 @@ extension College_VC : UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
         self.present(destination, animated: true)
         
-        print(indexPath)
     }
 }
 
@@ -332,7 +347,7 @@ class Customized_collection_view_cell : UICollectionViewCell {
     //MARK: Customized Format for Cell
     override init(frame: CGRect){
         super.init(frame: frame)
-        contentView.addSubview(c_image) //cells' content
+        contentView.addSubview(c_image) //cells" content
         contentView.addSubview(c_name)
         //MARK: Image Format
         let c_image_constraint = [
