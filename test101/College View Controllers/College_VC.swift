@@ -4,7 +4,6 @@ import UIKit
 class College_VC : UIViewController {
     
     
-    
     let college_search = UINavigationController(rootViewController: College_Search())
    
     let top_thirty = College_Top_Thirty()
@@ -38,17 +37,17 @@ class College_VC : UIViewController {
         college_search_view!.topAnchor.constraint(equalTo: view.topAnchor,constant: 0).isActive = true
         college_search_view!.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 0).isActive = true
         college_search_view!.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: 0).isActive = true
-        college_search_view!.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -80).isActive = true
+        college_search_view!.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -90).isActive = true
         
         top_thirty_view!.topAnchor.constraint(equalTo: view.topAnchor,constant: 0).isActive = true
         top_thirty_view!.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 0).isActive = true
         top_thirty_view!.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: 0).isActive = true
-        top_thirty_view!.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true
+        top_thirty_view!.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90).isActive = true
         
         bookmark_view!.topAnchor.constraint(equalTo: view.topAnchor,constant: 0).isActive = true
         bookmark_view!.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 0).isActive = true
         bookmark_view!.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: 0).isActive = true
-        bookmark_view!.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true
+        bookmark_view!.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90).isActive = true
         
         
         
@@ -78,13 +77,13 @@ class College_VC : UIViewController {
         search.translatesAutoresizingMaskIntoConstraints = false
         search.layer.cornerRadius = 10
         iv.addSubview(search)
-        search.backgroundColor = UIColor.systemBlue
+        search.backgroundColor = UIColor(red: 2/255, green: 81/255, blue: 173/255, alpha: 1.0)
         search.leadingAnchor.constraint(equalTo: iv.leadingAnchor, constant: 70).isActive = true
         search.heightAnchor.constraint(equalToConstant: 50).isActive = true
         search.widthAnchor.constraint(equalToConstant: 50).isActive = true
         search.centerYAnchor.constraint(equalTo: iv.centerYAnchor, constant: 0).isActive = true
         
-        let searchimage = UIImage(named: "search")
+        let searchimage = UIImage(named: "white_search")
         let searchimageView = UIImageView(image: searchimage!)
         searchimageView.translatesAutoresizingMaskIntoConstraints = false
         search.addSubview(searchimageView)
@@ -102,13 +101,14 @@ class College_VC : UIViewController {
         home.translatesAutoresizingMaskIntoConstraints = false
         home.layer.cornerRadius = 10
         iv.addSubview(home)
-        home.backgroundColor = UIColor.systemBlue
+        home.backgroundColor = UIColor(red: 2/255, green: 81/255, blue: 173/255, alpha: 1.0)
+        
         home.centerYAnchor.constraint(equalTo: iv.centerYAnchor, constant: 0).isActive = true
         home.centerXAnchor.constraint(equalTo: iv.centerXAnchor, constant: 0).isActive = true
         home.heightAnchor.constraint(equalToConstant: 50).isActive = true
         home.widthAnchor.constraint(equalToConstant: 50).isActive = true
         
-        let homeimage = UIImage(named: "home")
+        let homeimage = UIImage(named: "white_home")
         let homeimageView = UIImageView(image: homeimage!)
         homeimageView.translatesAutoresizingMaskIntoConstraints = false
         home.addSubview(homeimageView)
@@ -124,13 +124,14 @@ class College_VC : UIViewController {
         bookmark.translatesAutoresizingMaskIntoConstraints = false
         iv.addSubview(bookmark)
         bookmark.layer.cornerRadius = 10
-        bookmark.backgroundColor = UIColor.systemBlue
+        bookmark.backgroundColor = UIColor(red: 2/255, green: 81/255, blue: 173/255, alpha: 1.0)
+        
         bookmark.trailingAnchor.constraint(equalTo: iv.trailingAnchor, constant: -70).isActive = true
         bookmark.heightAnchor.constraint(equalToConstant: 50).isActive = true
         bookmark.widthAnchor.constraint(equalToConstant: 50).isActive = true
         bookmark.centerYAnchor.constraint(equalTo: iv.centerYAnchor, constant: 0).isActive = true
 
-        let bookmarkimage = UIImage(named: "bookmark")
+        let bookmarkimage = UIImage(named: "white_bookmark")
         let bookmarkimageView = UIImageView(image: bookmarkimage!)
         bookmarkimageView.translatesAutoresizingMaskIntoConstraints = false
         bookmark.addSubview(bookmarkimageView)
@@ -177,7 +178,7 @@ class College_VC : UIViewController {
         Bottom_Taskbar_View.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         Bottom_Taskbar_View.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         Bottom_Taskbar_View.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
-        Bottom_Taskbar_View.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true
+        Bottom_Taskbar_View.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -90).isActive = true
     }
     
     

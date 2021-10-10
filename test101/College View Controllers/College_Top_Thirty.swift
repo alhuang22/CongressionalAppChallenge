@@ -15,25 +15,26 @@ class College_Top_Thirty : UIViewController{
     
     
     //MARK: College Array
-    let top_thirty = ["Princeton University", "Harvard University", "Columbia University", "Massachusetts Institute of Technology", "Yale University", "Stanford University", "University of Chicago", "University of Pennsylvania", "California Institute of Technology", "Johns Hopkins University", "Northwestern University", "Duke University", "Dartmouth College", "Brown University", "Vanderbilt University", "Rice University", "Washington University in St. Louis", "Cornell University", "University of Notre Dame", "University of California - Los Angeles", "Emory University", "University of California - Berkeley", "Georgetown University", "University of Michigan", "University of Southern California", "Carnegie Mellon University", "New York University", "Tufts University", "University of California - Santa Barbara", "University of Florida"]
+    let top_thirty = ["Princeton University", "Harvard University", "Columbia University", "Massachusetts Institute of Technology", "Yale University", "Stanford University", "University of Chicago", "University of Pennsylvania", "California Institute of Technology", "Johns Hopkins University", "Northwestern University", "Duke University", "Dartmouth College", "Brown University", "Vanderbilt University", "Rice University", "Washington University in St. Louis", "Cornell University", "University of Notre Dame", "University of California - Los Angeles", "Emory University", "University of California - Berkeley", "Georgetown University", "University of Michigan", "Carnegie Mellon University", "University of Virginia-Main Campus", "University of Southern California", "New York University", "Tufts University", "University of California - Santa Barbara"]
+
     
-    let top_thirty_indices = [493, 360, 515, 367, 114, 978, 190, 743, 36, 333, 211, 590, 482, 769, 835, 867, 466, 517, 247, 51, 153, 48, 120, 401, 86, 709, 535, 377, 54, 135]
+    let top_thirty_indices = [493, 360, 515, 367, 114, 978, 190, 743, 36, 333, 211, 590, 482, 769, 835, 867, 466, 517, 247, 51, 153, 48, 120, 401, 709, 931, 86, 535, 377, 54]
     
     //MARK: Top 30 COLLEGES TITLE
     
     let college_title : UILabel = {
         let bt = UILabel()
         bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.text = "US News: Top 30 US Universities"
+        bt.text = "US News University Rankings"
         bt.font = Style.myApp.font(for: .subtitle)
         bt.textColor = .white
                 
         return bt
     }()
     
-    lazy var dismiss_button : UIButton = {
+    lazy var app_logo : UIButton = {
         let bt = UIButton()
-        let image = UIImage(named: "back")
+        let image = UIImage(named: "app_logo")
         bt.setImage(image, for: .normal)
         bt.translatesAutoresizingMaskIntoConstraints = false
         return bt
@@ -60,25 +61,19 @@ class College_Top_Thirty : UIViewController{
     }()
     
     
-    
+    //MARK: COLLEGE LABEL
     
     public func set_up_college_label (){
-        view.addSubview(dismiss_button)
-        dismiss_button.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
-        dismiss_button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
-        dismiss_button.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.08).isActive = true
-        dismiss_button.heightAnchor.constraint(equalTo: dismiss_button.widthAnchor).isActive = true
-        dismiss_button.addTarget(self, action: #selector(dismiss_page), for: .touchUpInside)
+        view.addSubview(app_logo)
+        app_logo.topAnchor.constraint(equalTo: view.topAnchor, constant: 35).isActive = true
+        app_logo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
+        app_logo.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15).isActive = true
+        app_logo.heightAnchor.constraint(equalTo: app_logo.widthAnchor).isActive = true
         view.addSubview(college_title)
-        college_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
-        college_title.centerYAnchor.constraint(equalTo: dismiss_button.centerYAnchor).isActive = true
+        college_title.leadingAnchor.constraint(equalTo: app_logo.trailingAnchor, constant: 10).isActive = true
+        college_title.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
         
     }
-    
-    @objc func dismiss_page (){
-        dismiss(animated: true, completion: nil)
-    }
-
     
     //MARK: View Did Load
     override func viewDidLoad(){
@@ -129,7 +124,7 @@ extension College_Top_Thirty : UICollectionViewDelegate, UICollectionViewDataSou
         view.addSubview(college_collection)
         college_collection.backgroundColor = .clear
         college_collection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        college_collection.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        college_collection.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
         college_collection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         college_collection.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         
@@ -157,7 +152,8 @@ extension College_Top_Thirty : UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //define the content in each cell
         let cell = college_collection.dequeueReusableCell(withReuseIdentifier: college_collection_identifier, for: indexPath) as! Customized_collection_view_cell//deque is a method in queue data structure          as adds a subclass
-        cell.backgroundColor = .systemBlue
+        cell.backgroundColor = UIColor(red: 2/255, green: 81/255, blue: 173/255, alpha: 1.0)
+        
         cell.c_image.image = UIImage(named: top_thirty[indexPath.row])
         
         // in order to fetch and read element from the array, first we want to use index path and then access row

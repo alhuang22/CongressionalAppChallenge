@@ -107,6 +107,7 @@ class College_Search : UIViewController, UITableViewDelegate, UITableViewDataSou
             return searched_college_list.count
         }
         return college_list.count
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {//defines height for each row

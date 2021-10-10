@@ -6,13 +6,18 @@
 //
 import UIKit
 
+let USER_DF = UserDefaults.standard
+//stores individual colleges
+
+
 class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UINavigationControllerDelegate {
     var college_list = [College]()
     var searched_college_list = [College]()
     var in_search_mode : Bool = false
-
+    let refreshControl = UIRefreshControl()
     
-
+    
+    
         //MARK: SEARCH
         
         var search_controller = UISearchController()
@@ -66,11 +71,7 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
             searchBar.resignFirstResponder()
         }
     
-    func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
-        college_list = GlobalArray.saved_colleges
-        college_table_view.reloadData()
-        print(college_list)
-    }
+  
     
     //MARK: TABLEVIEW
     
@@ -150,12 +151,37 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
         college_table_view.topAnchor.constraint(equalTo: view.topAnchor, constant: 5).isActive = true
         college_table_view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         college_table_view.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        
+        
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        self.college_table_view.refreshControl = refreshControl
     }
+    
+    @objc func refreshData(){
+        
+        
+        college_list.removeAll()
+        
+        
+        for (key, value) in USER_DF.dictionaryRepresentation() {//loops through user defaults that holds colleges,
+            if let savedUserData = USER_DF.object(forKey: key) as? Data{
+                let decoder = JSONDecoder()
+                if let savedUser = try? decoder.decode(College.self, from: savedUserData){
+                    college_list.append(savedUser)
+                    }
+                }
+            }
+        
+        
+        college_table_view.reloadData()
+        
+        refreshControl.endRefreshing()
+    }
+    
     
     override func viewDidLoad(){
         super.viewDidLoad()
         view.backgroundColor = .black
-        college_list = GlobalArray.saved_colleges
         setup_table_view()
         print("bookmark")
         configure_search_bar()

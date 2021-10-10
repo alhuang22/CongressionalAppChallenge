@@ -65,7 +65,3 @@ public struct College : Codable {
     let blue: Int?
 }
 
-public struct GlobalArray{
-    static var saved_colleges = [College]()
-    
-}

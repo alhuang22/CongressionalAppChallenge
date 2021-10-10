@@ -10,29 +10,85 @@ import UIKit
 
 extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
     
+    func calculate_colors() -> Void {
+        if let r = College_Data?.red {
+            let g = (College_Data?.green)!
+            let b = (College_Data?.blue)!
+            background_color = UIColor(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: 1)
+            text_mode = colorDetect.calculate_text_color(r: Double(r), g: Double(g), b: Double(b))
+        } else {
+            text_mode = colorDetect.dark
+            background_color = .lightGray
+        }
+        
+    }
+    
+    func set_headers() {
+        popular_majors = College_Data?.popular_majors
+        highest_earning_majors = College_Data?.top_salaries
+        if let popular = popular_majors {
+            var name = NO_DATA_CONSTANT
+            var level = ""
+            for major in popular {
+                if let m = major {
+                    if let title = m["title"] {
+                        name = title ?? NO_DATA_CONSTANT
+                        if name != NO_DATA_CONSTANT {
+                            level = m["credential"]! ?? ""
+                            popular_majors_data_array.append(ExpandableArray(isExpanded: false, category: [name + " - " + level]))
+//                            print(name + " - " + level)
+                        }
+                    }
+                }
+            }
+        }
+        if let highest = highest_earning_majors {
+            var name = NO_DATA_CONSTANT
+            var level = ""
+            for major in highest {
+                if let m = major {
+                    if let title = m["title"] {
+                        name = title ?? NO_DATA_CONSTANT
+                        if name != NO_DATA_CONSTANT {
+                            level = m["credential"]! ?? ""
+                            highest_earning_majors_data_array.append(ExpandableArray(isExpanded: false, category: [name + " - " + level]))
+                        }
+                    }
+                }
+            }
+        }
+    }
     func set_arrays() {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         popular_majors = College_Data?.popular_majors
         highest_earning_majors = College_Data?.top_salaries
         if let popular = popular_majors {
-            for major in popular {
-//                guard let earnings = major["earnings"] else {
-//                    continue
-//                }
-//                var earnings: String
-//                var grads: Int
-//                if let m = major {
-//                    if m["earnings"] == nil {
-//                        earnings = "No Data"
-//                    } else {
-//                        let received = Double(m["earnings"]!!)
-//                        let formatted = numberFormatter.string(from: NSNumber(floatLiteral: received!))!
-//                        earnings = formatted
-//                        print(earnings)
-//                    }
-////                    if m["counts"]
-//                }
+            for i in 0..<popular.count {
+                var earnings: String = NO_DATA_CONSTANT
+                var grads: String = NO_DATA_CONSTANT
+                if let m = popular[i] {
+                    if let earn = m["earnings"] {
+                        earnings = earn ?? NO_DATA_CONSTANT
+                    }
+                    if earnings != NO_DATA_CONSTANT {
+                        let received = Double(earnings)
+                        let formatted = numberFormatter.string(from: NSNumber(floatLiteral: received!))!
+                        earnings = "$" + formatted
+                    }
+                    if let count = m["counts"] {
+                        grads = count ?? NO_DATA_CONSTANT
+                    }
+                    if grads != NO_DATA_CONSTANT {
+                        let received = Double(grads)
+                        let formatted = numberFormatter.string(from: NSNumber(floatLiteral: received!))!
+                        grads = formatted
+                    }
+//                    if m["counts"]
+                }
+                popular_majors_data_array[i].category.append(grads)
+                popular_majors_subarray.append(ExpandableArray(isExpanded: false, category: ["Median Earnings: " + earnings, "Graduates: " + grads]))
+                
 //                if earnings != nil {
 //                    let converted_earnings = Double(earnings!)
 //                    let formattedSalary = numberFormatter.string(from: NSNumber(floatLiteral: converted_earnings!))!
@@ -42,28 +98,57 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
             }
         }
         highest_earning_majors = College_Data?.top_salaries
+        if let highest = highest_earning_majors {
+            for i in 0..<highest.count {
+                var earnings: String = NO_DATA_CONSTANT
+                var grads: String = NO_DATA_CONSTANT
+                if let m = highest[i] {
+                    if let earn = m["earnings"] {
+                        earnings = earn ?? NO_DATA_CONSTANT
+                    }
+                    if earnings != NO_DATA_CONSTANT {
+                        let received = Double(earnings)
+                        let formatted = numberFormatter.string(from: NSNumber(floatLiteral: received!))!
+                        earnings = "$" + formatted
+                    }
+                    if let count = m["counts"] {
+                        grads = count ?? NO_DATA_CONSTANT
+                    }
+                    if grads != NO_DATA_CONSTANT {
+                        let received = Double(grads)
+                        let formatted = numberFormatter.string(from: NSNumber(floatLiteral: received!))!
+                        grads = formatted
+                    }
+//                    if m["counts"]
+                }
+                 highest_earning_majors_data_array[i].category.append(earnings)
+                highest_earning_majors_subarray.append(ExpandableArray(isExpanded: false, category: ["Median Earnings: " + earnings, "Graduates: " + grads]))
+                 // popular_majors_subarray.append(ExpandableArray(isExpanded: false, category: ["Median Earnings: " + earnings, "Graduates: " + grads]))
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {//defines height for each row
-        return 50
+//        return popular_majors_data_array[indexPath.section].category[0].heightWithConstrainedWidth(width: popular_majors_tableview.bounds.width, font: Style.myApp.font(for: .subsubtitle))
+         return 50
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {//defines number of rows
         if tableView == popular_majors_tableview{
-            if !popular_majors_data_array[section].isExpanded {
+            if !popular_majors_subarray[section].isExpanded {
                 //code to be executed
                 return 0
             }
-            return popular_majors_data_array[section].category.count
+            return popular_majors_subarray[section].category.count
         }
         
         if tableView == highest_earning_majors_tableview{
-            if !highest_earning_majors_data_array[section].isExpanded {
+            if !highest_earning_majors_subarray[section].isExpanded {
                 //code to be executed
                 return 0
             }
-            return highest_earning_majors_data_array[section].category.count
+            return highest_earning_majors_subarray[section].category.count
         }
         
         return 2
@@ -77,10 +162,12 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
             
             //creating a new customized tableview cell because we want to add buttons and other structures
             
-            let major_element = popular_majors_data_array[indexPath.section].category[indexPath.row]//row is for tableview,
+            let major_element = popular_majors_subarray[indexPath.section].category[indexPath.row]//row is for tableview,
             
             
             cell.detailed_text.text = major_element
+            cell.icon_image.image = UIImage(named: expansion_image_array[indexPath.row])
+            cell.selectionStyle = .none
 
             return cell
     }
@@ -90,10 +177,12 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
 
             //creating a new customized tableview cell because we want to add buttons and other structures
 
-            let major_element = highest_earning_majors_data_array[indexPath.section].category[indexPath.row]//row is for tableview,
+            let major_element = highest_earning_majors_subarray[indexPath.section].category[indexPath.row]//row is for tableview,
 
 
             cell.detailed_text.text = major_element
+            cell.icon_image.image = UIImage(named: expansion_image_array[indexPath.row])
+            cell.selectionStyle = .none
 
             return cell
         }
@@ -124,12 +213,19 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
         if tableView == highest_earning_majors_tableview{
             major_name = highest_earning_majors_data_array[section].category[0]
         }
+//        var medEarnings : String = ""
+//        if tableView == popular_majors_tableview{
+//            medEarnings = popular_majors_data_array[section].category[1]
+//        }
+//        if tableView == highest_earning_majors_tableview{
+//            medEarnings = highest_earning_majors_data_array[section].category[0]
+//        }
         var graduates : String = ""
         if tableView == popular_majors_tableview{
-            graduates = popular_majors_data_array[section].category[2]
+            graduates = popular_majors_data_array[section].category[1]
         }
         if tableView == highest_earning_majors_tableview{
-            graduates = highest_earning_majors_data_array[section].category[2]
+            graduates = highest_earning_majors_data_array[section].category[1]
         }
         
         //return base view
@@ -149,7 +245,12 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
             major_title.text = major_name
             major_title.textColor = Style.myApp.color(for: .subsubtitle)
             major_title.font = Style.myApp.font(for: .subsubtitle)
+            if major_name.count > 40 {
+                major_title.font = Style.myApp.font(for: .information)
+            }
             major_title.translatesAutoresizingMaskIntoConstraints = false
+            major_title.numberOfLines = 0
+            major_title.contentMode = .scaleAspectFill
 
 
             let graduate_number = UILabel()
@@ -165,9 +266,24 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
 
             major_title.centerYAnchor.constraint(equalTo: iv.centerYAnchor).isActive = true
             major_title.leadingAnchor.constraint(equalTo: iv.leadingAnchor, constant: 15).isActive = true
-
-            graduate_number.centerYAnchor.constraint(equalTo: iv.centerYAnchor).isActive = true
-            graduate_number.trailingAnchor.constraint(equalTo: iv.trailingAnchor, constant: -75).isActive = true
+            major_title.widthAnchor.constraint(equalToConstant: popular_majors_tableview.bounds.width * 0.58).isActive = true
+//            major_title.trailingAnchor.constraint(equalTo: graduates_label.leadingAnchor, constant: 5).isActive = true
+            major_title.heightAnchor.constraint(equalToConstant: major_name.heightWithConstrainedWidth(width: popular_majors_tableview.bounds.width * 0.58, font: major_title.font)).isActive = true
+            
+            graduate_number.centerYAnchor.constraint(equalTo: drop_down_button.centerYAnchor, constant: -2).isActive = true
+            
+            if tableView == popular_majors_tableview {
+                graduate_number.trailingAnchor.constraint(equalTo: iv.trailingAnchor, constant: -75).isActive = true
+            } else {
+                graduate_number.trailingAnchor.constraint(equalTo: drop_down_button.leadingAnchor, constant: -20).isActive = true
+            }
+            
+//            if tableView == highest_earning_majors_tableview {
+//                graduate
+//            }
+            
+//            major_title.trailingAnchor.constraint(equalTo: graduate_number.leadingAnchor, constant: 5).isActive = true
+//            major_title.heightAnchor.constraint(equalToConstant: major_name.heightWithConstrainedWidth(width: major_title.bounds.width, font: major_title.font)).isActive = true
 
 
             drop_down_button.centerYAnchor.constraint(equalTo: major_title.centerYAnchor).isActive = true
@@ -190,7 +306,7 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
     }
     //MARK: HEADER HEIGHT
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 45
+        return 55
     }
     
     
@@ -200,22 +316,24 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
         var indexPaths = [IndexPath]()
         
         //iteration
-        for row in popular_majors_data_array[section].category.indices {
+        for row in popular_majors_subarray[section].category.indices {
             let indexPath = IndexPath(row: row, section: section)
             indexPaths.append(indexPath)
             
         }
         //selection
-        let isExpanded = popular_majors_data_array[section].isExpanded
-        popular_majors_data_array[section].isExpanded = !isExpanded
+        let isExpanded = popular_majors_subarray[section].isExpanded
+        popular_majors_subarray[section].isExpanded = !isExpanded
         
         //ternary operator --> fancy way of if else statement in swift it is single ?
 //        sender.setTitle(isExpanded ? "Up" : "Down", for: .normal)
         
         if isExpanded{
             popular_majors_tableview.deleteRows(at: indexPaths, with: .fade)
+            sender.setImage(UIImage(named: "drop_down"), for: .normal)
         }else{
             popular_majors_tableview.insertRows(at: indexPaths, with: .fade)
+            sender.setImage(UIImage(named: "drop_down")?.rotate(radians: .pi), for: .normal)
         }
         
     }
@@ -225,22 +343,24 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
         var indexPaths = [IndexPath]()
         
         //iteration
-        for row in highest_earning_majors_data_array[section].category.indices {
+        for row in highest_earning_majors_subarray[section].category.indices {
             let indexPath = IndexPath(row: row, section: section)
             indexPaths.append(indexPath)
             
         }
         //selection
-        let isExpanded = highest_earning_majors_data_array[section].isExpanded
-        highest_earning_majors_data_array[section].isExpanded = !isExpanded
+        let isExpanded = highest_earning_majors_subarray[section].isExpanded
+        highest_earning_majors_subarray[section].isExpanded = !isExpanded
         
         //ternary operator --> fancy way of if else statement in swift it is single ?
 //        sender.setTitle(isExpanded ? "Up" : "Down", for: .normal)
         
         if isExpanded{
             highest_earning_majors_tableview.deleteRows(at: indexPaths, with: .fade)
+            sender.setImage(UIImage(named: "drop_down"), for: .normal)
         }else{
             highest_earning_majors_tableview.insertRows(at: indexPaths, with: .fade)
+            sender.setImage(UIImage(named: "drop_down")?.rotate(radians: .pi), for: .normal)
         }
         
     }
@@ -296,5 +416,5 @@ class college_detailed_tableview_cell : UITableViewCell{
 
 struct ExpandableArray{
     var isExpanded : Bool
-    let category : [String]//stores the credentials, awards, and salary of each major
+    var category : [String]//stores the credentials, awards, and salary of each major
 }
