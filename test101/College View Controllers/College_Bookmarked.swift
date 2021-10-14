@@ -30,7 +30,7 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
             search_bar.delegate = self
             search_bar.barStyle = .black
             search_bar.backgroundColor = .black
-            search_bar.placeholder = "Search for Saved Colleges"
+            search_bar.placeholder = return_text(en: "Search for Saved Colleges", es: "Buscar universidades marcados", zh: "搜索已保存的大学")
             search_bar.autocapitalizationType = .none
             search_bar.barTintColor = .systemBlue
             search_bar.searchTextField.textColor = .systemBlue
@@ -48,8 +48,13 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
                 return
             }
             //filter
-            searched_college_list = college_list.filter({ raw_Data -> Bool in raw_Data.college_name.lowercased().contains(searchText.lowercased())
-            })
+            if language == .ES {
+                searched_college_list = college_list.filter({ raw_Data -> Bool in raw_Data.college_nameES!.lowercased().contains(searchText.lowercased())})
+            } else if language == .ZH {
+                searched_college_list = college_list.filter({ raw_Data -> Bool in raw_Data.college_nameZH!.lowercased().contains(searchText.lowercased())})
+            } else {
+                searched_college_list = college_list.filter({ raw_Data -> Bool in raw_Data.college_name.lowercased().contains(searchText.lowercased())})
+            }
             in_search_mode = true
 
             college_table_view.reloadData()
@@ -113,7 +118,7 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
             
             
             if in_search_mode{
-                cell.name.text = searched_college_list[indexPath.row].college_name
+                cell.name.text = return_text(en: searched_college_list[indexPath.row].college_name, es: searched_college_list[indexPath.row].college_nameES!, zh: searched_college_list[indexPath.row].college_nameZH!)
                 var url_link = "https://logo.clearbit.com/"
                 url_link+=searched_college_list[indexPath.row].domain!
 
@@ -122,7 +127,7 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
                 return cell
             }
             else{
-                cell.name.text = college_list[indexPath.row].college_name
+                cell.name.text = return_text(en: college_list[indexPath.row].college_name, es: college_list[indexPath.row].college_nameES!, zh: college_list[indexPath.row].college_nameZH!)
 
 
                 var url_link = "https://logo.clearbit.com/"

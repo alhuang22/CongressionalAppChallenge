@@ -24,8 +24,20 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
     }
     
     func set_headers() {
-        popular_majors = College_Data?.popular_majors
-        highest_earning_majors = College_Data?.top_salaries
+        if language == .ES {
+            popular_majors = College_Data?.popular_majorsES
+        } else if language == .ZH {
+            popular_majors = College_Data?.popular_majorsZH
+        } else {
+            popular_majors = College_Data?.popular_majors
+        }
+        if language == .ES {
+            highest_earning_majors = College_Data?.top_salariesES
+        } else if language == .ZH {
+            highest_earning_majors = College_Data?.top_salariesZH
+        } else {
+            highest_earning_majors = College_Data?.top_salaries
+        }
         if let popular = popular_majors {
             var name = NO_DATA_CONSTANT
             var level = ""
@@ -61,8 +73,20 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
     func set_arrays() {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        popular_majors = College_Data?.popular_majors
-        highest_earning_majors = College_Data?.top_salaries
+        if language == .ES {
+            popular_majors = College_Data?.popular_majorsES
+        } else if language == .ZH {
+            popular_majors = College_Data?.popular_majorsZH
+        } else {
+            popular_majors = College_Data?.popular_majors
+        }
+        if language == .ES {
+            highest_earning_majors = College_Data?.top_salariesES
+        } else if language == .ZH {
+            highest_earning_majors = College_Data?.top_salariesZH
+        } else {
+            highest_earning_majors = College_Data?.top_salaries
+        }
         if let popular = popular_majors {
             for i in 0..<popular.count {
                 var earnings: String = NO_DATA_CONSTANT
@@ -87,7 +111,7 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
 //                    if m["counts"]
                 }
                 popular_majors_data_array[i].category.append(grads)
-                popular_majors_subarray.append(ExpandableArray(isExpanded: false, category: ["Median Earnings: " + earnings, "Graduates: " + grads]))
+                popular_majors_subarray.append(ExpandableArray(isExpanded: false, category: [return_text(en: "Median Earnings: ", es: "Ingresos medios: ", zh: "工资中位数: ") + earnings, return_text(en: "Graduates: ", es: "Graduados: ", zh: "毕业生: ") + grads]))
                 
 //                if earnings != nil {
 //                    let converted_earnings = Double(earnings!)
@@ -97,7 +121,6 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
 //                }
             }
         }
-        highest_earning_majors = College_Data?.top_salaries
         if let highest = highest_earning_majors {
             for i in 0..<highest.count {
                 var earnings: String = NO_DATA_CONSTANT
@@ -122,7 +145,7 @@ extension College_Detailed_VC : UITableViewDelegate, UITableViewDataSource{
 //                    if m["counts"]
                 }
                  highest_earning_majors_data_array[i].category.append(earnings)
-                highest_earning_majors_subarray.append(ExpandableArray(isExpanded: false, category: ["Median Earnings: " + earnings, "Graduates: " + grads]))
+                highest_earning_majors_subarray.append(ExpandableArray(isExpanded: false, category: [return_text(en: "Median Earnings: ", es: "Ingresos medios: ", zh: "工资中位数: ") + earnings, return_text(en: "Graduates: ", es: "Graduados: ", zh: "毕业生: ") + grads]))
                  // popular_majors_subarray.append(ExpandableArray(isExpanded: false, category: ["Median Earnings: " + earnings, "Graduates: " + grads]))
             }
         }

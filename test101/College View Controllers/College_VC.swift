@@ -4,6 +4,17 @@ import UIKit
 class College_VC : UIViewController {
     
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            return .portrait
+
+        }
+    }
+    
     let college_search = UINavigationController(rootViewController: College_Search())
    
     let top_thirty = College_Top_Thirty()

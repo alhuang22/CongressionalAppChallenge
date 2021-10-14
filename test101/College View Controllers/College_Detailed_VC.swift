@@ -2,13 +2,35 @@ import Foundation
 import UIKit
 import SafariServices
 import Charts
+
+func return_text(en: String, es: String, zh: String) -> String {
+    if language == .EN {
+        return en
+    } else if language == .ES {
+        return es
+    } else {
+        return zh
+    }
+}
  
 class College_Detailed_VC : UIViewController{
     
+    let numberFormatter = NumberFormatter()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            return .portrait
+
+        }
+    }
     
     var is_saved : Bool?
     
-    let NO_DATA_CONSTANT: String = "No Data"
+    let NO_DATA_CONSTANT: String = return_text(en: "No Data", es: "Sin Datos", zh: "没有数据")
     
     var received_string : String?
     var received_image_string : String?
@@ -46,7 +68,7 @@ class College_Detailed_VC : UIViewController{
         lazy var college_info_title : UILabel = {
            let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.text = "College Information"
+            label.text = return_text(en: "College Information", es: "Información de la universidad", zh: "学院信息")
 
             label.textColor = .white
             label.font = Style.myApp.font(for: .subtitle)
@@ -106,7 +128,7 @@ class College_Detailed_VC : UIViewController{
     lazy var college_name : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = (College_Data?.college_name)!
+        label.text = return_text(en: (College_Data?.college_name)!, es: (College_Data?.college_nameES)!, zh: (College_Data?.college_nameZH)!)
 //        label.isUserInteractionEnabled = false
         label.numberOfLines = 0
         label.contentMode = .scaleAspectFill
@@ -117,16 +139,15 @@ class College_Detailed_VC : UIViewController{
     }()
     
     lazy var undergraduate_label : UILabel = {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         if var undergrad_size = College_Data?.undergrad_size {
+            numberFormatter.numberStyle = .decimal
             let val = Int(undergrad_size)
             let formatted = numberFormatter.string(from: NSNumber(integerLiteral: val))!
-            label.text = formatted + " undergraduates"
+            label.text = formatted + return_text(en: " undergraduates", es: " estudiantes", zh: " 本科生")
         } else {
-            label.text = "No Undergraduate Data"
+            label.text = return_text(en: "No Undergraduate Data", es: "Sin Datos de Pregrado", zh: "没有本科数据")
         }
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
@@ -181,18 +202,54 @@ class College_Detailed_VC : UIViewController{
         if let locale = College_Data?.locale {
             switch locale {
             case 11...13:
-                setting = .City
+                if language == .EN {
+                    setting = .City
+                } else if language == .ES {
+                    setting = .CityES
+                } else {
+                    setting = .CityZH
+                }
             case 21...23:
-                setting = .Suburb
+                if language == .EN {
+                    setting = .Suburb
+                } else if language == .ES {
+                    setting = .SuburbES
+                } else {
+                    setting = .SuburbZH
+                }
             case 31...33:
-                setting = .Town
+                if language == .EN {
+                    setting = .Town
+                } else if language == .ES {
+                    setting = .TownES
+                } else {
+                    setting = .TownZH
+                }
             case 41...43:
-                setting = .Rural
+                if language == .EN {
+                    setting = .Rural
+                } else if language == .ES {
+                    setting = .Rural
+                } else {
+                    setting = .RuralZH
+                }
             default:
-                setting = .None
+                if language == .EN {
+                    setting = .None
+                } else if language == .ES {
+                    setting = .NoneES
+                } else {
+                    setting = .NoneZH
+                }
             }
         } else {
-            setting = .None
+            if language == .EN {
+                setting = .None
+            } else if language == .ES {
+                setting = .NoneES
+            } else {
+                setting = .NoneZH
+            }
         }
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -208,16 +265,46 @@ class College_Detailed_VC : UIViewController{
         if let ownership = College_Data?.ownership {
             switch ownership {
             case 1:
-                funding = .Public
+                if language == .EN {
+                    funding = .Public
+                } else if language == .ES {
+                    funding = .PublicES
+                } else {
+                    funding = .PublicZH
+                }
             case 2:
-                funding = .PrivateNonprofit
+                if language == .EN {
+                    funding = .PrivateNonprofit
+                } else if language == .ES {
+                    funding = .PrivateES
+                } else {
+                    funding = .PrivateZH
+                }
             case 3:
-                funding = .PrivateProfit
+                if language == .EN {
+                    funding = .PrivateProfit
+                } else if language == .ES {
+                    funding = .PrivateES
+                } else {
+                    funding = .PrivateZH
+                }
             default:
-                funding = .None
+                if language == .EN {
+                    funding = .None
+                } else if language == .ES {
+                    funding = .NoneES
+                } else {
+                    funding = .NoneZH
+                }
             }
         } else {
-            funding = .None
+            if language == .EN {
+                funding = .None
+            } else if language == .ES {
+                funding = .NoneES
+            } else {
+                funding = .NoneZH
+            }
         }
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -235,17 +322,53 @@ class College_Detailed_VC : UIViewController{
         if let sz = College_Data?.carnegie_size_setting {
             switch sz {
             case 1, (6...8):
-                size = .verySmall
+                if language == .EN {
+                    size = .verySmall
+                } else if language == .ES {
+                    size = .smallES
+                } else {
+                    size = .smallZH
+                }
             case 2, (9...11):
-                size = .small
+                if language == .EN {
+                    size = .small
+                } else if language == .ES {
+                    size = .smallES
+                } else {
+                    size = .smallZH
+                }
             case 3, (12...14):
-                size = .medium
+                if language == .EN {
+                    size = .medium
+                } else if language == .ES {
+                    size = .mediumES
+                } else {
+                    size = .mediumZH
+                }
             case 4, (15...17):
-                size = .large
+                if language == .EN {
+                    size = .large
+                } else if language == .ES {
+                    size = .largeES
+                } else {
+                    size = .largeZH
+                }
             case 5:
-                size = .veryLarge
+                if language == .EN {
+                    size = .veryLarge
+                } else if language == .ES {
+                    size = .largeES
+                } else {
+                    size = .largeZH
+                }
             case 18:
-                size = .gradOnly
+                if language == .EN {
+                    size = .gradOnly
+                } else if language == .ES {
+                    size = .gradES
+                } else {
+                    size = .gradZH
+                }
             default:
                 size = .None
             }
@@ -260,6 +383,13 @@ class College_Detailed_VC : UIViewController{
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let contentRect: CGRect = scroll_view.subviews.reduce(into: .zero) { rect, view in
+            rect = rect.union(view.frame)
+        }
+        scroll_view.contentSize = contentRect.size
+    }
     
     //MARK: BASE VIEW 1
     
@@ -280,7 +410,11 @@ class College_Detailed_VC : UIViewController{
 
         view.addSubview(college_info_title)
         college_info_title.centerYAnchor.constraint(equalTo: dismiss_button.centerYAnchor).isActive = true
-        college_info_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
+         college_info_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 30).isActive = true
+        if language == .ES {
+            college_info_title.leadingAnchor.constraint(equalTo: dismiss_button.trailingAnchor, constant: 10).isActive = true
+        }
+//        college_info_title.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         //MARK: SAVE BUTTON
         view.addSubview(save_button)
@@ -335,8 +469,8 @@ class College_Detailed_VC : UIViewController{
         location_label.topAnchor.constraint(equalTo: undergraduate_label.bottomAnchor, constant:10).isActive = true
         location_label.leadingAnchor.constraint(equalTo: Base_View_1.leadingAnchor,constant: 45).isActive = true
 //        location_label.widthAnchor.constraint(equalToConstant: college_logo.frame.minX - location_label.frame.minX).isActive = true
-        location_label.widthAnchor.constraint(equalToConstant: view.frame.width * 0.5).isActive = true
-        location_label.heightAnchor.constraint(equalToConstant: city.heightWithConstrainedWidth(width: view.frame.width * 0.5, font: location_label.font)).isActive = true
+        location_label.widthAnchor.constraint(equalToConstant: view.frame.width * 0.43).isActive = true
+        location_label.heightAnchor.constraint(equalToConstant: city.heightWithConstrainedWidth(width: view.frame.width * 0.43, font: location_label.font)).isActive = true
         
         let location_image = UIImage(named: "location")
         let location_image_view = UIImageView(image: location_image!)
@@ -443,7 +577,7 @@ class College_Detailed_VC : UIViewController{
     
     //MARK: ---------------------
     
-    
+
     
     //MARK: BASE VIEW 2 LABELS
     
@@ -458,7 +592,7 @@ class College_Detailed_VC : UIViewController{
     lazy var overview_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Overview"
+        label.text = return_text(en: "Overview", es: "Descripción General", zh: "概述")
         label.textColor = Style.myApp.color(for: .title)
         if text_mode == .bright {
             label.textColor = Style.myApp.color(for: .lightTitle)
@@ -470,7 +604,7 @@ class College_Detailed_VC : UIViewController{
     lazy var acceptance_rate_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Acceptance Rate:"
+        label.text = return_text(en: "Acceptance Rate:", es: "Nivel de Aceptación:", zh: "录取率:")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -487,7 +621,7 @@ class College_Detailed_VC : UIViewController{
             acc_rate *= 100
             label.text = String(acc_rate.rounded(toPlaces: 2)) + "%"
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
         label.textColor = Style.myApp.color(for: .title)
         if text_mode == .bright {
@@ -500,7 +634,7 @@ class College_Detailed_VC : UIViewController{
     lazy var graduation_rate_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Graduation Rate:"
+        label.text = return_text(en: "Graduation Rate:", es: "Tasa de Graduación:", zh: "毕业率:")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -516,7 +650,7 @@ class College_Detailed_VC : UIViewController{
         if var grad_rate = College_Data?.graduation_rate {
             label.text = String(grad_rate) + "%"
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
 
         label.textColor = Style.myApp.color(for: .title)
@@ -530,7 +664,7 @@ class College_Detailed_VC : UIViewController{
     lazy var retention_rate_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Retention Rate:"
+        label.text = return_text(en: "Retention Rate:", es: "Tasa de Retención:", zh: "保留率:")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -548,7 +682,7 @@ class College_Detailed_VC : UIViewController{
             ret_rate *= 100
             label.text = String(ret_rate.rounded(toPlaces: 2)) + "%"
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
 
         label.textColor = Style.myApp.color(for: .title)
@@ -559,27 +693,6 @@ class College_Detailed_VC : UIViewController{
         return label
     }()
     
-    // MARK: Pie chart code
-    
-    let pieChartView = PieChartView()
-    
-    func setupChart(dataPoints: [String], values: [Double]) {
-        pieChartView.frame = CGRect(x: 120, y: 25, width: 245, height: 245)
-//        pieChartView.translatesAutoresizingMaskIntoConstraints = false
-        var dataEntries: [ChartDataEntry] = []
-        for i in 0..<dataPoints.count {
-            let dataEntry1 = PieChartDataEntry(value: values[i], label: dataPoints[i])
-            dataEntry1.y = values[i]
-          dataEntries.append(dataEntry1)
-        }
-        let pieChartDataSet = PieChartDataSet(entries: dataEntries)
-        pieChartDataSet.colors = ChartColorTemplates.material()
-        let pieChartData = PieChartData(dataSet: pieChartDataSet)
-        pieChartView.data = pieChartData
-        pieChartView.holeRadiusPercent = 0
-        pieChartView.transparentCircleColor = UIColor.clear
-        pieChartView.legend.enabled = false
-      }
     
     let rectangle: UIView = {
         let vw = UIView()
@@ -631,7 +744,7 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_range_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "SAT Range (25%-75%):"
+        label.text = return_text(en: "SAT Range (25%-75%):", es: "Rango de SAT (25%-75%):", zh: "SAT范围 (25%-75%):")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -649,7 +762,7 @@ class College_Detailed_VC : UIViewController{
             let total_75 = String((College_Data?.sat_reading_75)! + (College_Data?.sat_math_75)!)
             label.text = total_25 + "-" + total_75
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
 
         label.textColor = Style.myApp.color(for: .title)
@@ -663,7 +776,7 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_reading_writing_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "SAT Reading/Writing"
+        label.text = return_text(en: "SAT Reading/Writing", es: "SAT Leyendo/Escribiendo", zh: "SAT阅读/写作")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -680,7 +793,7 @@ class College_Detailed_VC : UIViewController{
             let sat_reading_75 = String((College_Data?.sat_reading_75)!)
             label.text = String(sat_reading_25) + "-" + sat_reading_75
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
 
         label.textColor = Style.myApp.color(for: .title)
@@ -694,7 +807,7 @@ class College_Detailed_VC : UIViewController{
     lazy var sat_math_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "SAT Math"
+        label.text = return_text(en: "SAT Math", es: "Matemáticas SAT", zh: "SAT数学")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -711,7 +824,7 @@ class College_Detailed_VC : UIViewController{
             let sat_math_75 = String((College_Data?.sat_math_75)!)
             label.text = String(sat_math_25) + "-" + sat_math_75
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
 
         label.textColor = Style.myApp.color(for: .title)
@@ -726,7 +839,7 @@ class College_Detailed_VC : UIViewController{
     lazy var act_range_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "ACT Range:"
+        label.text = return_text(en: "ACT Range:", es: "Rango ACT:", zh: "ACT范围:")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -743,7 +856,7 @@ class College_Detailed_VC : UIViewController{
             let act_75 = String((College_Data?.ACT_75_Percentile)!)
             label.text = String(act_25) + "-" + act_75
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
 
         label.textColor = Style.myApp.color(for: .title)
@@ -757,7 +870,7 @@ class College_Detailed_VC : UIViewController{
     lazy var act_reading_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "ACT Reading:"
+        label.text = return_text(en: "ACT Reading:", es: "ACT Leyendo:", zh: "ACT阅读:")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -774,7 +887,7 @@ class College_Detailed_VC : UIViewController{
             let act_reading_75 = String((College_Data?.act_english_75)!)
             label.text = String(act_reading_25) + "-" + act_reading_75
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
 
         label.textColor = Style.myApp.color(for: .title)
@@ -788,7 +901,7 @@ class College_Detailed_VC : UIViewController{
     lazy var act_math_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "ACT Math:"
+        label.text = return_text(en: "ACT Math:", es: "ACT Matemáticas:", zh: "ACT数学:")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -805,7 +918,7 @@ class College_Detailed_VC : UIViewController{
             let act_math_75 = String((College_Data?.act_math_75)!)
             label.text = String(act_math_25) + "-" + act_math_75
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
 
         label.textColor = Style.myApp.color(for: .title)
@@ -872,10 +985,15 @@ class College_Detailed_VC : UIViewController{
             percentages.append(values[i])
             values[i] *= 100
         }
-        let labels = ["White", "Asian", "Hispanic", "Black", "Mixed", "Other", "International"]
-        var color: UIColor = .black.withAlphaComponent(0.75)
+        var labels = ["White", "Asian", "Hispanic", "Black", "Mixed", "Other", "International"]
+        if language == .ES {
+            labels = ["Blanco", "Asiático", "Hispano", "Negro", "Mixto", "Otro", "Internacional"]
+        } else if language == .ZH {
+            labels = ["白人","亚洲人", "西班牙裔", "黑人", "混合", "其他", "国际"]
+        }
+        var color: UIColor = UIColor.black.withAlphaComponent(0.75)
         if text_mode == .bright {
-            color = .white.withAlphaComponent(0.75)
+            color = UIColor.white.withAlphaComponent(0.75)
         }
         var rects = [UIView]()
         for i in 0..<values.count {
@@ -887,7 +1005,11 @@ class College_Detailed_VC : UIViewController{
         let HEIGHT_CONSTANT: CGFloat = 5
         let SPACING: CGFloat = 8
         
-        rects[0].leadingAnchor.constraint(equalTo: overview_label.trailingAnchor, constant: 10).isActive = true
+        if language == .ZH {
+            rects[0].leadingAnchor.constraint(equalTo: acceptance_rate_label.trailingAnchor, constant: 75).isActive = true
+        } else {
+            rects[0].leadingAnchor.constraint(equalTo: acceptance_rate_label.trailingAnchor, constant: 40).isActive = true
+        }
         // rectangle.centerYAnchor.constraint(equalTo: acceptance_rate_label.centerYAnchor).isActive = true
         rects[0].topAnchor.constraint(equalTo: acceptance_rate_label.topAnchor).isActive = true
         rects[0].heightAnchor.constraint(equalToConstant: HEIGHT_CONSTANT).isActive = true
@@ -945,17 +1067,23 @@ class College_Detailed_VC : UIViewController{
         var shrink: Bool = false
         
         for percent in percentages {
-            if percent > 0.58 {
+            if percent > 0.57 {
+                shrink = true
+                break
+            }
+            if percent > 0.50 && language == .ZH {
                 shrink = true
                 break
             }
         }
         
         var CONST = Double(abs(acceptance_rate_label.frame.maxX - Base_View_2.frame.maxX))
+        if language == .ZH && !shrink {
+            CONST -= 15
+        }
         if shrink {
             CONST = Double(abs(college_logo.frame.minX - Base_View_2.frame.maxX) - 40)
         }
-        print(CONST)
 //        if let w = College_Data?.white {
 //            if w >
 //        }
@@ -963,7 +1091,7 @@ class College_Detailed_VC : UIViewController{
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             UIView.animate(withDuration: 1.5) {
-//                widthConstraintWhite.constant += CGFloat(Double(percentages[0] * CONST))
+//                widthConstraintWhite.constant += CGFloat(Double(0.98 * CONST))
                 widthConstraintWhite.constant += CGFloat(Double(percentages[0] * CONST))
                 widthConstraintAsian.constant += CGFloat(Double(percentages[1] * CONST))
                 widthConstraintHispanic.constant += CGFloat(Double(percentages[2] * CONST))
@@ -1042,7 +1170,7 @@ class College_Detailed_VC : UIViewController{
     lazy var majors_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Majors"
+        label.text = return_text(en: "Majors", es: "Mayores", zh: "专业")
 
         label.textColor = Style.myApp.color(for: .title)
         if text_mode == .bright {
@@ -1055,7 +1183,7 @@ class College_Detailed_VC : UIViewController{
     lazy var popular_majors_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Popular Majors"
+        label.text = return_text(en: "Popular Majors", es: "Mayores Populares", zh: "热门专业")
 
         label.textColor = Style.myApp.color(for: .subtitle)
         if text_mode == .bright {
@@ -1069,7 +1197,7 @@ class College_Detailed_VC : UIViewController{
     lazy var major_label: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Major"
+        label.text = return_text(en: "Major", es: "Especialización", zh: "专业")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -1082,7 +1210,7 @@ class College_Detailed_VC : UIViewController{
     lazy var graduates_label: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Graduates"
+        label.text = return_text(en: "Graduates", es: "Graduados", zh: "毕业生")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -1106,7 +1234,7 @@ class College_Detailed_VC : UIViewController{
     lazy var highest_earning_majors_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Highest Earning Majors"
+        label.text = return_text(en: "Highest Earning Majors", es: "Mayores Ganancias", zh: "收入最高的专业")
 
         label.textColor = Style.myApp.color(for: .subtitle)
         if text_mode == .bright {
@@ -1119,7 +1247,7 @@ class College_Detailed_VC : UIViewController{
     lazy var he_major_label: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Major"
+        label.text = return_text(en: "Major", es: "Especialización", zh: "专业")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -1132,7 +1260,7 @@ class College_Detailed_VC : UIViewController{
     lazy var he_graduates_label: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Median Salary"
+        label.text = return_text(en: "Median Salary", es: "Salario medio", zh: "工资中位数")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -1218,7 +1346,7 @@ class College_Detailed_VC : UIViewController{
     lazy var tuition_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Tuition"
+        label.text = return_text(en: "Tuition", es: "Matrícula", zh: "学费")
 
         label.textColor = Style.myApp.color(for: .title)
         if text_mode == .bright {
@@ -1232,7 +1360,7 @@ class College_Detailed_VC : UIViewController{
     lazy var in_state_tuition_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "In-State Tuition:"
+        label.text = return_text(en: "In-State Tuition:", es: "En Matrícula Estatal:", zh: "在州学费:")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -1246,9 +1374,11 @@ class College_Detailed_VC : UIViewController{
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         if var tuition = College_Data?.in_state_tuition {
-            label.text = "$" + String(tuition)
+            numberFormatter.numberStyle = .decimal
+            let formatted = numberFormatter.string(from: NSNumber(integerLiteral: tuition))!
+            label.text = "$" + formatted
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
         label.textColor = Style.myApp.color(for: .title)
         if text_mode == .bright {
@@ -1262,7 +1392,7 @@ class College_Detailed_VC : UIViewController{
     lazy var out_of_state_tuition_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Out-Of-State Tuition:"
+        label.text = return_text(en: "Out-Of-State Tuition:", es: "Matrícula No Estatal:", zh: "州外学费:")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -1276,9 +1406,11 @@ class College_Detailed_VC : UIViewController{
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         if var tuition = College_Data?.out_of_state_tuition {
-            label.text = "$" + String(tuition)
+            numberFormatter.numberStyle = .decimal
+            let formatted = numberFormatter.string(from: NSNumber(integerLiteral: tuition))!
+            label.text = "$" + formatted
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
         label.textColor = Style.myApp.color(for: .title)
         if text_mode == .bright {
@@ -1288,15 +1420,29 @@ class College_Detailed_VC : UIViewController{
         return label
     }()
     
+    lazy var basic_tuition : UILabel = {
+        let label = UILabel()
+         label.translatesAutoresizingMaskIntoConstraints = false
+         label.text = return_text(en: "Tuition:", es: "Matrícula:", zh: "学费:")
+
+         label.textColor = Style.myApp.color(for: .subsubtitle)
+         if text_mode == .bright {
+             label.textColor = Style.myApp.color(for: .lightSubsubtitle)
+         }
+         label.font = Style.myApp.font(for: .subsubtitle)
+         return label
+    }()
+    
     lazy var percent_financial_aid_label : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Percent Financial Aid:"
+        label.text = return_text(en: "Percent Financial Aid:", es: "Porcentaje de ayuda\nfinanciera:", zh: "经济援助百分比:")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
             label.textColor = Style.myApp.color(for: .lightSubsubtitle)
         }
+        label.numberOfLines = 0
         label.font = Style.myApp.font(for: .subsubtitle)
         return label
     }()
@@ -1307,7 +1453,7 @@ class College_Detailed_VC : UIViewController{
         if var tuition = College_Data?.percent_financial_aid {
             label.text = String(tuition) + "%"
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
         label.textColor = Style.myApp.color(for: .title)
         if text_mode == .bright {
@@ -1320,7 +1466,7 @@ class College_Detailed_VC : UIViewController{
     lazy var pell_grant_rate : UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Pell Grant Rate:"
+        label.text = return_text(en: "Pell Grant Rate:", es: "Tasa de Subvención Pell:", zh: "批准率:")
 
         label.textColor = Style.myApp.color(for: .subsubtitle)
         if text_mode == .bright {
@@ -1337,7 +1483,7 @@ class College_Detailed_VC : UIViewController{
             rate *= 100
             label.text = String(rate.rounded(toPlaces: 2)) + "%"
         } else {
-            label.text = "No Data"
+            label.text = NO_DATA_CONSTANT
         }
         label.textColor = Style.myApp.color(for: .title)
         if text_mode == .bright {
@@ -1364,6 +1510,25 @@ class College_Detailed_VC : UIViewController{
         return bt
     }()
     
+    lazy var price_calculator_title : UIButton = {
+        let bt = UIButton()
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        
+        bt.titleLabel?.numberOfLines = 0
+        
+        bt.setTitleColor(Style.myApp.color(for: .subsubtitle), for: .normal)
+        if text_mode == .bright {
+            bt.setTitleColor(Style.myApp.color(for: .lightSubsubtitle), for: .normal)
+        }
+        bt.titleLabel?.font = Style.myApp.font(for: .subsubtitle)
+        bt.titleLabel?.textAlignment = .center
+        bt.setTitle(return_text(en: "Tap here to estimate your tuition", es: "Toca aquí para estimar su matrícula", zh: "点按此处估算您的学费"), for: .normal)
+        
+        return bt
+    }()
+    
+    
+    
     
     
     
@@ -1380,19 +1545,32 @@ class College_Detailed_VC : UIViewController{
         tuition_label.topAnchor.constraint(equalTo: Base_View_4.topAnchor, constant: 20).isActive = true
         tuition_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
         
-        Base_View_4.addSubview(in_state_tuition_label)
-        in_state_tuition_label.topAnchor.constraint(equalTo: tuition_label.bottomAnchor, constant: 15).isActive = true
-        in_state_tuition_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
-        Base_View_4.addSubview(in_state_tuition_number_label)
-        in_state_tuition_number_label.topAnchor.constraint(equalTo: in_state_tuition_label.bottomAnchor, constant: 3).isActive = true
-        in_state_tuition_number_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
+        if let ownership = College_Data?.ownership {
+            print(ownership)
+            if ownership == 2 || ownership == 3 {
+                Base_View_4.addSubview(basic_tuition)
+                basic_tuition.topAnchor.constraint(equalTo: tuition_label.bottomAnchor, constant: 15).isActive = true
+                basic_tuition.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
+                Base_View_4.addSubview(out_of_state_number_label)
+                out_of_state_number_label.topAnchor.constraint(equalTo: basic_tuition.bottomAnchor, constant: 3).isActive = true
+                out_of_state_number_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
+            } else {
+                Base_View_4.addSubview(in_state_tuition_label)
+                in_state_tuition_label.topAnchor.constraint(equalTo: tuition_label.bottomAnchor, constant: 15).isActive = true
+                in_state_tuition_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
+                Base_View_4.addSubview(in_state_tuition_number_label)
+                in_state_tuition_number_label.topAnchor.constraint(equalTo: in_state_tuition_label.bottomAnchor, constant: 3).isActive = true
+                in_state_tuition_number_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
+                
+                Base_View_4.addSubview(out_of_state_tuition_label)
+                out_of_state_tuition_label.topAnchor.constraint(equalTo: in_state_tuition_number_label.bottomAnchor, constant: 15).isActive = true
+                out_of_state_tuition_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
+                Base_View_4.addSubview(out_of_state_number_label)
+                out_of_state_number_label.topAnchor.constraint(equalTo: out_of_state_tuition_label.bottomAnchor, constant: 3).isActive = true
+                out_of_state_number_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
+            }
+        }
         
-        Base_View_4.addSubview(out_of_state_tuition_label)
-        out_of_state_tuition_label.topAnchor.constraint(equalTo: in_state_tuition_number_label.bottomAnchor, constant: 15).isActive = true
-        out_of_state_tuition_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
-        Base_View_4.addSubview(out_of_state_number_label)
-        out_of_state_number_label.topAnchor.constraint(equalTo: out_of_state_tuition_label.bottomAnchor, constant: 3).isActive = true
-        out_of_state_number_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
         
         Base_View_4.addSubview(percent_financial_aid_label)
         percent_financial_aid_label.topAnchor.constraint(equalTo: out_of_state_number_label.bottomAnchor, constant: 15).isActive = true
@@ -1409,10 +1587,22 @@ class College_Detailed_VC : UIViewController{
         pell_grant_rate_number_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
         
         Base_View_4.addSubview(price_calculator)
-        price_calculator.topAnchor.constraint(equalTo: in_state_tuition_label.bottomAnchor, constant: 10).isActive = true
-        price_calculator.leadingAnchor.constraint(equalTo: out_of_state_tuition_label.trailingAnchor,constant: 30).isActive = true
+        price_calculator.topAnchor.constraint(equalTo: tuition_label.bottomAnchor, constant: 10).isActive = true
+        if language == .ZH {
+            price_calculator.trailingAnchor.constraint(equalTo: Base_View_4.trailingAnchor,constant: -30).isActive = true
+        } else {
+            price_calculator.trailingAnchor.constraint(equalTo: Base_View_4.trailingAnchor,constant: -20).isActive = true
+        }
         price_calculator.heightAnchor.constraint(equalTo: Base_View_4.widthAnchor, multiplier: 0.42).isActive = true
         price_calculator.widthAnchor.constraint(equalTo: price_calculator.heightAnchor).isActive = true
+        
+        if let url = College_Data?.price_calculator_url {
+            Base_View_4.addSubview(price_calculator_title)
+            price_calculator_title.centerXAnchor.constraint(equalTo: price_calculator.centerXAnchor).isActive = true
+            price_calculator_title.topAnchor.constraint(equalTo: price_calculator.bottomAnchor, constant: 10).isActive = true
+            price_calculator_title.leadingAnchor.constraint(equalTo: price_calculator.leadingAnchor).isActive = true
+            price_calculator_title.trailingAnchor.constraint(equalTo: price_calculator.trailingAnchor).isActive = true
+        }
         
         Base_View_4.bottomAnchor.constraint(equalTo: pell_grant_rate_number_label.bottomAnchor, constant: 25).isActive = true
     }
@@ -1426,7 +1616,6 @@ class College_Detailed_VC : UIViewController{
         sc.bounces = true
         sc.translatesAutoresizingMaskIntoConstraints = false
         // sc.frame = view.frame//this is all good, no need for auto layout
-        sc.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 900)
         return sc
     }()
     
@@ -1468,12 +1657,12 @@ class College_Detailed_VC : UIViewController{
         
         domain_button.addTarget(self, action: #selector(domainTap(sender:)), for: .touchUpInside)
         price_calculator.addTarget(self, action: #selector(priceTap(sender:)), for: .touchUpInside)
+        price_calculator_title.addTarget(self, action: #selector(priceTap(sender:)), for: .touchUpInside)
         var values = [(College_Data?.white)!, (College_Data?.black)!, (College_Data?.asian)!, (College_Data?.hispanic)!, (College_Data?.aian)! + (College_Data?.nhpi)!, (College_Data?.two_or_more)!, (College_Data?.non_resident_alien)!, (College_Data?.unknown)!]
         for i in 0..<values.count {
             values[i] *= 100
         }
         let labels = ["White", "Black", "Asian", "Hispanic", "Other", "Two or more", "Non-resident", "Unknown"]
-        setupChart(dataPoints: labels, values: values)
         setup_Base_View_3()
         
         setup_Base_View_4()

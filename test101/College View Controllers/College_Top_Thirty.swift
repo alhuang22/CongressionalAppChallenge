@@ -16,29 +16,43 @@ class College_Top_Thirty : UIViewController{
     
     //MARK: College Array
     let top_thirty = ["Princeton University", "Harvard University", "Columbia University", "Massachusetts Institute of Technology", "Yale University", "Stanford University", "University of Chicago", "University of Pennsylvania", "California Institute of Technology", "Johns Hopkins University", "Northwestern University", "Duke University", "Dartmouth College", "Brown University", "Vanderbilt University", "Rice University", "Washington University in St. Louis", "Cornell University", "University of Notre Dame", "University of California - Los Angeles", "Emory University", "University of California - Berkeley", "Georgetown University", "University of Michigan", "Carnegie Mellon University", "University of Virginia-Main Campus", "University of Southern California", "New York University", "Tufts University", "University of California - Santa Barbara"]
-
+    
+    let top_thirtyES = ["Universidad de Princeton", "Universidad Harvard", "Universidad de Colombia", "Instituto de Tecnología de Massachusetts", "Universidad de Yale", "Universidad Stanford", "Universidad de Chicago", "Universidad de Pennsylvania", "Instituto de Tecnología de California", "Universidad Johns Hopkins", "Northwestern University", "Universidad de Duke", "Dartmouth College", "Universidad marrón", "Universidad de Vanderbilt", "Universidad de arroz", "Universidad de Washington en St. Louis", "Universidad de Cornell", "Universidad de Notre Dame", "Universidad de California, Los Angeles", "Universidad Emory", "Universidad de California, Berkeley", "Universidad de Georgetown", "Universidad de Michigan", "Universidad de Carnegie mellon", "Universidad de Virginia-Main Campus", "Universidad del Sur de California", "Universidad de Nueva York", "Universidad de Tufts", "Universidad de California - Santa Bárbara"]
+        
+    let top_thirtyZH = ["普林斯顿大学", "哈佛大学", "哥伦比亚大学", "麻省理工学院", "耶鲁大学", "斯坦福大学", "芝加哥大学", "宾夕法尼亚大学", "加利福尼亚州理工学院", "约翰霍普金斯大学", "西北大学", "杜克大学", "达特茅斯学院", "布朗大学", "范德比尔大学", "赖斯大学", "华盛顿大学在圣路易斯", "康奈尔大学", "巴黎圣母院大学", "加利福尼亚大学 - 洛杉矶", "埃默里大学", "加利福尼亚大学 - 伯克利", "乔治城大学", "密歇根大学", "卡内基·梅隆大学", "弗吉尼亚大学 - 主校园", "南加利福尼亚大学", "纽约大学", "塔夫茨大学", "加利福尼亚大学 - 圣巴巴拉"]
     
     let top_thirty_indices = [493, 360, 515, 367, 114, 978, 190, 743, 36, 333, 211, 590, 482, 769, 835, 867, 466, 517, 247, 51, 153, 48, 120, 401, 709, 931, 86, 535, 377, 54]
     
     //MARK: Top 30 COLLEGES TITLE
     
     let college_title : UILabel = {
-        let bt = UILabel()
-        bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.text = "US News University Rankings"
-        bt.font = Style.myApp.font(for: .subtitle)
-        bt.textColor = .white
-                
-        return bt
-    }()
+            let bt = UILabel()
+            bt.translatesAutoresizingMaskIntoConstraints = false
+            bt.text = "US News University Rankings"
+            bt.font = Style.myApp.font(for: .subtitle)
+            if language == .ES {
+                bt.text = "Las 30 mejores universidades de US"
+                bt.font = UIFont(name: "Georgia", size: 17)
+            } else if language == .ZH {
+                bt.text = "美国新闻大学排名"
+            }
+            bt.textColor = .white
+                    
+            return bt
+        }()
     
     lazy var app_logo : UIButton = {
         let bt = UIButton()
         let image = UIImage(named: "app_logo")
         bt.setImage(image, for: .normal)
         bt.translatesAutoresizingMaskIntoConstraints = false
+        bt.addTarget(self, action: #selector(handle_dismiss(sender:)), for: .touchUpInside)
         return bt
     }()
+    
+    @objc func handle_dismiss(sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     
     //MARK: DECLRATION OF THE COLLECTIONVIEW
@@ -70,8 +84,13 @@ class College_Top_Thirty : UIViewController{
         app_logo.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15).isActive = true
         app_logo.heightAnchor.constraint(equalTo: app_logo.widthAnchor).isActive = true
         view.addSubview(college_title)
-        college_title.leadingAnchor.constraint(equalTo: app_logo.trailingAnchor, constant: 10).isActive = true
-        college_title.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+        if language == .ZH {
+            college_title.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        } else {
+            college_title.leadingAnchor.constraint(equalTo: app_logo.trailingAnchor, constant: 10).isActive = true
+        }
+//        college_title.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+        college_title.centerYAnchor.constraint(equalTo: app_logo.centerYAnchor).isActive = true
         
     }
     
@@ -158,7 +177,19 @@ extension College_Top_Thirty : UICollectionViewDelegate, UICollectionViewDataSou
         
         // in order to fetch and read element from the array, first we want to use index path and then access row
         cell.c_name.text = top_thirty[indexPath.row]
+        if language == .ES {
+            cell.c_name.text = top_thirtyES[indexPath.row]
+        } else if language == .ZH {
+            cell.c_name.text = top_thirtyZH[indexPath.row]
+            cell.c_name.font = UIFont(name: "Georgia-Bold", size: 11)
+        }
+        
         cell.layer.cornerRadius = 10
+        if cell.c_name.text!.count > 30 {
+            cell.c_name.topAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -40).isActive = true
+        } else {
+            cell.c_name.topAnchor.constraint(equalTo: cell.contentView.bottomAnchor,constant:-30).isActive = true
+        }
 //        cell.c_image.clipsToBounds = true //used for rounded corner for image
         return cell
     }
@@ -168,6 +199,8 @@ extension College_Top_Thirty : UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         
         let destination = College_Detailed_VC()//sets next UIView
+        print(College_Data.count)
+        print(indexPath.row)
         destination.College_Data = College_Data[top_thirty_indices[indexPath.row]]
         
         destination.received_string = top_thirty[indexPath.row]
@@ -205,6 +238,7 @@ class Customized_collection_view_cell : UICollectionViewCell {
         lb.font = UIFont(name: "Georgia-Bold", size: 9)
         lb.backgroundColor = UIColor.black.withAlphaComponent(0.50)
         lb.clipsToBounds = true
+        lb.numberOfLines = 0
         lb.layer.cornerRadius = 10
         return lb
     }()
@@ -221,7 +255,7 @@ class Customized_collection_view_cell : UICollectionViewCell {
         NSLayoutConstraint.activate(c_image_constraint)
         //MARK: Label Format
         let c_name_constraint = [
-            c_name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10), c_name.topAnchor.constraint(equalTo: contentView.bottomAnchor,constant:-30), c_name.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10), c_name.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            c_name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10), c_name.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10), c_name.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ]
         NSLayoutConstraint.activate(c_name_constraint)
         
