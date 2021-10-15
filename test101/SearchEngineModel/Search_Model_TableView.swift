@@ -110,7 +110,7 @@ class Search_Model_TableView : UIViewController, UITableViewDelegate, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         
         adding_data()
         configure_SearchBar()

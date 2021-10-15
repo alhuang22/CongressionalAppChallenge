@@ -45,7 +45,7 @@ class College_VC : UIViewController {
         self.view.addSubview(top_thirty_view!)
         self.view.addSubview(bookmark_view!)
         
-        college_search_view!.topAnchor.constraint(equalTo: view.topAnchor,constant: 0).isActive = true
+        college_search_view!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 0).isActive = true
         college_search_view!.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 0).isActive = true
         college_search_view!.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: 0).isActive = true
         college_search_view!.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -90).isActive = true
@@ -55,7 +55,7 @@ class College_VC : UIViewController {
         top_thirty_view!.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: 0).isActive = true
         top_thirty_view!.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90).isActive = true
         
-        bookmark_view!.topAnchor.constraint(equalTo: view.topAnchor,constant: 0).isActive = true
+        bookmark_view!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 0).isActive = true
         bookmark_view!.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 0).isActive = true
         bookmark_view!.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: 0).isActive = true
         bookmark_view!.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90).isActive = true
@@ -200,7 +200,7 @@ class College_VC : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         
         setup_child_vc()
         setup_Bottom_Taskbar()

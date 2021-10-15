@@ -1546,7 +1546,6 @@ class College_Detailed_VC : UIViewController{
         tuition_label.leadingAnchor.constraint(equalTo: Base_View_4.leadingAnchor, constant: 20).isActive = true
         
         if let ownership = College_Data?.ownership {
-            print(ownership)
             if ownership == 2 || ownership == 3 {
                 Base_View_4.addSubview(basic_tuition)
                 basic_tuition.topAnchor.constraint(equalTo: tuition_label.bottomAnchor, constant: 15).isActive = true

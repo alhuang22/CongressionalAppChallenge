@@ -188,7 +188,7 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         view.backgroundColor = .black
         setup_table_view()
-        print("bookmark")
+//        print("bookmark")
         configure_search_bar()
         search_controller = UISearchController(searchResultsController: nil)
     }
