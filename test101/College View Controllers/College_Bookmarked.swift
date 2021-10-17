@@ -127,6 +127,7 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
                 return cell
             }
             else{
+                print(college_list.count)
                 cell.name.text = return_text(en: college_list[indexPath.row].college_name, es: college_list[indexPath.row].college_nameES!, zh: college_list[indexPath.row].college_nameZH!)
 
 
@@ -159,6 +160,7 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
         
         
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        refreshControl.tintColor = .white
         self.college_table_view.refreshControl = refreshControl
     }
     
@@ -191,6 +193,7 @@ class College_Bookmarked : UIViewController, UITableViewDelegate, UITableViewDat
 //        print("bookmark")
         configure_search_bar()
         search_controller = UISearchController(searchResultsController: nil)
+        print(college_list.count)
     }
 }
 
